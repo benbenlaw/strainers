@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SLS",
+    "LLL",
+    "SLS"
+  ],
+  "key": {
+    "L": {
+      "item": "opolisutilities:leafy_string"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "strainers:leafy_mesh"
+  }
+}

@@ -1,0 +1,18 @@
+Changelog Opolis Strainers
+
+1.1.1
+
+Added strainer recipe
+Added new logo
+Slight recipe tweaks
+
+1.1.0
+
+Added 12 new meshes
+Added recipes for meshes
+Added eroding water
+Added smart logic to the strainers to be able to import on all sides all items
+Added smart logic to GUI
+Opolis Utilities now a dependency (need copper nuggets)
+Strainers now drop when broken with your hand
+Strainers input item now allow tags

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "SMS",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:logs_that_burn"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "M": {
+      "item": "strainers:leafy_mesh"
+    }
+  },
+  "result": {
+    "item": "strainers:wooden_strainer"
+  }
+}

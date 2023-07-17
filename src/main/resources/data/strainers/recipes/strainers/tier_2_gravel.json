@@ -1,0 +1,37 @@
+{
+  "type": "strainers:strainer",
+  "mesh": {
+    "tag": "strainers:tier_2_meshes"
+  },
+  "inItem": {
+    "item": "minecraft:gravel"
+  },
+
+  "fluidAbove": "minecraft:water",
+  "outputChance1": 0.4,
+  "output1": {
+    "item": "opolisutilities:copper_nugget",
+    "count": 1
+  },
+
+  "outputChance2": 0.2,
+  "output2": {
+    "item": "minecraft:flint",
+    "count": 1
+  },
+
+  "outputChance3": 0.4,
+  "output3": {
+    "item": "opolisutilities:mini_coal",
+    "count": 1
+  },
+
+  "outputChance4": 0.4,
+  "output4": {
+    "item": "minecraft:iron_nugget",
+    "count": 1
+  },
+
+
+  "duration": 100
+}
