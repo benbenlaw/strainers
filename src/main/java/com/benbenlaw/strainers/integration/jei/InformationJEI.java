@@ -12,8 +12,8 @@ public class InformationJEI implements IModPlugin {
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(Strainers.MOD_ID, "information");
     }
-     @Override
-    public void registerRecipes(IRecipeRegistration reg) {
+  //   @Override
+ //   public void registerRecipes(IRecipeRegistration reg) {
 
     //     reg.addIngredientInfo(new ItemStack(ModBlocks.RESOURCE_GENERATOR_2.get()), VanillaTypes.ITEM_STACK,
     //             Component.translatable("jei.opolisutilities.resource_generator"));
@@ -29,5 +29,5 @@ public class InformationJEI implements IModPlugin {
 
  */
 
-    }
+  //  }
 }

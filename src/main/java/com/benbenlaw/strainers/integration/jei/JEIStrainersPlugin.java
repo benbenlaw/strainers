@@ -18,9 +18,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-
 @JeiPlugin
 public class JEIStrainersPlugin implements IModPlugin {
+
+    public static RecipeType<StrainerRecipe> STRAINER =
+            new RecipeType<>(StrainerRecipeCategory.UID, StrainerRecipe.class);
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -46,7 +48,7 @@ public class JEIStrainersPlugin implements IModPlugin {
         RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
 
         List<StrainerRecipe> recipes = rm.getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
-        registration.addRecipes(new RecipeType<>(StrainerRecipeCategory.UID, StrainerRecipe.class), recipes);
+        registration.addRecipes(STRAINER, recipes);
 
     }
 }

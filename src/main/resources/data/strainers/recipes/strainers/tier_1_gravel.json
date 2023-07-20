@@ -1,11 +1,13 @@
 {
   "type": "strainers:strainer",
-  "mesh": {
+  "mesh": [{
     "tag": "strainers:tier_1_meshes"
-  },
-  "inItem": {
+  }
+  ],
+  "inItem":[ {
     "item": "minecraft:gravel"
-  },
+  }
+  ],
 
   "fluidAbove": "minecraft:water",
   "outputChance1": 0.4,

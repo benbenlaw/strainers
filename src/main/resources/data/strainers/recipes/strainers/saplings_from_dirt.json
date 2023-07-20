@@ -1,12 +1,14 @@
 {
   "type": "strainers:strainer",
-  "mesh": {
+  "mesh": [{
     "tag": "strainers:tier_1_meshes"
-  },
+  }
+  ],
 
-  "inItem": {
+  "inItem": [{
     "item": "minecraft:dirt"
-  },
+  }
+  ],
 
   "fluidAbove": "minecraft:water",
   "output1": {

@@ -1,5 +1,6 @@
 package com.benbenlaw.strainers;
 
+import com.benbenlaw.opolisutilities.screen.*;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.block.entity.ModBlockEntities;
 import com.benbenlaw.strainers.fluid.ModFluidTypes;
@@ -18,18 +19,30 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.stream.Collectors;
+
+import static com.benbenlaw.strainers.Strainers.MOD_ID;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(Strainers.MOD_ID)
+@Mod(MOD_ID)
 public class Strainers {
 
     public static final String MOD_ID = "strainers";
+    private static final Logger LOGGER = LogManager.getLogger();
+
+
     public Strainers() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -43,25 +56,9 @@ public class Strainers {
         ModFluids.register(eventBus);
         ModFluidTypes.register(eventBus);
 
-    //    ModConfiguredFeatures.register(eventBus);
-    //    ModPlacedFeatures.register(eventBus);
-
-    //=    eventBus.addListener(this::setup);
-    //    eventBus.addListener(this::enqueueIMC);
-    //    eventBus.addListener(this::processIMC);
-    //    eventBus.addListener(this::setup);
-    //    eventBus.addListener(this::doClientStuff);
-        eventBus.addListener(this::onClientRegister);
-
         eventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -69,25 +66,21 @@ public class Strainers {
 
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onClientRegister(FMLClientSetupEvent event) {
-        MenuScreens.register(ModMenuTypes.WOODEN_STRAINER_MENU.get(), WoodenStrainerScreen::new);
+    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
 
-        ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_ERODING_WATER.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_ERODING_WATER.get(), RenderType.translucent());
+            event.enqueueWork(() -> {
 
-    }
+                MenuScreens.register(ModMenuTypes.WOODEN_STRAINER_MENU.get(), WoodenStrainerScreen::new);
 
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_ERODING_WATER.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_ERODING_WATER.get(), RenderType.translucent());
 
-/*
-    @SubscribeEvent
-    public static void addItemsToTabs(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
-            event.accept(ModItems.LEAFY_MESH);
-            event.accept(ModBlocks.WOODEN_STRAINER);
+            });
         }
     }
-
- */
 }
+
