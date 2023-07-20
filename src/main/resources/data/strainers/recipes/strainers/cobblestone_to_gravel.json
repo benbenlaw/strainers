@@ -1,14 +1,13 @@
 {
   "type": "strainers:strainer",
-  "mesh": [{
-    "tag": "strainers:tier_1_meshes"
-  }
-  ],
-  "inItem":[ {
-    "tag": "forge:cobblestone"
-  }
-  ],
-
+    "ingredients": [
+      {
+        "tag": "strainers:tier_1_meshes"
+      },
+      {
+        "tag": "forge:cobblestone"
+      }
+    ],
   "fluidAbove": "strainers:eroding_water_fluid",
   "outputChance1": 0.75,
   "output1": {

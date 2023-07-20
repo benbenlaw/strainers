@@ -1,15 +1,14 @@
 {
   "type": "strainers:strainer",
-  "mesh": [{
-    "tag": "strainers:tier_1_meshes"
-  }
-  ],
 
-  "inItem": [{
-    "item": "minecraft:dirt"
-  }
-  ],
-
+      "ingredients": [
+        {
+          "tag": "strainers:tier_1_meshes"
+        },
+        {
+          "item": "minecraft:dirt"
+        }
+      ],
   "fluidAbove": "minecraft:water",
   "output1": {
     "item": "minecraft:oak_sapling",

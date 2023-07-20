@@ -275,28 +275,29 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         Optional<StrainerRecipe> match = level.getRecipeManager()
                 .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
 
-     //   match.ifPresent(recipe -> maxProgress = recipe.getDuration());
+        match.ifPresent(recipe -> maxProgress = recipe.getDuration());
 
         BlockPos blockPos = entity.worldPosition.above(1);
         BlockState blockAbove = level.getBlockState(blockPos);
         FluidState fluidAbove = level.getFluidState(blockPos);
 
-        /*
+
 
 
         if (match.isPresent()) {
             Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.get().getFluidAbove()));
-            if ((blockAbove.is(Block.byItem(match.get().getBlockAbove().getItem())) || match.get().getBlockAbove().is(Items.AIR))
+            Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.get().getBlockAbove()));
+
+            if ((blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty())
                     && (fluidAbove.is(fluid) || match.get().getFluidAbove().isEmpty())) {
                 return match.filter(currentRecipe ->
                         hasMeshItem(entity, currentRecipe)
                                 && hasInputItem(entity, currentRecipe)
-                       //         && canStartRecipe(inventory, currentRecipe.getOutput9())
+                                && canStartRecipe(inventory, currentRecipe.getOutput9())
                                 && hasDuration(currentRecipe)).isPresent();
             }
         }
 
-         */
 
         return false;
     }
@@ -320,72 +321,72 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 entity.itemHandler.extractItem(1, 1, false);
             }
 
-         //   if (!match.get().getOutput1().isEmpty() && Math.random() < match.get().getOutputChance1()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput1().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput1().getItem(), match.get().getOutput1().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-//
-         //   if (!match.get().getOutput2().isEmpty() && Math.random() < match.get().getOutputChance2()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput2().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput2().getItem(), match.get().getOutput2().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-//
-         //   if (!match.get().getOutput3().isEmpty() && Math.random() < match.get().getOutputChance3()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput3().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput3().getItem(), match.get().getOutput3().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-//
-         //   if (!match.get().getOutput4().isEmpty() && Math.random() < match.get().getOutputChance4()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput4().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput4().getItem(), match.get().getOutput4().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-         //   if (!match.get().getOutput5().isEmpty() && Math.random() < match.get().getOutputChance5()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput5().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput5().getItem(), match.get().getOutput5().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-         //   if (!match.get().getOutput6().isEmpty() && Math.random() < match.get().getOutputChance6()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput6().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput6().getItem(), match.get().getOutput6().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-         //   if (!match.get().getOutput7().isEmpty() && Math.random() < match.get().getOutputChance7()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput7().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput7().getItem(), match.get().getOutput7().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-         //   if (!match.get().getOutput8().isEmpty() && Math.random() < match.get().getOutputChance8()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput8().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput8().getItem(), match.get().getOutput8().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
-         //   if (!match.get().getOutput9().isEmpty() && Math.random() < match.get().getOutputChance9()) {
-         //       for (int i = 3; i <= 11; i++) {
-         //           if (entity.itemHandler.isItemValid(i, match.get().getOutput9().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput9().getItem(), match.get().getOutput9().getCount()), false).isEmpty()) {
-         //               break;
-         //           }
-         //       }
-         //   }
+            if (!match.get().getOutput1().isEmpty() && Math.random() < match.get().getOutputChance1()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput1().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput1().getItem(), match.get().getOutput1().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+
+            if (!match.get().getOutput2().isEmpty() && Math.random() < match.get().getOutputChance2()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput2().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput2().getItem(), match.get().getOutput2().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+
+            if (!match.get().getOutput3().isEmpty() && Math.random() < match.get().getOutputChance3()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput3().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput3().getItem(), match.get().getOutput3().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+
+            if (!match.get().getOutput4().isEmpty() && Math.random() < match.get().getOutputChance4()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput4().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput4().getItem(), match.get().getOutput4().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+            if (!match.get().getOutput5().isEmpty() && Math.random() < match.get().getOutputChance5()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput5().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput5().getItem(), match.get().getOutput5().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+            if (!match.get().getOutput6().isEmpty() && Math.random() < match.get().getOutputChance6()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput6().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput6().getItem(), match.get().getOutput6().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+            if (!match.get().getOutput7().isEmpty() && Math.random() < match.get().getOutputChance7()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput7().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput7().getItem(), match.get().getOutput7().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+            if (!match.get().getOutput8().isEmpty() && Math.random() < match.get().getOutputChance8()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput8().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput8().getItem(), match.get().getOutput8().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
+            if (!match.get().getOutput9().isEmpty() && Math.random() < match.get().getOutputChance9()) {
+                for (int i = 3; i <= 11; i++) {
+                    if (entity.itemHandler.isItemValid(i, match.get().getOutput9().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.get().getOutput9().getItem(), match.get().getOutput9().getCount()), false).isEmpty()) {
+                        break;
+                    }
+                }
+            }
             entity.resetProgress();
         }
     }
@@ -401,27 +402,27 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
 
     private boolean hasMeshItem(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
-     //   ItemStack[] items = recipe.getMeshItem().get(0).getItems();
-     //   ItemStack slotItem = entity.itemHandler.getStackInSlot(1);
-//
-     //   for (ItemStack item : items) {
-     //       if (ItemStack.isSameItem(item, slotItem)) {
-     //           return true;
-     //       }
-     //   }
+        ItemStack[] items = recipe.getIngredients().get(0).getItems();
+        ItemStack slotItem = entity.itemHandler.getStackInSlot(1);
+
+        for (ItemStack item : items) {
+            if (ItemStack.isSameItem(item, slotItem)) {
+                return true;
+            }
+        }
         return false;
     }
 
     private boolean hasInputItem(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
 
-    //    ItemStack[] items = recipe.getInItem().get(0).getItems();
-    //    ItemStack slotItem = entity.itemHandler.getStackInSlot(2);
-//
-    //    for (ItemStack item : items) {
-    //        if (ItemStack.isSameItem(item, slotItem)) {
-    //            return true;
-    //        }
-    //    }
+        ItemStack[] items = recipe.getIngredients().get(1).getItems();
+        ItemStack slotItem = entity.itemHandler.getStackInSlot(2);
+
+        for (ItemStack item : items) {
+            if (ItemStack.isSameItem(item, slotItem)) {
+                return true;
+            }
+        }
         return false;
     }
 

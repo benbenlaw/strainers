@@ -21,6 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -68,45 +69,45 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, StrainerRecipe recipe, IFocusGroup focusGroup) {
 
 
-    //    builder.addSlot(RecipeIngredientRole.INPUT, 44, 35).addIngredients(recipe.getMeshItem().get(0));
-    //    builder.addSlot(RecipeIngredientRole.INPUT, 62, 35).addIngredients(recipe.getInItem().get(0));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 17).addItemStack(recipe.getOutput1())
-    //            .addTooltipCallback(getChance1(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 17).addItemStack(recipe.getOutput2())
-    //            .addTooltipCallback(getChance2(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 17).addItemStack(recipe.getOutput3())
-    //            .addTooltipCallback(getChance3(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 35).addItemStack(recipe.getOutput4())
-    //            .addTooltipCallback(getChance4(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 35).addItemStack(recipe.getOutput5())
-    //            .addTooltipCallback(getChance5(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 35).addItemStack(recipe.getOutput6())
-    //            .addTooltipCallback(getChance6(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 53).addItemStack(recipe.getOutput7())
-    //            .addTooltipCallback(getChance7(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 53).addItemStack(recipe.getOutput8())
-    //            .addTooltipCallback(getChance8(recipe));
-//
-    //    builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 53).addItemStack(recipe.getOutput9())
-    //            .addTooltipCallback(getChance9(recipe));
-//
-   //     builder.addSlot(RecipeIngredientRole.CATALYST, 44, 17).addItemStack(recipe.getBlockAbove())
-   //             .addTooltipCallback(getPlaceAbove());
+        builder.addSlot(RecipeIngredientRole.INPUT, 44, 35).addIngredients(recipe.getIngredients().get(0));
+        builder.addSlot(RecipeIngredientRole.INPUT, 62, 35).addIngredients(recipe.getIngredients().get(1));
 
-   //     Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(recipe.getFluidAbove()));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 17).addItemStack(recipe.getOutput1())
+                .addTooltipCallback(getChance1(recipe));
 
-  //      builder.addSlot(RecipeIngredientRole.INPUT, 44, 17).addFluidStack(fluid, 1000).setFluidRenderer(1000, true, 16,16);;
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 17).addItemStack(recipe.getOutput2())
+                .addTooltipCallback(getChance2(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 17).addItemStack(recipe.getOutput3())
+                .addTooltipCallback(getChance3(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 35).addItemStack(recipe.getOutput4())
+                .addTooltipCallback(getChance4(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 35).addItemStack(recipe.getOutput5())
+                .addTooltipCallback(getChance5(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 35).addItemStack(recipe.getOutput6())
+                .addTooltipCallback(getChance6(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 53).addItemStack(recipe.getOutput7())
+                .addTooltipCallback(getChance7(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 53).addItemStack(recipe.getOutput8())
+                .addTooltipCallback(getChance8(recipe));
+
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 53).addItemStack(recipe.getOutput9())
+                .addTooltipCallback(getChance9(recipe));
+
+        Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(recipe.getBlockAbove()));
+        builder.addSlot(RecipeIngredientRole.CATALYST, 44, 17).addItemStack(blockInRecipe.asItem().getDefaultInstance())
+                .addTooltipCallback(getPlaceAbove());
+
+        Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(recipe.getFluidAbove()));
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 44, 17).addFluidStack(fluid, 1000).setFluidRenderer(1000, true, 16,16);;
 
     }
-    /*
 
     private IRecipeSlotTooltipCallback getChance1(StrainerRecipe recipe) {
         return (chance, addTooltip) -> {
@@ -159,25 +160,23 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
         };
     }
 
-     */
-
 
 
     @Override
     public void draw(StrainerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         @Nonnull final Minecraft minecraft = Minecraft.getInstance();
 
-   //    if (!recipe.getBlockAbove().isEmpty()) {
+        if (!recipe.getBlockAbove().isEmpty()) {
 
-   //        guiGraphics.drawString(minecraft.font.self(), Component.translatable("jei.strainer.place_block"), 5, 7, Color.WHITE.getRGB());
-   //    }
+            guiGraphics.drawString(minecraft.font.self(), Component.translatable("jei.strainer.place_block"), 5, 7, Color.WHITE.getRGB());
+        }
 
-   //    if (!recipe.getFluidAbove().isEmpty()) {
-   //        guiGraphics.drawString(minecraft.font.self(), Component.translatable("jei.strainer.place_fluid"), 5, 7, Color.WHITE.getRGB());
-   //    }
+        if (!recipe.getFluidAbove().isEmpty()) {
+            guiGraphics.drawString(minecraft.font.self(), Component.translatable("jei.strainer.place_fluid"), 5, 7, Color.WHITE.getRGB());
+        }
 
-  //      int duration = recipe.getDuration();
+        int duration = recipe.getDuration();
 
-   //     guiGraphics.drawString(minecraft.font.self(), Component.literal(duration + " ticks"), 45, 64, Color.WHITE.getRGB());
+        guiGraphics.drawString(minecraft.font.self(), Component.literal(duration + " ticks"), 45, 64, Color.WHITE.getRGB());
     }
 }

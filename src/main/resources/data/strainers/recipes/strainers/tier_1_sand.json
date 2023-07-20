@@ -1,13 +1,13 @@
 {
   "type": "strainers:strainer",
-  "mesh": [{
-    "tag": "strainers:tier_1_meshes"
-  }
-  ],
-  "inItem":[{
-    "item": "minecraft:sand"
-  }
-  ],
+    "ingredients": [
+      {
+        "tag": "strainers:tier_1_meshes"
+      },
+      {
+        "item": "minecraft:sand"
+      }
+    ],
 
   "fluidAbove": "minecraft:water",
   "outputChance1": 0.2,
