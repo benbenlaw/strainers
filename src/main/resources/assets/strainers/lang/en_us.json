@@ -19,11 +19,62 @@
 
   "block.strainers.wooden_strainer": "Wooden Strainer",
   "block.strainers.eroding_water_block": "Wooden Strainer",
+  
+  "item.strainers.improved_input_upgrade": "Improved Input Upgrade",
+  "item.strainers.sturdy_input_upgrade": "Sturdy Input Upgrade",
+  "item.strainers.reinforced_input_upgrade": "Reinforced Input Upgrade",
+  "item.strainers.everlasting_input_upgrade": "Everlasting Input Upgrade",
+  
+  "item.strainers.improved_duration_upgrade": "Improved Duration Upgrade",
+  "item.strainers.sturdy_duration_upgrade": "Sturdy Duration Upgrade",
+  "item.strainers.reinforced_duration_upgrade": "Reinforced Duration Upgrade",
+  "item.strainers.everlasting_duration_upgrade": "Everlasting Duration Upgrade",
+  
+  "item.strainers.improved_mesh_upgrade": "Improved Mesh Upgrade",
+  "item.strainers.sturdy_mesh_upgrade": "Sturdy Mesh Upgrade",
+  "item.strainers.reinforced_mesh_upgrade": "Reinforced Mesh Upgrade",
+  "item.strainers.everlasting_mesh_upgrade": "Everlasting Mesh Upgrade",
+  
+  "item.strainers.improved_output_upgrade": "Improved Output Upgrade",
+  "item.strainers.sturdy_output_upgrade": "Sturdy Output Upgrade",
+  "item.strainers.reinforced_output_upgrade": "Reinforced Output Upgrade",
+  "item.strainers.everlasting_output_upgrade": "Everlasting Output Upgrade",
+
+  "item.strainers.improved_everything_upgrade": "Improved Everything Upgrade",
+  "item.strainers.sturdy_everything_upgrade": "Sturdy Everything Upgrade",
+  "item.strainers.reinforced_everything_upgrade": "Reinforced Everything Upgrade",
+  "item.strainers.everlasting_everything_upgrade": "Everlasting Everything Upgrade",
+
+  "tooltips.strainers.upgrade": "Press §eSHIFT§r for more information!",
+  "tooltips.strainers.improved_input_upgrade.shift": "Input items have a 25% chance to not be consumed.",
+  "tooltips.strainers.sturdy_input_upgrade.shift": "Input items have a 50% chance to not be consumed.",
+  "tooltips.strainers.reinforced_input_upgrade.shift": "Input items have a 75% chance to not be consumed.",
+  "tooltips.strainers.everlasting_input_upgrade.shift": "Input items are not be consumed.",
+  
+  "tooltips.strainers.improved_mesh_upgrade.shift": "Meshes has a 25% chance to not be damaged when used.",
+  "tooltips.strainers.sturdy_mesh_upgrade.shift": "Meshes has a 50% chance to not be damaged when used.",
+  "tooltips.strainers.reinforced_mesh_upgrade.shift": "Meshes has a 75% chance to not be damaged when used.",
+  "tooltips.strainers.everlasting_mesh_upgrade.shift": "Meshes are not be damaged when used.",
+
+  "tooltips.strainers.improved_duration_upgrade.shift": "A recipe duration is dropped to 75%.",
+  "tooltips.strainers.sturdy_duration_upgrade.shift": "A recipe duration is dropped to 50%.",
+  "tooltips.strainers.reinforced_duration_upgrade.shift": "A recipe duration is dropped to 25%.",
+  "tooltips.strainers.everlasting_duration_upgrade.shift": "Any recipe duration is reduced to 10 ticks (twice per second).",
+
+  "tooltips.strainers.improved_output_upgrade.shift": "Recipe outputs have an extra roll (2 total rolls).",
+  "tooltips.strainers.sturdy_output_upgrade.shift": "Recipe outputs have an extra roll (3 total rolls).",
+  "tooltips.strainers.reinforced_output_upgrade.shift": "Recipe outputs have an extra roll (4 total rolls).",
+  "tooltips.strainers.everlasting_output_upgrade.shift": "Recipe outputs have an extra roll (5 total rolls).",
+
+  "tooltips.strainers.improved_everything_upgrade.shift": "Combines all effects of the upgrades!",
+  "tooltips.strainers.sturdy_everything_upgrade.shift": "Combines all effects of the upgrades!",
+  "tooltips.strainers.reinforced_everything_upgrade.shift": "Combines all effects of the upgrades!",
+  "tooltips.strainers.everlasting_everything_upgrade.shift": "Combines all effects of the upgrades!",
 
 
   "jei.strainer.place_block": "Place block above",
   "jei.strainer.place_fluid": "Place fluid above",
   "jei.strainer.duration": "Duration",
 
-  "itemGroup.strainers": "Opolis Strainers"
+  "itemGroup.strainers": "BBL Strainers"
 }

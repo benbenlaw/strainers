@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "MCM",
+    "SMS"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:cobblestone"
+    },
+    "S": {
+      "tag": "forge:stone"
+    },
+    "M": {
+      "tag": "strainers:tier_2_meshes"
+    }
+  },
+  "result": {
+    "item": "strainers:improved_mesh_upgrade"
+  }
+}

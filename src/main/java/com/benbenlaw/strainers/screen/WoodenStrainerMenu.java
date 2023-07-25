@@ -6,6 +6,7 @@ import com.benbenlaw.strainers.block.entity.WoodenStrainerBlockEntity;
 import com.benbenlaw.strainers.screen.slot.EverythingButMeshSlot;
 import com.benbenlaw.strainers.screen.slot.MeshSlot;
 import com.benbenlaw.strainers.screen.slot.ModResultSlot;
+import com.benbenlaw.strainers.screen.slot.UpgradeSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +38,7 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
 
-            this.addSlot(new SlotItemHandler(handler, 0, 26, 35)); //Upgrade
+            this.addSlot(new UpgradeSlot(handler, 0, 26, 35)); //Upgrade
             this.addSlot(new MeshSlot(handler, 1, 44, 35)); //Mesh
             this.addSlot(new EverythingButMeshSlot(handler, 2, 62, 35)); //In Block
 

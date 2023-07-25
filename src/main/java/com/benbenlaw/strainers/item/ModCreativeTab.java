@@ -35,6 +35,30 @@ public class ModCreativeTab {
                 output.accept(ModItems.ECHO_MESH.get());
                 output.accept(ModItems.EMERALD_MESH.get());
                 output.accept(ModItems.NETHERITE_MESH.get());
+                
+                output.accept(ModItems.IMPROVED_MESH_UPGRADE.get());
+                output.accept(ModItems.IMPROVED_INPUT_UPGRADE.get());
+                output.accept(ModItems.IMPROVED_OUTPUT_UPGRADE.get());
+                output.accept(ModItems.IMPROVED_DURATION_UPGRADE.get());
+                output.accept(ModItems.IMPROVED_EVERYTHING_UPGRADE.get());
+                
+                output.accept(ModItems.STURDY_MESH_UPGRADE.get());
+                output.accept(ModItems.STURDY_INPUT_UPGRADE.get());
+                output.accept(ModItems.STURDY_OUTPUT_UPGRADE.get());
+                output.accept(ModItems.STURDY_DURATION_UPGRADE.get());
+                output.accept(ModItems.STURDY_EVERYTHING_UPGRADE.get());
+                
+                output.accept(ModItems.REINFORCED_MESH_UPGRADE.get());
+                output.accept(ModItems.REINFORCED_INPUT_UPGRADE.get());
+                output.accept(ModItems.REINFORCED_OUTPUT_UPGRADE.get());
+                output.accept(ModItems.REINFORCED_DURATION_UPGRADE.get());
+                output.accept(ModItems.REINFORCED_EVERYTHING_UPGRADE.get());
+                
+                output.accept(ModItems.EVERLASTING_MESH_UPGRADE.get());
+                output.accept(ModItems.EVERLASTING_INPUT_UPGRADE.get());
+                output.accept(ModItems.EVERLASTING_OUTPUT_UPGRADE.get());
+                output.accept(ModItems.EVERLASTING_DURATION_UPGRADE.get());
+                output.accept(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get());
 
                 output.accept(ModItems.ERODING_WATER_BUCKET.get());
 

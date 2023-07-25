@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-
 public class StrainerRecipe implements Recipe<SimpleContainer> {
 
     private final ResourceLocation id;

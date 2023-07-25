@@ -1,5 +1,16 @@
 Changelog BBL Strainers
 
+1.2.0
+
+Added upgrades (WIP Textures and recipes)
+Reworked how output work inside the block entity class
+
+1.1.5
+
+Added sugar cane to sand
+Added packed mud as a item to be sieved
+Added soul sand sieving recipe
+
 1.1.4
 s
 Fixed servers refusing clients

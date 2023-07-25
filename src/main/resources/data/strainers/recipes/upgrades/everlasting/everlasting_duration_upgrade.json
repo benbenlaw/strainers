@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "MCM",
+    "SMS"
+  ],
+  "key": {
+    "C": {
+      "item": "strainers:reinforced_duration_upgrade"
+    },
+    "S": {
+      "tag": "forge:stone"
+    },
+    "M": {
+      "item": "minecraft:clock"
+    }
+  },
+  "result": {
+    "item": "strainers:everlasting_duration_upgrade"
+  }
+}

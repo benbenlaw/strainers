@@ -22,12 +22,14 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
     public final static ResourceLocation UID = new ResourceLocation(Strainers.MOD_ID, "strainer");
@@ -100,6 +102,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                 .addTooltipCallback(getChance9(recipe));
 
         Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(recipe.getBlockAbove()));
+
         builder.addSlot(RecipeIngredientRole.CATALYST, 44, 17).addItemStack(blockInRecipe.asItem().getDefaultInstance())
                 .addTooltipCallback(getPlaceAbove());
 
@@ -157,6 +160,16 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
     private IRecipeSlotTooltipCallback getPlaceAbove() {
         return (chance, addTooltip) -> {
             addTooltip.add(Component.literal("Place above the strainer"));
+        };
+    }
+    private IRecipeSlotTooltipCallback getPlaceWaterCauldronAbove() {
+        return (chance, addTooltip) -> {
+            addTooltip.add(Component.literal("Place a cauldron with water inside above the strainer"));
+        };
+    }
+    private IRecipeSlotTooltipCallback getPlaceLavaCauldronAbove() {
+        return (chance, addTooltip) -> {
+            addTooltip.add(Component.literal("Place a cauldron with lava inside above the strainer"));
         };
     }
 

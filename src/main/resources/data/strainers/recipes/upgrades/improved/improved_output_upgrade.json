@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "MCM",
+    "SMS"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:cobblestone"
+    },
+    "S": {
+      "tag": "forge:stone"
+    },
+    "M": {
+      "item": "minecraft:coal"
+    }
+  },
+  "result": {
+    "item": "strainers:improved_output_upgrade"
+  }
+}

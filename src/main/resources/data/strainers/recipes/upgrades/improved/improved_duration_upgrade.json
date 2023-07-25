@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SMS",
+    "MCM",
+    "SMS"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:cobblestone"
+    },
+    "S": {
+      "tag": "forge:stone"
+    },
+    "M": {
+      "item": "opolisutilities:redstone_clock"
+    }
+  },
+  "result": {
+    "item": "strainers:improved_duration_upgrade"
+  }
+}

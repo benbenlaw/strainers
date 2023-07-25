@@ -5,28 +5,22 @@
         "tag": "strainers:tier_1_meshes"
       },
       {
-        "item": "minecraft:sand"
+        "item": "minecraft:soul_sand"
       }
     ],
 
-  "fluidAbove": "minecraft:water",
+  "fluidAbove": "minecraft:lava",
   "outputChance1": 0.3,
   "output1": {
-    "item": "minecraft:bamboo",
+    "item": "minecraft:crimson_fungus",
     "count": 1
   },
 
   "outputChance2": 0.2,
   "output2": {
-    "item": "minecraft:cactus",
+    "item": "minecraft:warped_fungus",
     "count": 1
   },
 
-  "outputChance3": 0.2,
-  "output3": {
-    "item": "minecraft:sugar_cane",
-    "count": 1
-  },
-
-  "duration": 120
+  "duration": 160
 }
