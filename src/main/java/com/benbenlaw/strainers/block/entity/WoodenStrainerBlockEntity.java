@@ -41,9 +41,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvider, IInventoryHandlingBlockEntity {
 
@@ -266,7 +265,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     }
 
-    private boolean hasRecipe(WoodenStrainerBlockEntity entity) {
+    private boolean hasRecipe(@NotNull WoodenStrainerBlockEntity entity) {
         Level level = entity.level;
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
@@ -301,21 +300,24 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         FluidState fluidAbove = level.getFluidState(blockPos);
 
 
-
-
         if (match.isPresent()) {
             Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.get().getFluidAbove()));
             Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.get().getBlockAbove()));
 
+            if (blockInRecipe == null) throw new AssertionError();
             if ((blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty())
                     && (fluidAbove.is(fluid) || match.get().getFluidAbove().isEmpty())) {
+
                 return match.filter(currentRecipe ->
-                        hasMeshItem(entity, currentRecipe)
+                                hasMeshItem(entity, currentRecipe)
                                 && hasInputItem(entity, currentRecipe)
-                                && canStartRecipe(inventory, currentRecipe.getOutput9())
+                                && canStartRecipe(inventory, currentRecipe.getOutput())
                                 && hasDuration(currentRecipe)).isPresent();
+
             }
         }
+
+
         return false;
     }
 
@@ -325,10 +327,16 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
         }
-        Optional<StrainerRecipe> match = level.getRecipeManager()
-                .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
 
-        if (match.isPresent()) {
+        List<StrainerRecipe> allRecipes = level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
+
+        List<StrainerRecipe> matchingRecipes = allRecipes.stream()
+                .filter(recipe -> recipe.matches(inventory, level))
+                .collect(Collectors.toList());
+
+
+        if (!matchingRecipes.isEmpty()) {
+            for (StrainerRecipe match : matchingRecipes) {
 
             //REMOVE IN ITEM (WITH UPGRADES)
 
@@ -383,100 +391,14 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 entity.itemHandler.extractItem(1, 1, false);
             }
 
-            //OUTPUT CALCULATIONS
-
-            ItemStack[] outputs = new ItemStack[]{
-                    match.get().getOutput1(),
-                    match.get().getOutput2(),
-                    match.get().getOutput3(),
-                    match.get().getOutput4(),
-                    match.get().getOutput5(),
-                    match.get().getOutput6(),
-                    match.get().getOutput7(),
-                    match.get().getOutput8(),
-                    match.get().getOutput9()
-            };
-
-            double[] outputChances = new double[]{
-                    match.get().getOutputChance1(),
-                    match.get().getOutputChance2(),
-                    match.get().getOutputChance3(),
-                    match.get().getOutputChance4(),
-                    match.get().getOutputChance5(),
-                    match.get().getOutputChance6(),
-                    match.get().getOutputChance7(),
-                    match.get().getOutputChance8(),
-                    match.get().getOutputChance9()
-            };
-
-            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get())) {
-                for (int run = 0; run < 2; run++) {
-                    for (int outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
-                        if (!outputs[outputIndex].isEmpty() && Math.random() < outputChances[outputIndex]) {
-                            for (int i = 3; i <= 11; i++) {
-                                if (entity.itemHandler.isItemValid(i, outputs[outputIndex].getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(outputs[outputIndex].getItem(), outputs[outputIndex].getCount()), false).isEmpty()) {
-                                    break;
-                                }
-                            }
+                if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
+                    for (int i = 3; i <= 11; i++) {
+                        if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
+                            break;
                         }
                     }
                 }
             }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get())) {
-                for (int run = 0; run < 3; run++) {
-                    for (int outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
-                        if (!outputs[outputIndex].isEmpty() && Math.random() < outputChances[outputIndex]) {
-                            for (int i = 3; i <= 11; i++) {
-                                if (entity.itemHandler.isItemValid(i, outputs[outputIndex].getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(outputs[outputIndex].getItem(), outputs[outputIndex].getCount()), false).isEmpty()) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get())) {
-                for (int run = 0; run < 4; run++) {
-                    for (int outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
-                        if (!outputs[outputIndex].isEmpty() && Math.random() < outputChances[outputIndex]) {
-                            for (int i = 3; i <= 11; i++) {
-                                if (entity.itemHandler.isItemValid(i, outputs[outputIndex].getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(outputs[outputIndex].getItem(), outputs[outputIndex].getCount()), false).isEmpty()) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get())) {
-                for (int run = 0; run < 5; run++) {
-                    for (int outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
-                        if (!outputs[outputIndex].isEmpty() && Math.random() < outputChances[outputIndex]) {
-                            for (int i = 3; i <= 11; i++) {
-                                if (entity.itemHandler.isItemValid(i, outputs[outputIndex].getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(outputs[outputIndex].getItem(), outputs[outputIndex].getCount()), false).isEmpty()) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            else {
-                for (int outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
-                    if (!outputs[outputIndex].isEmpty() && Math.random() < outputChances[outputIndex]) {
-                        for (int i = 3; i <= 11; i++) {
-                            if (entity.itemHandler.isItemValid(i, outputs[outputIndex].getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(outputs[outputIndex].getItem(), outputs[outputIndex].getCount()), false).isEmpty()) {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
             entity.resetProgress();
         }
     }
@@ -490,20 +412,35 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     }
 
     private boolean hasMeshItem(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
-        ItemStack[] items = recipe.getIngredients().get(0).getItems();
-        ItemStack slotItem = entity.itemHandler.getStackInSlot(1);
-
-        for (ItemStack item : items) {
-            if (ItemStack.isSameItem(item, slotItem)) {
-                return true;
-            }
+        ItemStack meshItem = entity.itemHandler.getStackInSlot(1);
+        if (recipe.getMeshTier() == 1) {
+            return meshItem.is(ModTags.Items.TIER_1_MESHES) || meshItem.is(ModTags.Items.TIER_2_MESHES) || meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
+        if (recipe.getMeshTier() == 2) {
+            return meshItem.is(ModTags.Items.TIER_2_MESHES) || meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
+        }
+        if (recipe.getMeshTier() == 3) {
+            return meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
+        }
+        if (recipe.getMeshTier() == 4) {
+            return meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
+        }
+        if (recipe.getMeshTier() == 5) {
+            return meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
+        }
+        if (recipe.getMeshTier() == 6) {
+            return meshItem.is(ModTags.Items.TIER_6_MESHES);
+        }
+
+
         return false;
     }
 
-    private boolean hasInputItem(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
 
-        ItemStack[] items = recipe.getIngredients().get(1).getItems();
+
+    private boolean hasInputItem(@NotNull WoodenStrainerBlockEntity entity, @NotNull StrainerRecipe recipe) {
+
+        ItemStack[] items = recipe.getIngredients().get(0).getItems();
         ItemStack slotItem = entity.itemHandler.getStackInSlot(2);
 
         for (ItemStack item : items) {

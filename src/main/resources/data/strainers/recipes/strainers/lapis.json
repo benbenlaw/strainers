@@ -1,0 +1,17 @@
+{
+  "type": "strainers:strainer",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ],
+  "output": {
+    "item": "minecraft:lapis_lazuli",
+    "count": 2
+  },
+  "chance": 0.5,
+  "minMeshTier": 2,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 120,
+  "fluidAbove": "minecraft:water"
+}

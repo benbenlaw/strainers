@@ -70,36 +70,15 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, StrainerRecipe recipe, IFocusGroup focusGroup) {
 
+        /*
 
         builder.addSlot(RecipeIngredientRole.INPUT, 44, 35).addIngredients(recipe.getIngredients().get(0));
         builder.addSlot(RecipeIngredientRole.INPUT, 62, 35).addIngredients(recipe.getIngredients().get(1));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 17).addItemStack(recipe.getOutput1())
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 17).addItemStack(recipe.getOutput())
                 .addTooltipCallback(getChance1(recipe));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 17).addItemStack(recipe.getOutput2())
-                .addTooltipCallback(getChance2(recipe));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 17).addItemStack(recipe.getOutput3())
-                .addTooltipCallback(getChance3(recipe));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 35).addItemStack(recipe.getOutput4())
-                .addTooltipCallback(getChance4(recipe));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 35).addItemStack(recipe.getOutput5())
-                .addTooltipCallback(getChance5(recipe));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 35).addItemStack(recipe.getOutput6())
-                .addTooltipCallback(getChance6(recipe));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 53).addItemStack(recipe.getOutput7())
-                .addTooltipCallback(getChance7(recipe));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 53).addItemStack(recipe.getOutput8())
-                .addTooltipCallback(getChance8(recipe));
-
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 53).addItemStack(recipe.getOutput9())
-                .addTooltipCallback(getChance9(recipe));
 
         Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(recipe.getBlockAbove()));
 
@@ -108,53 +87,15 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
 
         Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(recipe.getFluidAbove()));
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 44, 17).addFluidStack(fluid, 1000).setFluidRenderer(1000, true, 16,16);;
+        builder.addSlot(RecipeIngredientRole.INPUT, 44, 17).addFluidStack(fluid, 1000).setFluidRenderer(1000, true, 16,16);
+
+         */
 
     }
 
     private IRecipeSlotTooltipCallback getChance1(StrainerRecipe recipe) {
         return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance1() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance2(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance2() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance3(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance3() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance4(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance4() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance5(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance5() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance6(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance6() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance7(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance7() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance8(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance8() * 100)) + "%"));
-        };
-    }
-    private IRecipeSlotTooltipCallback getChance9(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance9() * 100)) + "%"));
+            addTooltip.add(Component.literal("Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
         };
     }
     private IRecipeSlotTooltipCallback getPlaceAbove() {
@@ -177,6 +118,10 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
 
     @Override
     public void draw(StrainerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+
+
+        /*
+
         @Nonnull final Minecraft minecraft = Minecraft.getInstance();
 
         if (!recipe.getBlockAbove().isEmpty()) {
@@ -191,5 +136,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
         int duration = recipe.getDuration();
 
         guiGraphics.drawString(minecraft.font.self(), Component.literal(duration + " ticks"), 45, 64, Color.WHITE.getRGB());
+
+         */
     }
 }
