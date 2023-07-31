@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "strainers:flint_mesh",
     "strainers:copper_mesh"
   ]
 }

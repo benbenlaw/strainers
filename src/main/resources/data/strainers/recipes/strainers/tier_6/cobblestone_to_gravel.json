@@ -2,18 +2,18 @@
   "type": "strainers:strainer",
     "ingredients": [
       {
-        "tag": "strainers:tier_1_meshes"
+        "tag": "strainers:tier_6_meshes"
       },
       {
         "tag": "forge:cobblestone"
       }
     ],
   "fluidAbove": "strainers:eroding_water_fluid",
-  "outputChance1": 0.75,
+  "outputChance1": 1,
   "output1": {
     "item": "minecraft:gravel",
     "count": 1
   },
 
-  "duration": 40
+  "duration": 30
 }
