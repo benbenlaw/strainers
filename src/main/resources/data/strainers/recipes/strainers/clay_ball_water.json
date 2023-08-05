@@ -2,15 +2,15 @@
   "type": "strainers:strainer",
   "ingredients": [
     {
-      "item": "minecraft:dirt"
+      "item": "minecraft:packed_mud"
     }
   ],
   "output": {
-    "item": "minecraft:birch_sapling",
+    "item": "minecraft:clay_ball",
     "count": 1
   },
   "chance": 0.5,
-  "minMeshTier": 1,
-  "chanceIncreasePerTier": 0.05,
+  "minMeshTier": 2,
+  "chanceIncreasePerTier": 0.1,
   "fluidAbove": "minecraft:water"
 }

@@ -2,15 +2,15 @@
   "type": "strainers:strainer",
   "ingredients": [
     {
-      "item": "minecraft:dirt"
+      "item": "minecraft:gravel"
     }
   ],
   "output": {
-    "item": "minecraft:acacia_sapling",
+    "item": "minecraft:flint",
     "count": 1
   },
-  "chance": 0.2,
+  "chance": 0.5,
   "minMeshTier": 1,
-  "chanceIncreasePerTier": 0.05,
+  "chanceIncreasePerTier": 0.1,
   "fluidAbove": "minecraft:water"
 }

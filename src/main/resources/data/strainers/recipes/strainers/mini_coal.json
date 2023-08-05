@@ -2,15 +2,15 @@
   "type": "strainers:strainer",
   "ingredients": [
     {
-      "item": "minecraft:dirt"
+      "tag": "minecraft:leaves"
     }
   ],
   "output": {
-    "item": "minecraft:acacia_sapling",
+    "item": "opolisutilities:mini_coal",
     "count": 1
   },
   "chance": 0.2,
   "minMeshTier": 1,
-  "chanceIncreasePerTier": 0.05,
+  "chanceIncreasePerTier": 0.1,
   "fluidAbove": "minecraft:water"
 }

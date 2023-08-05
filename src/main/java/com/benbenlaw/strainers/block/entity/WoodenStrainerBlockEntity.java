@@ -265,61 +265,62 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     }
 
-    private boolean hasRecipe(@NotNull WoodenStrainerBlockEntity entity) {
-        Level level = entity.level;
-        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
-
-        assert level != null;
-        Optional<StrainerRecipe> match = level.getRecipeManager()
-                .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
-
-        match.ifPresent(recipe -> {
-            int duration = recipe.getDuration();
-
-            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())){
-                maxProgress = (int) (duration * 0.75);
-            }
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())){
-                maxProgress = (int) (duration * 0.5);
-            }
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())){
-                maxProgress = (int) (duration * 0.25);
-            }
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())){
-                maxProgress = 10;
+        private boolean hasRecipe(@NotNull WoodenStrainerBlockEntity entity) {
+            Level level = entity.level;
+            SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
+            for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
+                inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
             }
 
-            else maxProgress = duration;
-        });
+            assert level != null;
+            Optional<StrainerRecipe> match = level.getRecipeManager()
+                    .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
 
-        BlockPos blockPos = entity.worldPosition.above(1);
-        BlockState blockAbove = level.getBlockState(blockPos);
-        FluidState fluidAbove = level.getFluidState(blockPos);
+            List<StrainerRecipe> allRecipes = level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
 
+            List<StrainerRecipe> matchingRecipes = allRecipes.stream()
+                    .filter(recipe -> recipe.matches(inventory, level))
+                    .collect(Collectors.toList());
 
-        if (match.isPresent()) {
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.get().getFluidAbove()));
-            Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.get().getBlockAbove()));
+            BlockPos blockPos = entity.worldPosition.above(1);
+            BlockState blockAbove = level.getBlockState(blockPos);
+            FluidState fluidAbove = level.getFluidState(blockPos);
 
-            if (blockInRecipe == null) throw new AssertionError();
-            if ((blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty())
-                    && (fluidAbove.is(fluid) || match.get().getFluidAbove().isEmpty())) {
+            if (!matchingRecipes.isEmpty()) {
+                for (StrainerRecipe matching : matchingRecipes) {
+                    Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(matching.getFluidAbove()));
+                    Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(matching.getBlockAbove()));
 
-                return match.filter(currentRecipe ->
+                    if (blockInRecipe == null) throw new AssertionError();
+
+                    // Set maxProgress based on the current recipe's duration
+                    int duration = matching.getDuration();
+                    if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) {
+                        entity.maxProgress = (int) (duration * 0.75);
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) {
+                        entity.maxProgress = (int) (duration * 0.5);
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) {
+                        entity.maxProgress = (int) (duration * 0.25);
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                        entity.maxProgress = 10;
+                    } else {
+                        entity.maxProgress = duration;
+                    }
+
+                    // Check if the current recipe matches the conditions
+                    if ((blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty())
+                            && (fluidAbove.is(fluid) || match.get().getFluidAbove().isEmpty())) {
+                        return match.filter(currentRecipe ->
                                 hasMeshItem(entity, currentRecipe)
-                                && hasInputItem(entity, currentRecipe)
-                                && canStartRecipe(inventory, currentRecipe.getOutput())
-                                && hasDuration(currentRecipe)).isPresent();
-
+                                        && hasInputItem(entity, currentRecipe)
+                                        && canStartRecipe(inventory, currentRecipe.getOutput())
+                                        && hasDuration(currentRecipe)).isPresent();
+                    }
+                }
             }
+
+            return false;
         }
-
-
-        return false;
-    }
 
     private void craftItem(@NotNull WoodenStrainerBlockEntity entity) {
         Level level = entity.level;
@@ -334,70 +335,64 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 .filter(recipe -> recipe.matches(inventory, level))
                 .collect(Collectors.toList());
 
-
         if (!matchingRecipes.isEmpty()) {
             for (StrainerRecipe match : matchingRecipes) {
 
-            //REMOVE IN ITEM (WITH UPGRADES)
+                Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.getFluidAbove()));
+                Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.getBlockAbove()));
 
-            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.25) {
-                entity.itemHandler.extractItem(2, 0, false);
-            }
+                BlockPos blockPos = entity.worldPosition.above(1);
+                BlockState blockAbove = level.getBlockState(blockPos);
+                FluidState fluidAbove = level.getFluidState(blockPos);
 
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.50) {
-                entity.itemHandler.extractItem(2, 0, false);
-            }
+                if ((blockAbove.is(blockInRecipe) || match.getBlockAbove().isEmpty())
+                        && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
 
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.75) {
-                entity.itemHandler.extractItem(2, 0, false);
-            }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
-                entity.itemHandler.extractItem(2, 0, false);
-            }
-
-            else {
-                entity.itemHandler.extractItem(2, 1, false);
-            }
-
-
-            //DAMAGE MESH ITEM (WITH UPGRADES)
-
-            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())  && Math.random() < 0.25) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())  && Math.random() < 0.5) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())  && Math.random() < 0.75) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            }
-
-            else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) ) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            }
-
-            else if (entity.itemHandler.getStackInSlot(1).hurt(1, RandomSource.create(), null)) {
-                entity.itemHandler.extractItem(1, 1, false);
-            }
-
-                if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
-                    for (int i = 3; i <= 11; i++) {
-                        if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
-                            break;
+                    if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
+                        for (int i = 3; i <= 11; i++) {
+                            if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
+                                break;
+                            }
                         }
                     }
                 }
+
+
+            }
+
+
+            // Remove input item based on upgrades
+            if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.25) {
+                entity.itemHandler.extractItem(2, 0, false);
+            } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.50) {
+                entity.itemHandler.extractItem(2, 0, false);
+            } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.75) {
+                entity.itemHandler.extractItem(2, 0, false);
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                entity.itemHandler.extractItem(2, 0, false);
+            } else {
+                entity.itemHandler.extractItem(2, 1, false);
+            }
+
+            // Damage mesh item based on upgrades
+            if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.25) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.5) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.75) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if (entity.itemHandler.getStackInSlot(1).hurt(1, RandomSource.create(), null)) {
+                entity.itemHandler.extractItem(1, 1, false);
             }
             entity.resetProgress();
         }

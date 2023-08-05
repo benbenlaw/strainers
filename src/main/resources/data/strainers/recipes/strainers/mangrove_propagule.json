@@ -6,10 +6,10 @@
     }
   ],
   "output": {
-    "item": "minecraft:acacia_sapling",
+    "item": "minecraft:mangrove_propagule",
     "count": 1
   },
-  "chance": 0.2,
+  "chance": 0.3,
   "minMeshTier": 1,
   "chanceIncreasePerTier": 0.05,
   "fluidAbove": "minecraft:water"

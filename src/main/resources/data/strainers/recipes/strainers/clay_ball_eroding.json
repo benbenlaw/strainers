@@ -2,16 +2,15 @@
   "type": "strainers:strainer",
   "ingredients": [
     {
-      "item": "minecraft:dirt"
+      "item": "minecraft:packed_mud"
     }
   ],
   "output": {
-    "item": "minecraft:lapis_lazuli",
-    "count": 2
+    "item": "minecraft:clay_ball",
+    "count": 3
   },
   "chance": 0.5,
   "minMeshTier": 2,
   "chanceIncreasePerTier": 0.1,
-  "duration": 120,
-  "fluidAbove": "minecraft:water"
+  "fluidAbove": "strainers:eroding_water_fluid"
 }

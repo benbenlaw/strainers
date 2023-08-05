@@ -1,0 +1,22 @@
+{
+  "type": "strainers:strainer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "caveopolis"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "minecraft:terracotta"
+    }
+  ],
+  "output": {
+    "item": "caveopolis:mixed_stone_nugget",
+    "count": 1
+  },
+  "chance": 0.3,
+  "minMeshTier": 2,
+  "chanceIncreasePerTier": 0.1,
+  "fluidAbove": "strainers:eroding_water_fluid"
+}

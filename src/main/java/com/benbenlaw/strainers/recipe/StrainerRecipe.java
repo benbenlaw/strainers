@@ -66,7 +66,6 @@ public class StrainerRecipe implements Recipe<SimpleContainer> {
         return false;
     }
 
-
     @Override
     public boolean canCraftInDimensions(int p_43999_, int p_44000_) {
         return true;
@@ -154,8 +153,8 @@ public class StrainerRecipe implements Recipe<SimpleContainer> {
 
             double chance = GsonHelper.getAsDouble(json, "chance");
             double chanceIncreasePerTier = GsonHelper.getAsDouble(json, "chanceIncreasePerTier");
+            int duration = GsonHelper.getAsInt(json, "duration", 120);
             int minMeshTier = GsonHelper.getAsInt(json, "minMeshTier");
-            int duration = GsonHelper.getAsInt(json, "duration");
             String blockAbove = GsonHelper.getAsString(json, "blockAbove", "");
             String fluidAbove = GsonHelper.getAsString(json, "fluidAbove", "");
 
@@ -195,8 +194,8 @@ public class StrainerRecipe implements Recipe<SimpleContainer> {
 
             buf.writeDouble(recipe.getOutputChance());
             buf.writeDouble(recipe.getChanceIncreasePerTier());
-            buf.writeInt(recipe.getMeshTier());
             buf.writeInt(recipe.getDuration());
+            buf.writeInt(recipe.getMeshTier());
             buf.writeUtf(recipe.getBlockAbove(), Short.MAX_VALUE);
             buf.writeUtf(recipe.getFluidAbove(), Short.MAX_VALUE);
         }

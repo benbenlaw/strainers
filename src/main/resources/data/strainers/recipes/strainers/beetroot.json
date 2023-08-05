@@ -2,15 +2,15 @@
   "type": "strainers:strainer",
   "ingredients": [
     {
-      "item": "minecraft:dirt"
+      "item": "minecraft:packed_mud"
     }
   ],
   "output": {
-    "item": "minecraft:acacia_sapling",
+    "item": "minecraft:beetroot",
     "count": 1
   },
-  "chance": 0.2,
-  "minMeshTier": 1,
+  "chance": 0.25,
+  "minMeshTier": 2,
   "chanceIncreasePerTier": 0.05,
   "fluidAbove": "minecraft:water"
 }
