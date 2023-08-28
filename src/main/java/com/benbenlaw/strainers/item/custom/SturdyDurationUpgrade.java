@@ -19,7 +19,7 @@ public class SturdyDurationUpgrade extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
 
         if(Screen.hasShiftDown()) {
-            components.add(Component.translatable("tooltips.strainers.sturdy_mesh_upgrade.shift"));
+            components.add(Component.translatable("tooltips.strainers.sturdy_duration_upgrade.shift"));
         } else {
             components.add(Component.translatable("tooltips.strainers.upgrade"));
         }
