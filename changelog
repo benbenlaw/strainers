@@ -1,5 +1,24 @@
 Changelog BBL Strainers
 
+1.3.6
+
+More recipes
+Fixed sturdy everything upgrade using improved upgrades
+Fixed typo
+Strainer can now be made from any mesh
+Increased total output slot from 9 to 24
+Recipes will now stop when all output slots are full regardless of stack size
+Recipes that that made a item that already contained a max stack in the output will now choose the next available slot to use
+
+1.3.5
+
+Added new textures for upgrades
+Fixed textures being incorrect for some upgrades
+Fixed recipes for upgrades
+Changed output upgrade recipes
+Added more recipes
+Fixed output upgrades doing nothing
+
 1.3.4
 
 Fixed server recipes

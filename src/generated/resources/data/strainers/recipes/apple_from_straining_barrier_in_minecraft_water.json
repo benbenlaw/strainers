@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.2,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 60,
+  "ingredients": [
+    {
+      "tag": "minecraft:leaves"
+    }
+  ],
+  "minMeshTier": 1,
+  "output": {
+    "item": "minecraft:apple"
+  }
+}

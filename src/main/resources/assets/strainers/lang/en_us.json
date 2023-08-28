@@ -49,7 +49,7 @@
   "tooltips.strainers.improved_input_upgrade.shift": "Input items have a 25% chance to not be consumed.",
   "tooltips.strainers.sturdy_input_upgrade.shift": "Input items have a 50% chance to not be consumed.",
   "tooltips.strainers.reinforced_input_upgrade.shift": "Input items have a 75% chance to not be consumed.",
-  "tooltips.strainers.everlasting_input_upgrade.shift": "Input items are not be consumed.",
+  "tooltips.strainers.everlasting_input_upgrade.shift": "Input items are not consumed.",
   
   "tooltips.strainers.improved_mesh_upgrade.shift": "Meshes has a 25% chance to not be damaged when used.",
   "tooltips.strainers.sturdy_mesh_upgrade.shift": "Meshes has a 50% chance to not be damaged when used.",
@@ -61,10 +61,10 @@
   "tooltips.strainers.reinforced_duration_upgrade.shift": "A recipe duration is dropped to 25%.",
   "tooltips.strainers.everlasting_duration_upgrade.shift": "Any recipe duration is reduced to 10 ticks (twice per second).",
 
-  "tooltips.strainers.improved_output_upgrade.shift": "Recipe outputs have an extra roll (2 total rolls).",
-  "tooltips.strainers.sturdy_output_upgrade.shift": "Recipe outputs have an extra roll (3 total rolls).",
-  "tooltips.strainers.reinforced_output_upgrade.shift": "Recipe outputs have an extra roll (4 total rolls).",
-  "tooltips.strainers.everlasting_output_upgrade.shift": "Recipe outputs have an extra roll (5 total rolls).",
+  "tooltips.strainers.improved_output_upgrade.shift": "Recipe outputs have a 25% additional chance to to an extra roll.",
+  "tooltips.strainers.sturdy_output_upgrade.shift": "Recipe outputs have a 50% additional chance to to an extra roll.",
+  "tooltips.strainers.reinforced_output_upgrade.shift": "Recipe outputs have a 75% additional chance to to an extra roll.",
+  "tooltips.strainers.everlasting_output_upgrade.shift": "Recipe outputs can roll twice.",
 
   "tooltips.strainers.improved_everything_upgrade.shift": "Combines all effects of the upgrades!",
   "tooltips.strainers.sturdy_everything_upgrade.shift": "Combines all effects of the upgrades!",

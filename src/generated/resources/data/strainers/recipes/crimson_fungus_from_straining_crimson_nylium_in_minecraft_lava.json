@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:lava",
+  "chance": 0.5,
+  "chanceIncreasePerTier": 0.25,
+  "duration": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:crimson_nylium"
+    }
+  ],
+  "minMeshTier": 4,
+  "output": {
+    "item": "minecraft:crimson_fungus"
+  }
+}

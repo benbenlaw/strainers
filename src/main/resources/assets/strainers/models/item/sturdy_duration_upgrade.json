@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "strainers:item/sturdy_mesh_upgrade"
+    "layer0": "strainers:item/sturdy_duration_upgrade"
   }
 }

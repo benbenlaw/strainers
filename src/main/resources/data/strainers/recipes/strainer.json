@@ -13,7 +13,7 @@
       "tag": "forge:rods/wooden"
     },
     "M": {
-      "item": "strainers:leafy_mesh"
+      "tag": "strainers:meshes"
     }
   },
   "result": {

@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.3,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 160,
+  "ingredients": [
+    {
+      "item": "minecraft:sand"
+    }
+  ],
+  "minMeshTier": 1,
+  "output": {
+    "item": "minecraft:sugar_cane"
+  }
+}

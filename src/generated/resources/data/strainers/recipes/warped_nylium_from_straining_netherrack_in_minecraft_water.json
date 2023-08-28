@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.1,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    }
+  ],
+  "minMeshTier": 4,
+  "output": {
+    "item": "minecraft:warped_nylium"
+  }
+}

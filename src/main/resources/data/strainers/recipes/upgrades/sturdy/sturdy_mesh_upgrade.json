@@ -7,7 +7,7 @@
   ],
   "key": {
     "C": {
-      "item": "strainers:sturdy_mesh_upgrade"
+      "item": "strainers:improved_mesh_upgrade"
     },
     "S": {
       "tag": "forge:stone"
@@ -17,6 +17,6 @@
     }
   },
   "result": {
-    "item": "strainers:reinforced_mesh_upgrade"
+    "item": "strainers:sturdy_mesh_upgrade"
   }
 }

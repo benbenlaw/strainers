@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "strainers:item/improved_mesh_upgrade"
+    "layer0": "strainers:item/improved_duration_upgrade"
   }
 }

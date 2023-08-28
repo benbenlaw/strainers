@@ -7,16 +7,16 @@
   ],
   "key": {
     "C": {
-      "item": "strainers:improved_output_upgrade"
+      "item": "strainers:sturdy_output_upgrade"
     },
     "S": {
       "tag": "forge:stone"
     },
     "M": {
-      "item": "minecraft:copper_ingot"
+      "item": "minecraft:diamond"
     }
   },
   "result": {
-    "item": "strainers:sturdy_output_upgrade"
+    "item": "strainers:reinforced_output_upgrade"
   }
 }

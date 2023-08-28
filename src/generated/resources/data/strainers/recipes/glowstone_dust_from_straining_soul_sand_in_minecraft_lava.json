@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:lava",
+  "chance": 0.3,
+  "chanceIncreasePerTier": 0.15,
+  "duration": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:soul_sand"
+    }
+  ],
+  "minMeshTier": 4,
+  "output": {
+    "item": "minecraft:glowstone_dust"
+  }
+}

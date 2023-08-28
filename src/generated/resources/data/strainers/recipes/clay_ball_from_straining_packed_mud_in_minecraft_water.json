@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.5,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:packed_mud"
+    }
+  ],
+  "minMeshTier": 2,
+  "output": {
+    "item": "minecraft:clay_ball"
+  }
+}

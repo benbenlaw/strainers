@@ -23,7 +23,7 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public WoodenStrainerMenu(int containerID, Inventory inventory, FriendlyByteBuf extraData) {
-        this(containerID, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(12));
+        this(containerID, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(27));
     }
 
     public WoodenStrainerMenu(int containerID, Inventory inventory, BlockEntity entity, ContainerData data) {
@@ -38,20 +38,39 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
 
-            this.addSlot(new UpgradeSlot(handler, 0, 26, 35)); //Upgrade
-            this.addSlot(new MeshSlot(handler, 1, 44, 35)); //Mesh
-            this.addSlot(new EverythingButMeshSlot(handler, 2, 62, 35)); //In Block
+            this.addSlot(new UpgradeSlot(handler, 0, 8, 17)); //Upgrade
+            this.addSlot(new MeshSlot(handler, 1, 8, 35)); //Mesh
+            this.addSlot(new EverythingButMeshSlot(handler, 2, 8, 53)); //In Block/ Item
 
             //Outputs
-            this.addSlot(new ModResultSlot(handler, 3, 116, 17));
-            this.addSlot(new ModResultSlot(handler, 4, 134, 17));
-            this.addSlot(new ModResultSlot(handler, 5, 152, 17));
-            this.addSlot(new ModResultSlot(handler, 6, 116, 35));
-            this.addSlot(new ModResultSlot(handler, 7, 134, 35));
-            this.addSlot(new ModResultSlot(handler, 8, 152, 35));
-            this.addSlot(new ModResultSlot(handler, 9, 116, 53));
-            this.addSlot(new ModResultSlot(handler, 10, 134, 53));
-            this.addSlot(new ModResultSlot(handler, 11, 152, 53));
+            this.addSlot(new ModResultSlot(handler, 3, 62, 9));
+            this.addSlot(new ModResultSlot(handler, 4, 80, 9));
+            this.addSlot(new ModResultSlot(handler, 5, 98, 9));
+            this.addSlot(new ModResultSlot(handler, 6, 116, 9));
+            this.addSlot(new ModResultSlot(handler, 7, 134, 9));
+            this.addSlot(new ModResultSlot(handler, 8, 152, 9));
+
+            this.addSlot(new ModResultSlot(handler, 9, 62, 27));
+            this.addSlot(new ModResultSlot(handler, 10,80,  27));
+            this.addSlot(new ModResultSlot(handler, 11,98,  27));
+            this.addSlot(new ModResultSlot(handler, 12,116, 27));
+            this.addSlot(new ModResultSlot(handler, 13,134, 27));
+            this.addSlot(new ModResultSlot(handler, 14,152, 27));
+
+            this.addSlot(new ModResultSlot(handler, 15, 62, 45));
+            this.addSlot(new ModResultSlot(handler, 16, 80, 45));
+            this.addSlot(new ModResultSlot(handler, 17, 98, 45));
+            this.addSlot(new ModResultSlot(handler, 18, 116, 45));
+            this.addSlot(new ModResultSlot(handler, 19, 134, 45));
+            this.addSlot(new ModResultSlot(handler, 20, 152, 45));
+
+            this.addSlot(new ModResultSlot(handler, 21, 62, 63));
+            this.addSlot(new ModResultSlot(handler, 22, 80, 63));
+            this.addSlot(new ModResultSlot(handler, 23, 98, 63));
+            this.addSlot(new ModResultSlot(handler, 24, 116, 63));
+            this.addSlot(new ModResultSlot(handler, 25, 134, 63));
+            this.addSlot(new ModResultSlot(handler, 26, 152, 63));
+
 
         });
 
@@ -79,7 +98,7 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
     private static final int VANILLA_FIRST_SLOT_INDEX = 0;
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
-    private static final int TE_INVENTORY_SLOT_COUNT = 12;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 27;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {

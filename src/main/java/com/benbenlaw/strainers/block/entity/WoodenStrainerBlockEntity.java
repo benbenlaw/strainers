@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 
 public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvider, IInventoryHandlingBlockEntity {
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(12) {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(27) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -60,7 +60,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     private final Map<Direction, LazyOptional<WrappedHandler>> directionWrappedHandlerMap =
             Map.of(
-                    Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 11,
+                    Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 27,
                             (i, s) -> false)),
 
                     Direction.UP, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
@@ -175,7 +175,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.literal("Wooden Strainer");
+        return Component.literal("Strainer");
     }
 
     @Nullable
@@ -337,27 +337,42 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
         if (!matchingRecipes.isEmpty()) {
             for (StrainerRecipe match : matchingRecipes) {
+                Random random = new Random();
+                double chance = random.nextDouble();
+                int additionalOutputRuns;
 
-                Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.getFluidAbove()));
-                Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.getBlockAbove()));
+                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && chance < 0.25) {
+                    additionalOutputRuns = 1;
+                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && chance < 0.5) {
+                    additionalOutputRuns = 1;
+                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && chance < 0.75) {
+                    additionalOutputRuns = 1;
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                    additionalOutputRuns = 1;
+                } else additionalOutputRuns = 0;
 
-                BlockPos blockPos = entity.worldPosition.above(1);
-                BlockState blockAbove = level.getBlockState(blockPos);
-                FluidState fluidAbove = level.getFluidState(blockPos);
 
-                if ((blockAbove.is(blockInRecipe) || match.getBlockAbove().isEmpty())
-                        && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
+                // Normal output processing
+                for (int run = 0; run < (1 + additionalOutputRuns); run++) {
+                    Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.getFluidAbove()));
+                    Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.getBlockAbove()));
 
-                    if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
-                        for (int i = 3; i <= 11; i++) {
-                            if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
-                                break;
+                    BlockPos blockPos = entity.worldPosition.above(1);
+                    BlockState blockAbove = level.getBlockState(blockPos);
+                    FluidState fluidAbove = level.getFluidState(blockPos);
+
+                    if ((blockAbove.is(blockInRecipe) || match.getBlockAbove().isEmpty())
+                            && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
+
+                        if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
+                            for (int i = 3; i <= 27; i++) {
+                                if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-
-
             }
 
 
@@ -431,8 +446,6 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         return false;
     }
 
-
-
     private boolean hasInputItem(@NotNull WoodenStrainerBlockEntity entity, @NotNull StrainerRecipe recipe) {
 
         ItemStack[] items = recipe.getIngredients().get(0).getItems();
@@ -450,16 +463,15 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         int emptySlotCounter = 0;
         int occupiedSlotCounter = 0;
 
-        for (int i = 3; i <= 11; i++) {
+        for (int i = 3; i <= 26; i++) {
             ItemStack itemStack = inventory.getItem(i);
 
             if (itemStack.isEmpty()) {
                 emptySlotCounter++;
             } else if (itemStack.getItem() == stack.getItem()) {
-                // Calculate the available space in the slot
-                int availableSpace = itemStack.getMaxStackSize() - itemStack.getCount();
+                int availableSpace = stack.getCount(); // Use the entire stack size
 
-                if (availableSpace >= stack.getCount()) {
+                if (availableSpace > 0) {
                     // There's enough space for the entire stack, continue checking other slots
                     continue;
                 } else {
@@ -468,18 +480,9 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             } else {
                 occupiedSlotCounter++;
             }
-
-            // If any slot is full, return false
-            if (itemStack.getCount() >= itemStack.getMaxStackSize()) {
-                return false;
-            }
         }
 
         // Return false if all slots are occupied or if there are no empty slots
-        return occupiedSlotCounter != 9 && emptySlotCounter != 0;
+        return occupiedSlotCounter != 26 && emptySlotCounter != 0;
     }
-
-
-
-
 }

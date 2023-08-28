@@ -155,8 +155,8 @@ public class StrainerRecipe implements Recipe<SimpleContainer> {
             double chanceIncreasePerTier = GsonHelper.getAsDouble(json, "chanceIncreasePerTier");
             int duration = GsonHelper.getAsInt(json, "duration", 120);
             int minMeshTier = GsonHelper.getAsInt(json, "minMeshTier");
-            String blockAbove = GsonHelper.getAsString(json, "blockAbove", "");
-            String fluidAbove = GsonHelper.getAsString(json, "fluidAbove", "");
+            String blockAbove = GsonHelper.getAsString(json, "aboveBlock", "");
+            String fluidAbove = GsonHelper.getAsString(json, "aboveFluid", "");
 
             return new StrainerRecipe(id, output, chance, chanceIncreasePerTier, inputs, minMeshTier, duration, blockAbove, fluidAbove);
 

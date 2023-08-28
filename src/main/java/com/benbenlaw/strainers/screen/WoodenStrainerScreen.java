@@ -19,6 +19,9 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Strainers.MOD_ID, "textures/gui/wooden_strainer_gui.png");
 
+    private static final ResourceLocation MESH =
+            new ResourceLocation(Strainers.MOD_ID, "textures/gui/leafy_mesh.png");
+
     public WoodenStrainerScreen(WoodenStrainerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
@@ -28,6 +31,7 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
         renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, delta);
         renderTooltip(guiGraphics, mouseX, mouseY);
+
     }
 
     @Override
@@ -46,7 +50,7 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
 
         if (menu.isCrafting()) {
             int l = this.menu.getScaledProgress()   ;
-            guiGraphics.blit(TEXTURE, x + 85, y + 35, 176, 14, menu.getScaledProgress() + 1, 16);
+            guiGraphics.blit(TEXTURE, x + 33, y + 35, 176, 14, menu.getScaledProgress() + 1, 16);
         }
 
 
