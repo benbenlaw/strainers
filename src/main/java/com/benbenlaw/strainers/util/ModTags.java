@@ -38,6 +38,8 @@ public class ModTags {
         public static final TagKey<Item> MESHES = tag("meshes");
         public static final TagKey<Item> UPGRADES = tag("upgrades");
 
+        public static final TagKey<Item> REMOVE_ITEM_NO_DAMAGE_IN_STRAINER = tag("remove_item_no_damage_in_strainer");
+
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(new ResourceLocation(Strainers.MOD_ID, name));
