@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube_all",
+	"textures": {
+		"north": "strainers:block/machine_side",
+		"east": "strainers:block/machine_side",
+		"south": "strainers:block/machine_side",
+		"west": "strainers:block/machine_side",
+		"up": "strainers:block/summoning_block",
+		"down": "strainers:block/machine_top",
+		"particle": "strainers:block/summoning_block"
+	}
+}

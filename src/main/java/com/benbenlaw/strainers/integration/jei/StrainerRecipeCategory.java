@@ -1,5 +1,7 @@
 package com.benbenlaw.strainers.integration.jei;
 
+import com.benbenlaw.opolisutilities.OpolisUtilities;
+import com.benbenlaw.opolisutilities.item.ModItems;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.recipe.ModRecipes;
@@ -23,10 +25,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -115,11 +120,16 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
         }
 
         Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(recipe.getBlockAbove()));
-        builder.addSlot(RecipeIngredientRole.CATALYST, 4, 3).addItemStack(blockInRecipe.asItem().getDefaultInstance())
-                .addTooltipCallback(getPlaceAbove());
+
+        if(!blockInRecipe.asItem().equals(Items.AIR)) {
+            builder.addSlot(RecipeIngredientRole.CATALYST, 4, 3).addItemStack(blockInRecipe.asItem().getDefaultInstance())
+                    .addTooltipCallback(getPlaceAbove());
+        }
 
         Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(recipe.getFluidAbove()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 3).addFluidStack(fluid, 1000).setFluidRenderer(1000, true, 16,16);
+        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 3).addFluidStack(fluid
+                , 1000).setFluidRenderer(1000, true, 16,16);
+
 
 
 
@@ -130,6 +140,8 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
             addTooltip.add(Component.literal("Place above the strainer"));
         };
     }
+
+
 
     @Contract(pure = true)
     private @NotNull IRecipeSlotTooltipCallback tier1Mesh() {

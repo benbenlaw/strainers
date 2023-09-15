@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "minecraft:dragon_head",
+  "chance": 0.3,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 500,
+  "ingredients": [
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "minMeshTier": 6,
+  "output": {
+    "item": "minecraft:dragon_breath"
+  }
+}

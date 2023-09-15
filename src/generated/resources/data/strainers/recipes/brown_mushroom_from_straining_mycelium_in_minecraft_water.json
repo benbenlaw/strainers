@@ -9,7 +9,7 @@
       "item": "minecraft:mycelium"
     }
   ],
-  "minMeshTier": 2,
+  "minMeshTier": 3,
   "output": {
     "item": "minecraft:brown_mushroom"
   }

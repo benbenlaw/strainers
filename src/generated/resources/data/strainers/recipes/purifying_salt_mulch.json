@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:charcoal"
+    },
+    "L": {
+      "tag": "minecraft:leaves"
+    },
+    "M": {
+      "item": "strainers:mulch"
+    }
+  },
+  "pattern": [
+    "LCL",
+    "LML",
+    "LCL"
+  ],
+  "result": {
+    "item": "strainers:purifying_salt_mulch"
+  },
+  "show_notification": true
+}

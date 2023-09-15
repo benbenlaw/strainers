@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:water",
+  "ingredients": [
+    {
+      "item": "minecraft:sea_pickle"
+    },
+         {
+           "item": "minecraft:turtle_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:turtle"
+}

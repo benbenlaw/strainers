@@ -1,6 +1,8 @@
 package com.benbenlaw.strainers.block;
 
 import com.benbenlaw.strainers.Strainers;
+import com.benbenlaw.strainers.block.custom.MulchBlock;
+import com.benbenlaw.strainers.block.custom.SummoningBlock;
 import com.benbenlaw.strainers.block.custom.WoodenStrainerBlock;
 import com.benbenlaw.strainers.fluid.ModFluids;
 import com.benbenlaw.strainers.item.ModItems;
@@ -29,13 +31,33 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> WOODEN_STRAINER = registerBlock("wooden_strainer",
             () -> new WoodenStrainerBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE).strength(0.5f).sound(SoundType.WOOD)
-                    .noOcclusion())
-            );
+                    .noOcclusion()));
+
+    public static final RegistryObject<Block> MULCH = registerBlock("mulch",
+            () -> new MulchBlock(BlockBehaviour.Properties.copy(Blocks.MOSS_BLOCK).strength(0.5f).sound(SoundType.PACKED_MUD)));
+
+    public static final RegistryObject<Block> SUMMONING_BLOCK = registerBlock("summoning_block",
+            () -> new SummoningBlock(BlockBehaviour.Properties.copy(Blocks.STONE).strength(0.5f).sound(SoundType.NETHERRACK)));
+
+
 
     //New Fluid Blocks
 
     public static final RegistryObject<LiquidBlock> ERODING_WATER_BLOCK = BLOCKS.register("eroding_water_block",
             () -> new LiquidBlock(ModFluids.SOURCE_ERODING_WATER, BlockBehaviour.Properties.copy(Blocks.WATER)));
+    
+    public static final RegistryObject<LiquidBlock> PURIFIED_WATER_BLOCK = BLOCKS.register("purified_water_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_PURIFIED_WATER, BlockBehaviour.Properties.copy(Blocks.WATER)));
+
+
+
+
+
+
+
+
+
+
 
 
     private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block, String tooltipKey) {

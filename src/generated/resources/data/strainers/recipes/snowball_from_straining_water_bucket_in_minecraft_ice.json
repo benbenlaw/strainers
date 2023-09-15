@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "minecraft:ice",
+  "chance": 0.2,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 400,
+  "ingredients": [
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "minMeshTier": 2,
+  "output": {
+    "item": "minecraft:snowball"
+  }
+}

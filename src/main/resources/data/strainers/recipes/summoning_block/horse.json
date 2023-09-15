@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:dirt",
+  "ingredients": [
+    {
+      "item": "minecraft:apple"
+    },
+         {
+           "item": "minecraft:horse_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:horse"
+}

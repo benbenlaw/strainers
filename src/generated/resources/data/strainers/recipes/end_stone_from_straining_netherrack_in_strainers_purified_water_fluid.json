@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "strainers:purified_water_fluid",
+  "chance": 1.0,
+  "chanceIncreasePerTier": 0.0,
+  "duration": 280,
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    }
+  ],
+  "minMeshTier": 6,
+  "output": {
+    "item": "minecraft:end_stone"
+  }
+}

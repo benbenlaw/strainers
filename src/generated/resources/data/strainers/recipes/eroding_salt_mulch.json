@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:andesite"
+    },
+    "D": {
+      "item": "minecraft:diorite"
+    },
+    "G": {
+      "item": "minecraft:granite"
+    },
+    "L": {
+      "item": "strainers:stone_pebble"
+    },
+    "M": {
+      "item": "strainers:mulch"
+    }
+  },
+  "pattern": [
+    "AGD",
+    "LML",
+    "AGD"
+  ],
+  "result": {
+    "item": "strainers:eroding_salt_mulch"
+  },
+  "show_notification": true
+}

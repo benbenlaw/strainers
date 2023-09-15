@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:blue_ice",
+  "ingredients": [
+    {
+      "item": "minecraft:cod"
+    },
+         {
+           "item": "minecraft:polar_bear_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:polar_bear"
+}

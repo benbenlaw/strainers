@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "strainers:purified_water_fluid",
+  "chance": 0.25,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:purpur_block"
+    }
+  ],
+  "minMeshTier": 4,
+  "output": {
+    "item": "minecraft:shulker_shell"
+  }
+}

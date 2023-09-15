@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:lava",
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:blaze_spawn_egg"
+    }
+  ],
+  "summonedMob": "minecraft:blaze"
+}

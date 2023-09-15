@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -286,12 +287,19 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             BlockState blockAbove = level.getBlockState(blockPos);
             FluidState fluidAbove = level.getFluidState(blockPos);
 
+
             if (!matchingRecipes.isEmpty()) {
                 for (StrainerRecipe matching : matchingRecipes) {
-                    Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(matching.getFluidAbove()));
-                    Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(matching.getBlockAbove()));
 
-                    if (blockInRecipe == null) throw new AssertionError();
+                    @Nullable Fluid fluidInRecipe = null;
+                    if (matching.getBlockAbove().isEmpty()) {
+                        fluidInRecipe = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(matching.getFluidAbove()));
+                    }
+
+                    @Nullable Block blockInRecipe = null;
+                    if (matching.getFluidAbove().isEmpty()) {
+                        blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(matching.getBlockAbove()));
+                    }
 
                     // Set maxProgress based on the current recipe's duration
                     int duration = matching.getDuration();
@@ -307,20 +315,20 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                         entity.maxProgress = duration;
                     }
 
-                    // Check if the current recipe matches the conditions
-                    if ((blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty())
-                            && (fluidAbove.is(fluid) || match.get().getFluidAbove().isEmpty())) {
-                        return match.filter(currentRecipe ->
-                                hasMeshItem(entity, currentRecipe)
-                                        && hasInputItem(entity, currentRecipe)
-                                        && canStartRecipe(inventory, currentRecipe.getOutput())
-                                        && hasDuration(currentRecipe)).isPresent();
+                    // Check Block / Fluid
+                    if (!blockAbove.isAir() || blockAbove.is(blockInRecipe)) {
+                        if (blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty() && fluidAbove.is(fluidInRecipe) || match.get().getFluidAbove().isEmpty()) {
+                            return match.filter(currentRecipe ->
+                                    hasMeshItem(entity, currentRecipe)
+                                            && hasInputItem(entity, currentRecipe)
+                                            && canStartRecipe(inventory, currentRecipe.getOutput())
+                                            && hasDuration(currentRecipe)).isPresent();
+                        }
                     }
                 }
             }
-
             return false;
-        }
+    }
 
     private void craftItem(@NotNull WoodenStrainerBlockEntity entity) {
         Level level = entity.level;

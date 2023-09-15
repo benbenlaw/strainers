@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 1.0,
+  "chanceIncreasePerTier": 0.0,
+  "duration": 300,
+  "ingredients": [
+    {
+      "item": "minecraft:grass_block"
+    }
+  ],
+  "minMeshTier": 5,
+  "output": {
+    "item": "minecraft:podzol"
+  }
+}

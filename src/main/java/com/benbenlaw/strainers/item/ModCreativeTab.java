@@ -22,6 +22,14 @@ public class ModCreativeTab {
             .title(Component.translatable("itemGroup.strainers"))
             .displayItems((parameters, output) -> {
 
+                output.accept(ModBlocks.MULCH.get());
+                output.accept(ModItems.STONE_PEBBLE.get());
+                output.accept(ModItems.DEEPSLATE_PEBBLE.get());
+                output.accept(ModItems.PURIFYING_SALT_MULCH.get());
+                output.accept(ModItems.ERODING_SALT_MULCH.get());
+                output.accept(ModItems.ERODING_WATER_BUCKET.get());
+                output.accept(ModItems.PURIFIED_WATER_BUCKET.get());
+
                 output.accept(ModItems.LEAFY_MESH.get());
                 output.accept(ModItems.BAMBOO_MESH.get());
                 output.accept(ModItems.STRING_MESH.get());
@@ -60,9 +68,8 @@ public class ModCreativeTab {
                 output.accept(ModItems.EVERLASTING_DURATION_UPGRADE.get());
                 output.accept(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get());
 
-                output.accept(ModItems.ERODING_WATER_BUCKET.get());
-
                 output.accept(ModBlocks.WOODEN_STRAINER.get());
+                output.accept(ModBlocks.SUMMONING_BLOCK.get());
 
             }).build());
 

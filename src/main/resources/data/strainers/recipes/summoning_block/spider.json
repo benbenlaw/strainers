@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:stone",
+  "ingredients": [
+    {
+      "item": "minecraft:spider_eye"
+    },
+         {
+           "item": "minecraft:spider_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:spider"
+}

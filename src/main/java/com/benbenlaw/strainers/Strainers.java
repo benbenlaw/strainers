@@ -79,6 +79,9 @@ public class Strainers {
                 ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_ERODING_WATER.get(), RenderType.translucent());
                 ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_ERODING_WATER.get(), RenderType.translucent());
 
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_PURIFIED_WATER.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_PURIFIED_WATER.get(), RenderType.translucent());
+
             });
         }
     }

@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.25,
+  "chanceIncreasePerTier": 0.05,
+  "duration": 240,
+  "ingredients": [
+    {
+      "item": "minecraft:granite"
+    }
+  ],
+  "minMeshTier": 3,
+  "output": {
+    "item": "minecraft:redstone"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:purpur_block",
+  "ingredients": [
+    {
+      "item": "minecraft:shulker_shell"
+    },
+         {
+           "item": "minecraft:shulker_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:shulker"
+}

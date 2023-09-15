@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:water",
+  "ingredients": [
+    {
+      "item": "minecraft:kelp"
+    },
+         {
+           "item": "minecraft:cod_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:cod"
+}

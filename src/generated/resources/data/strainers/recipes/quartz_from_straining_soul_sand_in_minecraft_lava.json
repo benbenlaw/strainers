@@ -1,9 +1,9 @@
 {
   "type": "strainers:strainer",
   "aboveFluid": "minecraft:lava",
-  "chance": 0.4,
-  "chanceIncreasePerTier": 0.2,
-  "duration": 200,
+  "chance": 0.25,
+  "chanceIncreasePerTier": 0.05,
+  "duration": 260,
   "ingredients": [
     {
       "item": "minecraft:soul_sand"

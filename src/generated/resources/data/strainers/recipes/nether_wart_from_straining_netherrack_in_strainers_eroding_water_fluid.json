@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "strainers:eroding_water_fluid",
+  "chance": 0.25,
+  "chanceIncreasePerTier": 0.05,
+  "duration": 280,
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    }
+  ],
+  "minMeshTier": 3,
+  "output": {
+    "item": "minecraft:nether_wart"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:dirt",
+  "ingredients": [
+    {
+      "tag": "forge:seeds"
+    },
+         {
+           "item": "minecraft:chicken_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:chicken"
+}

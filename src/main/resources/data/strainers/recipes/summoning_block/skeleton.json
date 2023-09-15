@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:stone",
+  "ingredients": [
+    {
+      "item": "minecraft:bone"
+    },
+         {
+           "item": "minecraft:skeleton_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:skeleton"
+}

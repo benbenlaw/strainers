@@ -1,0 +1,13 @@
+{
+  "type": "strainers:summoning",
+  "blockBelow": "minecraft:dirt",
+  "ingredients": [
+    {
+      "item": "minecraft:sweet_berries"
+    },
+         {
+           "item": "minecraft:fox_spawn_egg"
+         }
+  ],
+  "summonedMob": "minecraft:fox"
+}

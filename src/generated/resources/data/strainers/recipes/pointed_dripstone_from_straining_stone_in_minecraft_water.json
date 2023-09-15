@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.5,
+  "chanceIncreasePerTier": 0.0,
+  "duration": 240,
+  "ingredients": [
+    {
+      "item": "minecraft:stone"
+    }
+  ],
+  "minMeshTier": 3,
+  "output": {
+    "item": "minecraft:pointed_dripstone"
+  }
+}

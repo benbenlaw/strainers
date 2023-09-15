@@ -3,6 +3,7 @@ package com.benbenlaw.strainers.integration.jei;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
+import com.benbenlaw.strainers.recipe.SummoningRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -24,6 +25,9 @@ public class JEIStrainersPlugin implements IModPlugin {
     public static RecipeType<StrainerRecipe> STRAINER =
             new RecipeType<>(StrainerRecipeCategory.UID, StrainerRecipe.class);
 
+    public static RecipeType<SummoningRecipe> SUMMONING =
+            new RecipeType<>(SummoningRecipeCategory.UID, SummoningRecipe.class);
+
     @Override
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(Strainers.MOD_ID, "jei_plugin");
@@ -32,6 +36,7 @@ public class JEIStrainersPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.WOODEN_STRAINER.get()), StrainerRecipeCategory.RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.SUMMONING_BLOCK.get()), SummoningRecipeCategory.RECIPE_TYPE);
 
     }
 
@@ -41,6 +46,9 @@ public class JEIStrainersPlugin implements IModPlugin {
         registration.addRecipeCategories(new
                 StrainerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
 
+        registration.addRecipeCategories(new
+                SummoningRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+
     }
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
@@ -49,6 +57,9 @@ public class JEIStrainersPlugin implements IModPlugin {
 
         List<StrainerRecipe> recipes = rm.getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
         registration.addRecipes(STRAINER, recipes);
+
+        List<SummoningRecipe> recipes1 = rm.getAllRecipesFor(SummoningRecipe.Type.INSTANCE);
+        registration.addRecipes(SUMMONING, recipes1);
 
     }
 }

@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "strainers:eroding_water_fluid",
+  "chance": 0.0,
+  "chanceIncreasePerTier": 0.0,
+  "duration": 1000,
+  "ingredients": [
+    {
+      "item": "minecraft:obsidian"
+    }
+  ],
+  "minMeshTier": 6,
+  "output": {
+    "item": "minecraft:crying_obsidian"
+  }
+}

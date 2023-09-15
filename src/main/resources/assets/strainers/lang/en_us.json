@@ -14,12 +14,21 @@
   "item.strainers.quartz_mesh": "Quartz Mesh",
   "item.strainers.string_mesh": "String Mesh",
   "item.strainers.eroding_water_bucket": "Eroding Water Bucket",
+  "item.strainers.purified_water_bucket": "Purified Water Bucket",
+  "item.strainers.stone_pebble": "Stone Pebble",
+  "item.strainers.deepslate_pebble": "Deepslate Pebble",
+  "item.strainers.purifying_salt_mulch": "Purifying Salt Mulch",
+  "item.strainers.eroding_salt_mulch": "Eroding Salt Mulch",
 
-  "fluid_type.strainers.lightning_water_fluid": "Eroding Water",
+  "fluid_type.strainers.eroding_water_fluid": "Eroding Water",
+  "fluid_type.strainers.purified_water_fluid": "Purified Water",
 
   "block.strainers.wooden_strainer": "Wooden Strainer",
-  "block.strainers.eroding_water_block": "Wooden Strainer",
-  
+  "block.strainers.eroding_water_block": "Eroding Water",
+  "block.strainers.purified_water_block": "Purified Water",
+  "block.strainers.mulch": "Mulch",
+  "block.strainers.summoning_block": "Summoning Block",
+
   "item.strainers.improved_input_upgrade": "Improved Input Upgrade",
   "item.strainers.sturdy_input_upgrade": "Sturdy Input Upgrade",
   "item.strainers.reinforced_input_upgrade": "Reinforced Input Upgrade",

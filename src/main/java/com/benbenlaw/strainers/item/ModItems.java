@@ -15,6 +15,18 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Strainers.MOD_ID);
 
+    public static final RegistryObject<Item> STONE_PEBBLE = ITEMS.register("stone_pebble",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> DEEPSLATE_PEBBLE = ITEMS.register("deepslate_pebble",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> PURIFYING_SALT_MULCH = ITEMS.register("purifying_salt_mulch",
+            () -> new PurifyingSaltMulchItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> ERODING_SALT_MULCH = ITEMS.register("eroding_salt_mulch",
+            () -> new ErodingSaltMulchItem(new Item.Properties()));
+
     //TIER 1 MESHES
 
     public static final RegistryObject<Item> LEAFY_MESH = ITEMS.register("leafy_mesh",
@@ -32,39 +44,39 @@ public class ModItems {
             () -> new Item(new Item.Properties().durability(128)));
 
     public static final RegistryObject<Item> COPPER_MESH = ITEMS.register("copper_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Item(new Item.Properties().durability(192)));
 
     //TIER 3 MESHES
 
     public static final RegistryObject<Item> IRON_MESH = ITEMS.register("iron_mesh",
-            () -> new Item(new Item.Properties().durability(128)));
+            () -> new Item(new Item.Properties().durability(256)));
 
     public static final RegistryObject<Item> AMETHYST_MESH = ITEMS.register("amethyst_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Item(new Item.Properties().durability(320)));
 
     //TIER 4 MESHES
 
     public static final RegistryObject<Item> GOLD_MESH = ITEMS.register("gold_mesh",
-            () -> new Item(new Item.Properties().durability(64)));
+            () -> new Item(new Item.Properties().durability(128)));
 
     public static final RegistryObject<Item> QUARTZ_MESH = ITEMS.register("quartz_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Item(new Item.Properties().durability(320)));
 
     //TIER 5 MESHES
 
     public static final RegistryObject<Item> DIAMOND_MESH = ITEMS.register("diamond_mesh",
-            () -> new Item(new Item.Properties().durability(64)));
+            () -> new Item(new Item.Properties().durability(768)));
 
     public static final RegistryObject<Item> ECHO_MESH = ITEMS.register("echo_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Item(new Item.Properties().durability(512)));
 
     //TIER 6 MESHES
 
     public static final RegistryObject<Item> EMERALD_MESH = ITEMS.register("emerald_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Item(new Item.Properties().durability(768)));
 
     public static final RegistryObject<Item> NETHERITE_MESH = ITEMS.register("netherite_mesh",
-            () -> new Item(new Item.Properties().durability(512)));
+            () -> new Item(new Item.Properties().durability(1024)));
 
     //UPGRADES
 
@@ -138,6 +150,10 @@ public class ModItems {
 
     public static final RegistryObject<BucketItem> ERODING_WATER_BUCKET = ITEMS.register("eroding_water_bucket",
             () -> new BucketItem(ModFluids.SOURCE_ERODING_WATER.get(),
+                    new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
+
+    public static final RegistryObject<BucketItem> PURIFIED_WATER_BUCKET = ITEMS.register("purified_water_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_PURIFIED_WATER.get(),
                     new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
 
     public static void register(IEventBus eventBus) {

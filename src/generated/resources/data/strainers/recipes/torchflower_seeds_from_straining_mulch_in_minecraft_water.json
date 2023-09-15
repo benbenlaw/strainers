@@ -1,0 +1,16 @@
+{
+  "type": "strainers:strainer",
+  "aboveFluid": "minecraft:water",
+  "chance": 0.3,
+  "chanceIncreasePerTier": 0.1,
+  "duration": 140,
+  "ingredients": [
+    {
+      "item": "strainers:mulch"
+    }
+  ],
+  "minMeshTier": 5,
+  "output": {
+    "item": "minecraft:torchflower_seeds"
+  }
+}

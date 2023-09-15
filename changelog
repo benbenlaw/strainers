@@ -1,5 +1,43 @@
 Changelog BBL Strainers
 
+1.4.1
+
+Fixed the broken tag for pickaxes
+Changed durability of meshes (most increases)
+
+1.4.0
+
+Removed references to lighting water in the fluid class
+Added purified water
+Added a bunch of new recipes using water, lava, purifying water, eroding water and some blocks
+Any recipes for vanilla items that are not there let me know!
+Added Summoning Block, uses recipe jsons right click on the block with a block below to summon a entity
+
+```{
+     "type": "strainers:summoning",
+     "blockBelow": "minecraft:slime_block",
+     "ingredients": [
+       {
+         "item": "minecraft:slime_ball"
+       },
+       {
+          "item": "minecraft:slime_spawn_egg"
+       }
+     ],
+     "summonedMob": "minecraft:slime"
+   }```
+
+blockBelow also allows fluids such as ```"blockBelow": "minecraft:water"```
+first ingredient is the one used on the summoning altar to summon the mob
+second ingredient is the item (when clicked in JEI) to display the recipe im using spawn eggs
+
+1.3.10
+
+Fixed a issue with recipes having the same input and output but different fluids/blocks not working correctly and working with air
+Recipes that don't require a block or fluid and want air above use blockAbove: "minecraft:air"
+Fixed fluid names not being shown in JEI
+Removed Test Recipes
+
 1.3.9
 
 Added the tag "strainers:remove_item_no_damage_in_strainer", adding items to this tag means that even if they have a durability the item will be consumed instead of
