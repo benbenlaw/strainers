@@ -127,11 +127,8 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
         }
 
         Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(recipe.getFluidAbove()));
-        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 3).addFluidStack(fluid
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 3).addFluidStack(fluid
                 , 1000).setFluidRenderer(1000, true, 16,16);
-
-
-
 
     }
 
@@ -140,8 +137,6 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
             addTooltip.add(Component.literal("Place above the strainer"));
         };
     }
-
-
 
     @Contract(pure = true)
     private @NotNull IRecipeSlotTooltipCallback tier1Mesh() {

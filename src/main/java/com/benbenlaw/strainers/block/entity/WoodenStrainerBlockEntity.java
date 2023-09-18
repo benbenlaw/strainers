@@ -61,7 +61,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     private final Map<Direction, LazyOptional<WrappedHandler>> directionWrappedHandlerMap =
             Map.of(
-                    Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 27,
+                    Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (i, s) -> false)),
 
                     Direction.UP, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
@@ -373,7 +373,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                             && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
 
                         if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
-                            for (int i = 3; i <= 27; i++) {
+                            for (int i = 3; i <= 26; i++) {
                                 if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
                                     break;
                                 }

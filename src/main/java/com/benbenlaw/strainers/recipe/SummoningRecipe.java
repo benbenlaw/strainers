@@ -44,7 +44,7 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
 
     @Override
     public boolean matches(NoInventoryRecipe p_44002_, Level level) {
-        return true;
+        return !level.isClientSide();
     }
 
     @Override

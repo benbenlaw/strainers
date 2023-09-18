@@ -78,7 +78,17 @@
   "tooltips.strainers.improved_everything_upgrade.shift": "Combines all effects of the upgrades!",
   "tooltips.strainers.sturdy_everything_upgrade.shift": "Combines all effects of the upgrades!",
   "tooltips.strainers.reinforced_everything_upgrade.shift": "Combines all effects of the upgrades!",
-  "tooltips.strainers.everlasting_everything_upgrade.shift": "Combines all effects of the upgrades!",
+
+  "tooltips.strainers.mesh.shift": "Mesh Information!",
+  "tooltips.strainers.mesh": "Mesh Information!",
+
+  "tooltips.strainers.tier_1_mesh": "Tier 1 Mesh",
+  "tooltips.strainers.tier_2_mesh": "Tier 2 Mesh",
+  "tooltips.strainers.tier_3_mesh": "Tier 3 Mesh",
+  "tooltips.strainers.tier_4_mesh": "Tier 4 Mesh",
+  "tooltips.strainers.tier_5_mesh": "Tier 5 Mesh",
+  "tooltips.strainers.tier_6_mesh": "Tier 6 Mesh",
+
 
 
   "jei.strainer.place_block": "Place Block Above",

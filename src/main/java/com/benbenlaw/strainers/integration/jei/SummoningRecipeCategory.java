@@ -73,28 +73,31 @@ public class SummoningRecipeCategory implements IRecipeCategory<SummoningRecipe>
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, SummoningRecipe recipe, IFocusGroup focusGroup) {
+    public void setRecipe(IRecipeLayoutBuilder builder, SummoningRecipe recipe, @NotNull IFocusGroup focusGroup) {
 
         builder.addSlot(RecipeIngredientRole.INPUT, 40, 13).addIngredients(recipe.getInputItem().get(0));
 
-        String blockBelow = recipe.getBlockBelow();
-        Block blockBelowAsBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockBelow));
+   //    String blockBelow = recipe.getBlockBelow();
+   //    Block blockBelowAsBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockBelow));
 
-        if (!blockBelowAsBlock.asItem().equals(Items.AIR)) {
-            builder.addSlot(RecipeIngredientRole.CATALYST, 4, 23).addItemStack(new ItemStack(blockBelowAsBlock));
-        }
+   //    assert blockBelowAsBlock != null;
+   //    if (!blockBelowAsBlock.asItem().equals(Items.AIR)) {
+   //        builder.addSlot(RecipeIngredientRole.CATALYST, 4, 23).addItemStack(new ItemStack(blockBelowAsBlock));
+   //    }
 
-        Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(blockBelow));
-        builder.addSlot(RecipeIngredientRole.CATALYST, 4, 23).addFluidStack(fluid
-                , 1000).setFluidRenderer(1000, true, 16,16);
+   //    Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(blockBelow));
+   //    assert fluid != null;
+   //    builder.addSlot(RecipeIngredientRole.CATALYST, 4, 23).addFluidStack(fluid
+   //            , 1000).setFluidRenderer(1000, true, 16,16);
 
 
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 3).addItemStack(new ItemStack(ModBlocks.SUMMONING_BLOCK.get()));
+   //    builder.addSlot(RecipeIngredientRole.INPUT, 4, 3).addItemStack(new ItemStack(ModBlocks.SUMMONING_BLOCK.get()));
 
-        @Nullable EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(recipe.getSummonedMob()));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 84, 13).addItemStack(new ItemStack(recipe.getInputItem().get(1).getItems()[0].getItem())
-        .setHoverName(Component.literal("Summon " + entity.getDescription().getString())));
+   //    @Nullable EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(recipe.getSummonedMob()));
+   //    assert entity != null;
+   //    builder.addSlot(RecipeIngredientRole.OUTPUT, 84, 13).addItemStack(new ItemStack(recipe.getInputItem().get(1).getItems()[0].getItem())
+   //    .setHoverName(Component.literal("Summon " + entity.getDescription().getString())));
 
     }
 
