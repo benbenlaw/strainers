@@ -136,6 +136,7 @@ public class StrainerRecipe implements Recipe<SimpleContainer> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "strainer";
     }
+
     public static class Serializer implements RecipeSerializer<StrainerRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID =

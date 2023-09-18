@@ -1,5 +1,11 @@
 Changelog BBL Strainers
 
+
+1.4.2
+
+Fixed crash with additional rolls
+Meshes now show there tier and max uses
+
 1.4.1
 
 Fixed the broken tag for pickaxes

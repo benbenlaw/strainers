@@ -30,53 +30,53 @@ public class ModItems {
     //TIER 1 MESHES
 
     public static final RegistryObject<Item> LEAFY_MESH = ITEMS.register("leafy_mesh",
-            () -> new Item(new Item.Properties().durability(64)));
+            () -> new Mesh(new Item.Properties().durability(64)));
 
     public static final RegistryObject<Item> BAMBOO_MESH = ITEMS.register("bamboo_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Mesh(new Item.Properties().durability(256)));
 
     public static final RegistryObject<Item> STRING_MESH = ITEMS.register("string_mesh",
-            () -> new Item(new Item.Properties().durability(128)));
+            () -> new Mesh(new Item.Properties().durability(128)));
 
     //TIER 2 MESHES
 
     public static final RegistryObject<Item> FLINT_MESH = ITEMS.register("flint_mesh",
-            () -> new Item(new Item.Properties().durability(128)));
+            () -> new Mesh(new Item.Properties().durability(128)));
 
     public static final RegistryObject<Item> COPPER_MESH = ITEMS.register("copper_mesh",
-            () -> new Item(new Item.Properties().durability(192)));
+            () -> new Mesh(new Item.Properties().durability(192)));
 
     //TIER 3 MESHES
 
     public static final RegistryObject<Item> IRON_MESH = ITEMS.register("iron_mesh",
-            () -> new Item(new Item.Properties().durability(256)));
+            () -> new Mesh(new Item.Properties().durability(256)));
 
     public static final RegistryObject<Item> AMETHYST_MESH = ITEMS.register("amethyst_mesh",
-            () -> new Item(new Item.Properties().durability(320)));
+            () -> new Mesh(new Item.Properties().durability(320)));
 
     //TIER 4 MESHES
 
     public static final RegistryObject<Item> GOLD_MESH = ITEMS.register("gold_mesh",
-            () -> new Item(new Item.Properties().durability(128)));
+            () -> new Mesh(new Item.Properties().durability(128)));
 
     public static final RegistryObject<Item> QUARTZ_MESH = ITEMS.register("quartz_mesh",
-            () -> new Item(new Item.Properties().durability(320)));
+            () -> new Mesh(new Item.Properties().durability(320)));
 
     //TIER 5 MESHES
 
     public static final RegistryObject<Item> DIAMOND_MESH = ITEMS.register("diamond_mesh",
-            () -> new Item(new Item.Properties().durability(768)));
+            () -> new Mesh(new Item.Properties().durability(768)));
 
     public static final RegistryObject<Item> ECHO_MESH = ITEMS.register("echo_mesh",
-            () -> new Item(new Item.Properties().durability(512)));
+            () -> new Mesh(new Item.Properties().durability(512)));
 
     //TIER 6 MESHES
 
     public static final RegistryObject<Item> EMERALD_MESH = ITEMS.register("emerald_mesh",
-            () -> new Item(new Item.Properties().durability(768)));
+            () -> new Mesh(new Item.Properties().durability(768)));
 
     public static final RegistryObject<Item> NETHERITE_MESH = ITEMS.register("netherite_mesh",
-            () -> new Item(new Item.Properties().durability(1024)));
+            () -> new Mesh(new Item.Properties().durability(1024)));
 
     //UPGRADES
 
