@@ -88,7 +88,6 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
 
         @Override
         public SummoningRecipe fromJson(ResourceLocation id, JsonObject json) {
-
             String blockBelow = GsonHelper.getAsString(json, "blockBelow");
 
             JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
@@ -115,19 +114,19 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
             String summonedMob = buf.readUtf();
 
 
-            return new SummoningRecipe (id, blockBelow, inputs, summonedMob);
+            return new SummoningRecipe(id, blockBelow, inputs, summonedMob);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, SummoningRecipe recipe) {
 
             buf.writeUtf(recipe.blockBelow, Short.MAX_VALUE);
-            buf.writeInt(recipe.getIngredients().size());
-            for (Ingredient ing : recipe.getIngredients()) {
+            buf.writeInt(recipe.getInputItem().size());
+
+            for (Ingredient ing : recipe.getInputItem()) {
                 ing.toNetwork(buf);
             }
             buf.writeUtf(recipe.summonedMob, Short.MAX_VALUE);
-
         }
     }
 
