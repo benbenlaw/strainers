@@ -5,9 +5,9 @@
     {
       "tag": "minecraft:small_flowers"
     },
-         {
-           "item": "minecraft:bee_spawn_egg"
-         }
+    {
+      "item": "minecraft:bee_spawn_egg"
+    }
   ],
   "summonedMob": "minecraft:bee"
 }
