@@ -1,6 +1,6 @@
 package com.benbenlaw.strainers.networking.packets;
 
-import com.benbenlaw.strainers.block.custom.IInventoryHandlingBlockEntity;
+import com.benbenlaw.opolisutilities.util.inventory.IInventoryHandlingBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -46,6 +46,7 @@ public class PacketSyncItemStackToClient {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             // HERE WE ARE ON THE CLIENT YES
+            assert Minecraft.getInstance().level != null;
             if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof IInventoryHandlingBlockEntity blockEntity) {
                 blockEntity.setHandler(this.itemStackHandler);
             }

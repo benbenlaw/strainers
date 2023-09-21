@@ -1,12 +1,11 @@
 package com.benbenlaw.strainers.screen;
 
-import com.benbenlaw.opolisutilities.item.ModItems;
+import com.benbenlaw.opolisutilities.screen.slot.utils.BlacklistTagInputSlot;
+import com.benbenlaw.opolisutilities.screen.slot.utils.ModResultSlot;
+import com.benbenlaw.opolisutilities.screen.slot.utils.WhitelistTagInputSlot;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.block.entity.WoodenStrainerBlockEntity;
-import com.benbenlaw.strainers.screen.slot.EverythingButMeshSlot;
-import com.benbenlaw.strainers.screen.slot.MeshSlot;
-import com.benbenlaw.strainers.screen.slot.ModResultSlot;
-import com.benbenlaw.strainers.screen.slot.UpgradeSlot;
+import com.benbenlaw.strainers.util.ModTags;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class WoodenStrainerMenu extends AbstractContainerMenu {
     private final WoodenStrainerBlockEntity blockEntity;
@@ -38,9 +36,9 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
 
-            this.addSlot(new UpgradeSlot(handler, 0, 8, 17)); //Upgrade
-            this.addSlot(new MeshSlot(handler, 1, 8, 35)); //Mesh
-            this.addSlot(new EverythingButMeshSlot(handler, 2, 8, 53)); //In Block/ Item
+            this.addSlot(new WhitelistTagInputSlot(handler, 0, 8, 17, ModTags.Items.UPGRADES, 1)); //Upgrade
+            this.addSlot(new WhitelistTagInputSlot(handler, 1, 8, 35, ModTags.Items.MESHES, 1)); //Mesh
+            this.addSlot(new BlacklistTagInputSlot(handler, 2, 8, 53, ModTags.Items.MESHES, 64)); //In Block/ Item
 
             //Outputs
             this.addSlot(new ModResultSlot(handler, 3, 62, 9));

@@ -1,5 +1,9 @@
 Changelog BBL Strainers
 
+1.4.5
+
+Updated to Opolis Utilities 2.4.0 and moved to slot handler and inventory handlers from here instead
+
 1.4.4
 
 Fixes to tag based recipes in the summoning block thanks @mangorage
