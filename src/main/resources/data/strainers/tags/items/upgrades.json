@@ -20,6 +20,11 @@
         "strainers:improved_everything_upgrade",
         "strainers:sturdy_everything_upgrade",
         "strainers:reinforced_everything_upgrade",
-        "strainers:everlasting_everything_upgrade"
+        "strainers:everlasting_everything_upgrade",
+
+        "strainers:specialized_output_upgrade",
+        "strainers:specialized_speed_upgrade",
+        "strainers:specialized_mesh_upgrade",
+        "strainers:specialized_input_upgrade"
     ]
 }

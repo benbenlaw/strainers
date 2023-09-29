@@ -1,4 +1,4 @@
-package com.benbenlaw.strainers.item.custom;
+package com.benbenlaw.strainers.item.custom.standard;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ImprovedEverythingUpgrade extends Item {
-    public ImprovedEverythingUpgrade(Properties p_41383_) {
+public class ReinforcedMeshUpgrade extends Item {
+    public ReinforcedMeshUpgrade(Properties p_41383_) {
         super(p_41383_);
     }
 
@@ -19,15 +19,11 @@ public class ImprovedEverythingUpgrade extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
 
         if(Screen.hasShiftDown()) {
-            components.add(Component.translatable("tooltips.strainers.improved_everything_upgrade.shift"));
+            components.add(Component.translatable("tooltips.strainers.reinforced_mesh_upgrade.shift"));
         } else {
             components.add(Component.translatable("tooltips.strainers.upgrade"));
         }
 
         super.appendHoverText(stack, level, components, tooltipFlag);
-    }
-    @Override
-    public boolean isFoil(ItemStack p_41453_) {
-        return true;
     }
 }

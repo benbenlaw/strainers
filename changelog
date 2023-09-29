@@ -1,5 +1,26 @@
 Changelog BBL Strainers
 
+1.4.7
+
+Increased Mesh Durability's again
+Added green colored tooltips to positive upgrade effects and red to negative effects
+Enderman can now be spawned from the summoning block
+
+Duration upgrades
+    Now reduce 20% per level instead of 25% per level. Everlasting now 80% faster instead of changing the duration to 10 ticks
+Output upgrades
+    Now reduce 20% per level instead of 25% per level. Everlasting now 80% chance of additional output instead of 100%ticks
+Input upgrades
+    Now reduce 20% per level instead of 25% per level. Everlasting now 80% chance of not consuming input items instead of never consuming them (same chances to items that
+        use durability instead in there recipes
+Mesh upgrades
+    Now reduce 20% per level instead of 25% per level. Everlasting now 80% chance of not taking damage on meshes instead of never taking damage them
+
+All current upgrades are effected by these changes!
+
+Specialized Upgrades added basically each of the upgradable part of the strainers (durations, input, output and meshes) have there own specialized upgrade
+    Example: Mesh not taking any damage will increase duration by a amount. These have no recipes by default due to the high power level of the items!
+
 1.4.6
 
 Strainers now check North, South, East, West sides for output slots. This means that using pipes to extract from the side now works correctly

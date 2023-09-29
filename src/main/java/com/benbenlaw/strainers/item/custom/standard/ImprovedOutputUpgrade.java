@@ -1,4 +1,4 @@
-package com.benbenlaw.strainers.item.custom;
+package com.benbenlaw.strainers.item.custom.standard;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class EverlastingInputUpgrade extends Item {
-    public EverlastingInputUpgrade(Properties p_41383_) {
+public class ImprovedOutputUpgrade extends Item {
+    public ImprovedOutputUpgrade(Properties p_41383_) {
         super(p_41383_);
     }
 
@@ -19,7 +19,7 @@ public class EverlastingInputUpgrade extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
 
         if(Screen.hasShiftDown()) {
-            components.add(Component.translatable("tooltips.strainers.everlasting_input_upgrade.shift"));
+            components.add(Component.translatable("tooltips.strainers.improved_output_upgrade.shift"));
         } else {
             components.add(Component.translatable("tooltips.strainers.upgrade"));
         }

@@ -8,11 +8,14 @@ import com.benbenlaw.strainers.networking.packets.PacketSyncItemStackToClient;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
 import com.benbenlaw.strainers.screen.WoodenStrainerMenu;
 import com.benbenlaw.strainers.util.ModTags;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -24,10 +27,13 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -40,6 +46,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static net.minecraft.world.level.block.LiquidBlock.POSSIBLE_FLOW_DIRECTIONS;
 
 public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvider, IInventoryHandlingBlockEntity {
 
@@ -124,11 +132,6 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                                 }
                                 return false;
                             })));
-
-
-
-
-
 
     public final ContainerData data;
     private int progress = 0;
@@ -250,7 +253,6 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         BlockState pState = pLevel.getBlockState(pPos);
         WoodenStrainerBlockEntity pBlockEntity = this;
 
-
         if (hasRecipe(pBlockEntity)) {
             pBlockEntity.progress++;
             setChanged(pLevel, pPos, pState);
@@ -302,13 +304,21 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                     // Set maxProgress based on the current recipe's duration
                     int duration = matching.getDuration();
                     if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.75);
+                        entity.maxProgress = (int) (duration * 0.8);
                     } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.5);
+                        entity.maxProgress = (int) (duration * 0.6);
                     } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.25);
+                        entity.maxProgress = (int) (duration * 0.4);
                     } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = 10;
+                        entity.maxProgress = (int) (duration * 0.2);
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_OUTPUT_UPGRADE.get())) {
+                        entity.maxProgress = (int) (duration * 3.0);
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_SPEED_UPGRADE.get())) {
+                        entity.maxProgress = 20;
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_MESH_UPGRADE.get())) {
+                        entity.maxProgress = (int) (duration * 1.5);
+                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get())) {
+                        entity.maxProgress = (int) (duration * 4.0);
                     } else {
                         entity.maxProgress = duration;
                     }
@@ -347,14 +357,16 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 double chance = random.nextDouble();
                 int additionalOutputRuns;
 
-                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && chance < 0.25) {
+                if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && chance < 0.2) {
                     additionalOutputRuns = 1;
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && chance < 0.5) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && chance < 0.4) {
                     additionalOutputRuns = 1;
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && chance < 0.75) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && chance < 0.6) {
                     additionalOutputRuns = 1;
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && chance < 0.6) {
                     additionalOutputRuns = 1;
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_OUTPUT_UPGRADE.get())) {
+                    additionalOutputRuns = 5;
                 } else additionalOutputRuns = 0;
 
 
@@ -381,19 +393,20 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 }
             }
 
-
             // Remove input item based on upgrades
 
             if (!entity.itemHandler.getStackInSlot(2).isDamageableItem() || entity.itemHandler.getStackInSlot(2).is(ModTags.Items.REMOVE_ITEM_NO_DAMAGE_IN_STRAINER) ) {
 
                 // Remove input item based on upgrades
-                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.25) {
+                if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.2) {
                     entity.itemHandler.extractItem(2, 0, false);
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.50) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.4) {
                     entity.itemHandler.extractItem(2, 0, false);
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.75) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.6) {
                     entity.itemHandler.extractItem(2, 0, false);
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && Math.random() < 0.8) {
+                    entity.itemHandler.extractItem(2, 0, false);
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get())) {
                     entity.itemHandler.extractItem(2, 0, false);
                 } else {
                     entity.itemHandler.extractItem(2, 1, false);
@@ -403,19 +416,23 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             else if (entity.itemHandler.getStackInSlot(2).isDamageableItem()) {
 
                 // Remove input item based on upgrades
-                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.25) {
+                if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.2) {
                     if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
                         entity.itemHandler.extractItem(2, 1, false);
                     }
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.50) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.4) {
                     if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
                         entity.itemHandler.extractItem(2, 1, false);
                     }
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.75) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.6) {
                     if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
                         entity.itemHandler.extractItem(2, 1, false);
                     }
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && Math.random() < 0.8) {
+                    if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
+                        entity.itemHandler.extractItem(2, 1, false);
+                    }
+                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get())) {
                     if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
                         entity.itemHandler.extractItem(2, 1, false);
                     }
@@ -427,20 +444,32 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             }
 
             // Damage mesh item based on upgrades
-            if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.25) {
+            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.2) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
-            } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.5) {
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.4) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
-            } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.75) {
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.6) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && Math.random() < 0.8) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_SPEED_UPGRADE.get())) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(5, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_MESH_UPGRADE.get())) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                    entity.itemHandler.extractItem(1, 1, false);
+                }
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get())) {
+                if (entity.itemHandler.getStackInSlot(1).hurt(10, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
             } else if (entity.itemHandler.getStackInSlot(1).hurt(1, RandomSource.create(), null)) {
