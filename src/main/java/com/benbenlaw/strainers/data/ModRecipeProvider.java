@@ -529,13 +529,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         new StrainerRecipeBlockBuilder(Items.GLASS_BOTTLE, Items.DRAGON_BREATH, 1,0.3, 0.1, 6, 500,"minecraft:dragon_head" ).unlockedBy("has_strainer", has(ModBlocks.WOODEN_STRAINER.get())).save(pWriter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.DIRT)
-                .pattern("LLL")
-                .pattern("L L")
-                .pattern("LLL")
-                .define('L', ItemTags.LEAVES)
-                .unlockedBy("has_leaves", inventoryTrigger(ItemPredicate.Builder.item().of(ItemTags.LEAVES).build())).save(pWriter);
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.MULCH.get())
                 .pattern("LLL")
                 .pattern("LDL")
@@ -543,18 +536,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('L', ItemTags.LEAVES)
                 .define('D', Items.DIRT)
                 .unlockedBy("has_leaves", inventoryTrigger(ItemPredicate.Builder.item().of(ItemTags.LEAVES).build())).save(pWriter);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.COBBLESTONE)
-                .pattern("LL")
-                .pattern("LL")
-                .define('L', ModItems.STONE_PEBBLE.get())
-                .unlockedBy("has_pebble", inventoryTrigger(ItemPredicate.Builder.item().of(ModItems.STONE_PEBBLE.get()).build())).save(pWriter);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.COBBLED_DEEPSLATE)
-                .pattern("LL")
-                .pattern("LL")
-                .define('L', ModItems.DEEPSLATE_PEBBLE.get())
-                .unlockedBy("has_pebble", inventoryTrigger(ItemPredicate.Builder.item().of(ModItems.DEEPSLATE_PEBBLE.get()).build())).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PURIFYING_SALT_MULCH.get())
                 .pattern("LCL")
@@ -576,27 +557,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('D', Blocks.DIORITE)
                 .unlockedBy("has_stone", inventoryTrigger(ItemPredicate.Builder.item().of(Tags.Items.STONE).build())).save(pWriter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.TALL_GRASS)
-                .pattern("G")
-                .pattern("G")
-                .define('G', Items.GRASS)
-                .unlockedBy("has_stone", inventoryTrigger(ItemPredicate.Builder.item().of(Items.GRASS).build())).save(pWriter);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.SCULK_CATALYST)
-                .pattern("DDD")
-                .pattern("BAB")
-                .pattern("BBB")
-                .define('B', Items.BONE_BLOCK)
-                .define('A', Items.AMETHYST_SHARD)
-                .define('D', Items.DIAMOND)
-                .unlockedBy("has_stone", inventoryTrigger(ItemPredicate.Builder.item().of(Items.DIAMOND).build())).save(pWriter);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.GRASS_BLOCK)
-                .pattern("G")
-                .pattern("D")
-                .define('G', Items.GRASS)
-                .define('D', Items.DIRT)
-                .unlockedBy("has_stone", inventoryTrigger(ItemPredicate.Builder.item().of(Items.GRASS).build())).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.SUMMONING_BLOCK.get())
                 .pattern("WWW")

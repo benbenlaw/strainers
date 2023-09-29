@@ -1,5 +1,12 @@
 Changelog BBL Strainers
 
+1.4.6
+
+Strainers now check North, South, East, West sides for output slots. This means that using pipes to extract from the side now works correctly
+this fixes Meshes being removed if you connected via the sides before
+Recipes that created a vanilla item such as leaves to dirt have been fixed to use the strainers id as there recipe id
+Added everlasting everything translation correctly
+
 1.4.5
 
 Updated to Opolis Utilities 2.4.0 and moved to slot handler and inventory handlers from here instead

@@ -1,4 +1,4 @@
-// 1.20.1	2023-09-15T10:45:21.726961	Recipes
+// 1.20.1	2023-09-25T09:30:15.1996093	Recipes
 1b5d49f59f75463d384371cb3bc532ad19ab1be6 data/minecraft/advancements/recipes/acacia_sapling.json
 4ba7bb2cfb9825ed4c70be39a52aa028a294e9fa data/minecraft/advancements/recipes/allium.json
 3b8d86a87fe119841352da9eaaf2767793d73d4a data/minecraft/advancements/recipes/amethyst_shard.json
@@ -74,12 +74,6 @@ c2cec799a25215a0ba497958b22976d735445b67 data/minecraft/advancements/recipes/lil
 f24decf3aa1c6d64a743b4a3e86c25e6038274a8 data/minecraft/advancements/recipes/mangrove_propagule.json
 07643b99af932f3e6673647768875502101951cc data/minecraft/advancements/recipes/melon_seeds.json
 c1951bc1bf6e49de4f44815a42bf2dead105747f data/minecraft/advancements/recipes/miner_pottery_sherd.json
-0c3a97eb676f7335dccf2ab8ffbf0cc564b3e16c data/minecraft/advancements/recipes/misc/cobbled_deepslate.json
-6a04008e440390e524ff2d0e502a0e064fa92f18 data/minecraft/advancements/recipes/misc/cobblestone.json
-bbbece56cc45dfd481f2f341e7ed00fc07a5524e data/minecraft/advancements/recipes/misc/dirt.json
-bc7a7a0819345871870893f3e738d38c239141fe data/minecraft/advancements/recipes/misc/grass_block.json
-92f79cb57a28bc8abc53b14d1497559d1f5377ac data/minecraft/advancements/recipes/misc/sculk_catalyst.json
-3d2b3fbad787292ac910bfa7320e3fed7fedf6aa data/minecraft/advancements/recipes/misc/tall_grass.json
 c8cc74747f29ae8a34922a23f6c1ae5e4b8ec430 data/minecraft/advancements/recipes/moss_block.json
 01f58e244f7d37aeaeff7a6f43f1d0c595d61108 data/minecraft/advancements/recipes/mourner_pottery_sherd.json
 446d1edda87c3e68883b6eb92d2d09fcc95e3d84 data/minecraft/advancements/recipes/mud.json
@@ -146,12 +140,6 @@ e4e03fbda1b5b441cd12687cb5332379e088efdd data/minecraft/advancements/recipes/whe
 989489ef7189f775f5e1410be75e9d7b4c933435 data/minecraft/advancements/recipes/white_tulip.json
 744822a2b5e5e43e43a2951bb9f93b1126807580 data/minecraft/advancements/recipes/wither_skeleton_skull.json
 1341d30a6a43c70aa45191f4444a06f62b13990d data/minecraft/advancements/recipes/zombie_head.json
-65c37fa8455006b01361d6202de19c1437fda0d3 data/minecraft/recipes/cobbled_deepslate.json
-e718026f5d5ee6d544b739857f4657a30d04f1f8 data/minecraft/recipes/cobblestone.json
-f9f0a5627d65e76c6eeba9d8c9c4ba51a3f5e335 data/minecraft/recipes/dirt.json
-037df16f71ecbf54c843fc029d8c930d4b159602 data/minecraft/recipes/grass_block.json
-21f3846d5daa5e4ccf62dcd8d54fc4a40e145be3 data/minecraft/recipes/sculk_catalyst.json
-f7a4f4e71b63bb94eb5c4d1d00b4a9dc01f4a450 data/minecraft/recipes/tall_grass.json
 f04ee89bbe4ab18f817901d5d82cda71a7f08264 data/opolisutilities/advancements/recipes/copper_nugget.json
 835132d3e47145d6be3b3c1db929d5b28bb9c952 data/opolisutilities/advancements/recipes/mini_charcoal.json
 0620e64c6fad758b0e2d95851067fdbe0258542c data/strainers/advancements/recipes/deepslate_pebble.json

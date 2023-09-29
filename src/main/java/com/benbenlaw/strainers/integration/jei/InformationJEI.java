@@ -1,7 +1,9 @@
 package com.benbenlaw.strainers.integration.jei;
 
-import com.benbenlaw.opolisutilities.block.ModBlocks;
 import com.benbenlaw.strainers.Strainers;
+import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.fluid.ModFluids;
+import com.benbenlaw.strainers.item.ModItems;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -11,6 +13,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 @JeiPlugin
 public class InformationJEI implements IModPlugin {
@@ -22,8 +25,31 @@ public class InformationJEI implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration reg) {
 
-         reg.addIngredientInfo(new ItemStack(ModBlocks.RESOURCE_GENERATOR_2.get()), VanillaTypes.ITEM_STACK,
-                 Component.translatable("jei.opolisutilities.resource_generator"));
+        ItemStack[] purifyingItems = new ItemStack[] {
+                ModItems.PURIFYING_SALT_MULCH.get().asItem().getDefaultInstance(),
+                ModItems.PURIFIED_WATER_BUCKET.get().asItem().getDefaultInstance()
+        };
+
+        for (ItemStack item : purifyingItems) {
+            reg.addIngredientInfo(item, VanillaTypes.ITEM_STACK, Component.translatable("jei.strainers.purified_water")
+            );
+        }
+
+        ItemStack[] erodingItems = new ItemStack[] {
+                ModItems.ERODING_SALT_MULCH.get().asItem().getDefaultInstance(),
+                ModItems.ERODING_WATER_BUCKET.get().asItem().getDefaultInstance()
+        };
+
+        for (ItemStack item : erodingItems) {
+            reg.addIngredientInfo(item, VanillaTypes.ITEM_STACK, Component.translatable("jei.strainers.eroding_water")
+            );
+        }
+
+        reg.addIngredientInfo(ModBlocks.MULCH.get().asItem().getDefaultInstance(), VanillaTypes.ITEM_STACK,
+                Component.translatable("jei.strainers.mulch_block"));
+
+
+
 
     }
 }

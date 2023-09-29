@@ -60,7 +60,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                     Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (i, s) -> false)),
 
-                    Direction.UP, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
+                    Direction.UP, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (index, stack) -> {
                                 if (index == 1 && itemHandler.isItemValid(1, stack)) {
                                     // Add a condition to check for the specific item you want to allow
@@ -68,12 +68,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                                 }
                                 if (index == 2 && itemHandler.isItemValid(2, stack)) {
                                     // Add a condition to check for the specific item you want to allow
-                                    return !stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
+                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
                                 }
                                 return false;
                             })),
 
-                    Direction.NORTH, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
+                    Direction.NORTH, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (index, stack) -> {
                                 if (index == 1 && itemHandler.isItemValid(1, stack)) {
                                     // Add a condition to check for the specific item you want to allow
@@ -81,12 +81,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                                 }
                                 if (index == 2 && itemHandler.isItemValid(2, stack)) {
                                     // Add a condition to check for the specific item you want to allow
-                                    return !stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
+                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
                                 }
                                 return false;
                             })),
 
-                    Direction.SOUTH, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
+                    Direction.SOUTH, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (index, stack) -> {
                                 if (index == 1 && itemHandler.isItemValid(1, stack)) {
                                     // Add a condition to check for the specific item you want to allow
@@ -94,12 +94,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                                 }
                                 if (index == 2 && itemHandler.isItemValid(2, stack)) {
                                     // Add a condition to check for the specific item you want to allow
-                                    return !stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
+                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
                                 }
                                 return false;
                             })),
 
-                    Direction.WEST, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
+                    Direction.WEST, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (index, stack) -> {
                                 if (index == 1 && itemHandler.isItemValid(1, stack)) {
                                     // Add a condition to check for the specific item you want to allow
@@ -107,12 +107,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                                 }
                                 if (index == 2 && itemHandler.isItemValid(2, stack)) {
                                     // Add a condition to check for the specific item you want to allow
-                                    return !stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
+                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
                                 }
                                 return false;
                             })),
 
-                    Direction.EAST, LazyOptional.of(() -> new WrappedHandler(itemHandler, (index) -> index == 1,
+                    Direction.EAST, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
                             (index, stack) -> {
                                 if (index == 1 && itemHandler.isItemValid(1, stack)) {
                                     // Add a condition to check for the specific item you want to allow
@@ -120,10 +120,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                                 }
                                 if (index == 2 && itemHandler.isItemValid(2, stack)) {
                                     // Add a condition to check for the specific item you want to allow
-                                    return !stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
+                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
                                 }
                                 return false;
                             })));
+
+
 
 
 
