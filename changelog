@@ -1,5 +1,14 @@
 Changelog BBL Strainers
 
+1.4.9
+
+Fixed modded fluids not working with the summoning block
+Fixed input upgrades not working correctly (Input item never consumed when a input related upgrade was inserted)
+
+1.4.8
+
+Fixed Specialized Upgrades not being shown in JEI, fixed textures
+
 1.4.7
 
 Increased Mesh Durability's again

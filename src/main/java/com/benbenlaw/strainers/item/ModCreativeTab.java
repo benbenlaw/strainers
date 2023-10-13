@@ -68,6 +68,12 @@ public class ModCreativeTab {
                 output.accept(ModItems.EVERLASTING_DURATION_UPGRADE.get());
                 output.accept(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get());
 
+                output.accept(ModItems.SPECIALIZED_MESH_UPGRADE.get());
+                output.accept(ModItems.SPECIALIZED_INPUT_UPGRADE.get());
+                output.accept(ModItems.SPECIALIZED_OUTPUT_UPGRADE.get());
+                output.accept(ModItems.SPECIALIZED_SPEED_UPGRADE.get());
+
+
                 output.accept(ModBlocks.WOODEN_STRAINER.get());
                 output.accept(ModBlocks.SUMMONING_BLOCK.get());
 

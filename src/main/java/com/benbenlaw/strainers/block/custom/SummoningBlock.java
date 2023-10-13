@@ -20,6 +20,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -42,11 +44,13 @@ public class SummoningBlock extends Block {
 
                 String blockBelow = summoningRecipe.getBlockBelow();
                 Block blockBelowAsBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockBelow));
+                Fluid blockBelowAsFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(blockBelow));
 
                 if (summoningRecipe.getInputItem().get(0).test(player.getItemInHand(hand))){
 
                 BlockState stateBelow = level.getBlockState(pos.below());
-                    if (stateBelow.is(blockBelowAsBlock)) {
+                FluidState fluidStateBelow = level.getFluidState(pos.below());
+                    if (stateBelow.is(blockBelowAsBlock) || fluidStateBelow.is(blockBelowAsFluid) ) {
 
                         EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(summoningRecipe.getSummonedMob()));
 
