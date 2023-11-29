@@ -1,6 +1,6 @@
 {
   "type": "strainers:summoning",
-  "blockBelow": "minecraft:water",
+  "fluidBelow": "minecraft:water",
   "ingredients": [
     {
       "item": "minecraft:glow_ink_sac"

@@ -85,7 +85,8 @@ public class SummoningRecipeCategory implements IRecipeCategory<SummoningRecipe>
            builder.addSlot(RecipeIngredientRole.CATALYST, 4, 23).addItemStack(new ItemStack(blockBelowAsBlock));
        }
 
-       Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(blockBelow));
+
+       Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(recipe.getFluidBelow()));
        assert fluid != null;
        builder.addSlot(RecipeIngredientRole.CATALYST, 4, 23).addFluidStack(fluid
                , 1000).setFluidRenderer(1000, true, 16,16);

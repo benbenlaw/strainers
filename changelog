@@ -1,5 +1,13 @@
 Changelog BBL Strainers
 
+1.4.11
+
+Mesh upgrades now work correctly
+
+1.4.10
+
+Fixed fluids and block not being checked correctly with the summoning block
+
 1.4.9
 
 Fixed modded fluids not working with the summoning block

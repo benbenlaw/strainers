@@ -43,16 +43,32 @@ public class SummoningBlock extends Block {
             for (SummoningRecipe summoningRecipe: level.getRecipeManager().getRecipesFor(SummoningRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
 
                 String blockBelow = summoningRecipe.getBlockBelow();
+                String fluidBelow = summoningRecipe.getFluidBelow();
+
                 Block blockBelowAsBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockBelow));
-                Fluid blockBelowAsFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(blockBelow));
+                Fluid blockBelowAsFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidBelow));
 
                 if (summoningRecipe.getInputItem().get(0).test(player.getItemInHand(hand))){
 
-                BlockState stateBelow = level.getBlockState(pos.below());
-                FluidState fluidStateBelow = level.getFluidState(pos.below());
-                    if (stateBelow.is(blockBelowAsBlock) || fluidStateBelow.is(blockBelowAsFluid) ) {
+                    BlockState stateBelowBlock = level.getBlockState(pos.below());
+                    FluidState stateBelowFluid = level.getFluidState(pos.below());
 
-                        EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(summoningRecipe.getSummonedMob()));
+                    assert blockBelowAsBlock != null;
+                    EntityType<?> entity = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(summoningRecipe.getSummonedMob()));
+
+                    if (stateBelowBlock.is(blockBelowAsBlock) && fluidBelow.isEmpty()) { //|| fluidStateBelow.is(blockBelowAsFluid) ) {
+
+                        if (entity != null) {
+                            Entity summonedEntity = entity.create(level);
+                            Entity mob = summonedEntity;
+                            mob .setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+                            level.addFreshEntity(mob);
+                            player.getItemInHand(hand).shrink(1);
+                            level.playSound(null,pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.3f, 0.2f);
+                        }
+
+                    }
+                    if (stateBelowFluid.is(blockBelowAsFluid) && blockBelow.isEmpty()) { //|| fluidStateBelow.is(blockBelowAsFluid) ) {
 
                         if (entity != null) {
                             Entity summonedEntity = entity.create(level);

@@ -1,6 +1,6 @@
 {
   "type": "strainers:summoning",
-  "blockBelow": "minecraft:lava",
+  "fluidBelow": "minecraft:lava",
   "ingredients": [
     {
       "item": "minecraft:stick"

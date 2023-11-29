@@ -20,18 +20,24 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
 
     private final ResourceLocation id;
     private final String blockBelow;
+    private final String fluidBelow;
     private final NonNullList<Ingredient> inputItem;
     private final String summonedMob;
 
-    public SummoningRecipe(ResourceLocation id, String blockBelow, NonNullList<Ingredient> inputItem, String summonedMob) {
+    public SummoningRecipe(ResourceLocation id, String blockBelow, String fluidBelow, NonNullList<Ingredient> inputItem, String summonedMob) {
         this.id = id;
         this.blockBelow = blockBelow;
+        this.fluidBelow = fluidBelow;
         this.inputItem = inputItem;
         this.summonedMob = summonedMob;
     }
 
     public String getBlockBelow() {
         return blockBelow;
+    }
+
+    public String getFluidBelow() {
+        return fluidBelow;
     }
 
     public String getSummonedMob() {
@@ -88,7 +94,8 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
 
         @Override
         public SummoningRecipe fromJson(ResourceLocation id, JsonObject json) {
-            String blockBelow = GsonHelper.getAsString(json, "blockBelow");
+            String blockBelow = GsonHelper.getAsString(json, "blockBelow", "");
+            String fluidBelow = GsonHelper.getAsString(json, "fluidBelow", "");
 
             JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
             NonNullList<Ingredient> inputs = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
@@ -99,13 +106,14 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
             String summonedMob = GsonHelper.getAsString(json, "summonedMob");
 
 
-            return new SummoningRecipe(id, blockBelow, inputs, summonedMob);
+            return new SummoningRecipe(id, blockBelow, fluidBelow, inputs, summonedMob);
         }
 
         @Override
         public @Nullable SummoningRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
 
             String blockBelow = buf.readUtf();
+            String fluidBelow = buf.readUtf();
 
             NonNullList<Ingredient> inputs = NonNullList.withSize(buf.readInt(), Ingredient.EMPTY);
             for (int i = 0; i < inputs.size(); i++) {
@@ -114,13 +122,14 @@ public class SummoningRecipe implements Recipe<NoInventoryRecipe> {
             String summonedMob = buf.readUtf();
 
 
-            return new SummoningRecipe(id, blockBelow, inputs, summonedMob);
+            return new SummoningRecipe(id, blockBelow, fluidBelow, inputs, summonedMob);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, SummoningRecipe recipe) {
 
-            buf.writeUtf(recipe.blockBelow, Short.MAX_VALUE);
+            buf.writeUtf(recipe.getBlockBelow(), Short.MAX_VALUE);
+            buf.writeUtf(recipe.getFluidBelow(), Short.MAX_VALUE);
             buf.writeInt(recipe.getInputItem().size());
 
             for (Ingredient ing : recipe.getInputItem()) {

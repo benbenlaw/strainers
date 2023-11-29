@@ -444,19 +444,19 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             }
 
             // Damage mesh item based on upgrades
-            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.2) {
+            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) && Math.random() < 0.2 || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.2) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.4) {
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) && Math.random() < 0.4 || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.4) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.6) {
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) && Math.random() < 0.6 || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.6) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && Math.random() < 0.8) {
+            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) && Math.random() < 0.8 || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && Math.random() < 0.8) {
                 if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
                     entity.itemHandler.extractItem(1, 1, false);
                 }
