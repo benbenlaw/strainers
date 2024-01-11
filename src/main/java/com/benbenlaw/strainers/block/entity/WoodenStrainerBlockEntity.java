@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -357,17 +358,28 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 double chance = random.nextDouble();
                 int additionalOutputRuns;
 
-                if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && chance < 0.2) {
+                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get()) ||
+                        entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) &&
+                        chance < 0.2) {
                     additionalOutputRuns = 1;
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && chance < 0.4) {
+                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get()) ||
+                        entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) &&
+                        chance < 0.4) {
                     additionalOutputRuns = 1;
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && chance < 0.6) {
+                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get()) ||
+                        entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) &&
+                        chance < 0.6) {
                     additionalOutputRuns = 1;
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && chance < 0.6) {
+                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get()) ||
+                        entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) &&
+                        chance < 0.8) {
                     additionalOutputRuns = 1;
                 } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_OUTPUT_UPGRADE.get())) {
                     additionalOutputRuns = 5;
-                } else additionalOutputRuns = 0;
+                } else {
+                    additionalOutputRuns = 0;
+                }
+
 
 
                 // Normal output processing
@@ -382,7 +394,10 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                     if ((blockAbove.is(blockInRecipe) || match.getBlockAbove().isEmpty())
                             && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
 
-                        if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance()) {
+                        int meshTierStrainer = getMeshTierInStrainer(entity, match);
+                        int outputBoost = meshTierStrainer - match.getMeshTier();
+
+                        if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance() + (match.getChanceIncreasePerTier() * outputBoost)) {
                             for (int i = 3; i <= 26; i++) {
                                 if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
                                     break;
@@ -492,24 +507,48 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         if (recipe.getMeshTier() == 1) {
             return meshItem.is(ModTags.Items.TIER_1_MESHES) || meshItem.is(ModTags.Items.TIER_2_MESHES) || meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        if (recipe.getMeshTier() == 2) {
+        else if (recipe.getMeshTier() == 2) {
             return meshItem.is(ModTags.Items.TIER_2_MESHES) || meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        if (recipe.getMeshTier() == 3) {
+        else if (recipe.getMeshTier() == 3) {
             return meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        if (recipe.getMeshTier() == 4) {
+        else if (recipe.getMeshTier() == 4) {
             return meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        if (recipe.getMeshTier() == 5) {
+        else if (recipe.getMeshTier() == 5) {
             return meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        if (recipe.getMeshTier() == 6) {
+        else if (recipe.getMeshTier() == 6) {
             return meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-
-
         return false;
+    }
+
+    public int getMeshTierInStrainer(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
+        if (hasMeshItem(entity, recipe)) {
+            Item meshItem = entity.itemHandler.getStackInSlot(1).getItem();
+
+            if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_6_MESHES)) {
+                return 6;
+            }
+            else if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_5_MESHES)) {
+                return 5;
+            }
+            else if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_4_MESHES)) {
+                return 4;
+            }
+            else if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_3_MESHES)) {
+                return 3;
+            }
+            else if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_2_MESHES)) {
+                return 2;
+            }
+            else if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_1_MESHES)) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     private boolean hasInputItem(@NotNull WoodenStrainerBlockEntity entity, @NotNull StrainerRecipe recipe) {

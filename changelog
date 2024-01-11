@@ -1,5 +1,12 @@
 Changelog BBL Strainers
 
+//TODO JSON based upgrade files
+
+1.4.12
+
+Mesh tiers actually work now
+Output upgrades no longer double the output everytime, percentage values are now correct
+
 1.4.11
 
 Mesh upgrades now work correctly

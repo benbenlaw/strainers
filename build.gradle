@@ -130,6 +130,9 @@ dependencies {
     compileOnly fg.deobf("curse.maven:opolis-utilities-649644:4761705")
     runtimeOnly fg.deobf("curse.maven:opolis-utilities-649644:4761705")
 
+    //TIAB
+
+    runtimeOnly fg.deobf("curse.maven:time-in-a-bottle-forge-895919:4744787")
 
     //JEI
 
