@@ -75,10 +75,10 @@
   "tooltips.strainers.reinforced_duration_upgrade.shift": "§aA recipe duration is dropped to 40% of total duration.",
   "tooltips.strainers.everlasting_duration_upgrade.shift": "§aA recipe duration is dropped to 20% of total duration.",
 
-  "tooltips.strainers.improved_output_upgrade.shift": "§aRecipe outputs have a 20% additional chance to to an extra roll.",
-  "tooltips.strainers.sturdy_output_upgrade.shift": "§aRecipe outputs have a 40% additional chance to to an extra roll.",
-  "tooltips.strainers.reinforced_output_upgrade.shift": "§aRecipe outputs have a 60% additional chance to to an extra roll.",
-  "tooltips.strainers.everlasting_output_upgrade.shift": "§aRecipe outputs have a 80% additional chance to to an extra roll.",
+  "tooltips.strainers.improved_output_upgrade.shift": "§aRecipe outputs have a 20% additional chance to do an extra roll.",
+  "tooltips.strainers.sturdy_output_upgrade.shift": "§aRecipe outputs have a 40% additional chance to do an extra roll.",
+  "tooltips.strainers.reinforced_output_upgrade.shift": "§aRecipe outputs have a 60% additional chance to do an extra roll.",
+  "tooltips.strainers.everlasting_output_upgrade.shift": "§aRecipe outputs have a 80% additional chance to do an extra roll.",
 
   "tooltips.strainers.improved_everything_upgrade.shift": "§aCombines all effects of the upgrades!",
   "tooltips.strainers.sturdy_everything_upgrade.shift": "§aCombines all effects of the upgrades!",
