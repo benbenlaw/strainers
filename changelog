@@ -2,6 +2,14 @@ Changelog BBL Strainers
 
 //TODO JSON based upgrade files
 
+1.5.0
+
+Moved to Opolis Utilities 2.8.0, allows for any items to be used as upgrades highly configurable
+
+1.4.13
+
+Fixed translation message
+
 1.4.12
 
 Mesh tiers actually work now

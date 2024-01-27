@@ -1,0 +1,8 @@
+{
+  "type": "opolisutilities:upgrades",
+  "item": {
+    "item": "strainers:everlasting_duration_upgrade"
+  },
+  "duration": 0.2,
+  "output_increase": 0.0
+}

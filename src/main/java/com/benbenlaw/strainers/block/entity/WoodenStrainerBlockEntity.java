@@ -1,5 +1,6 @@
 package com.benbenlaw.strainers.block.entity;
 
+import com.benbenlaw.opolisutilities.recipe.UpgradeRecipeUtil;
 import com.benbenlaw.opolisutilities.util.inventory.IInventoryHandlingBlockEntity;
 import com.benbenlaw.opolisutilities.util.inventory.WrappedHandler;
 import com.benbenlaw.strainers.item.ModItems;
@@ -8,14 +9,11 @@ import com.benbenlaw.strainers.networking.packets.PacketSyncItemStackToClient;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
 import com.benbenlaw.strainers.screen.WoodenStrainerMenu;
 import com.benbenlaw.strainers.util.ModTags;
-import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -28,13 +26,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -47,8 +42,6 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static net.minecraft.world.level.block.LiquidBlock.POSSIBLE_FLOW_DIRECTIONS;
 
 public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvider, IInventoryHandlingBlockEntity {
 
@@ -246,97 +239,127 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
+    double durationMultiplier = 1.0;
+    double upgradeChance = 0.0;
+    ItemStack upgradeItem = ItemStack.EMPTY;
+
     public void tick() {
 
         Level pLevel = this.level;
-        BlockPos pPos = this.worldPosition;
-        assert pLevel != null;
-        BlockState pState = pLevel.getBlockState(pPos);
-        WoodenStrainerBlockEntity pBlockEntity = this;
 
-        if (hasRecipe(pBlockEntity)) {
+        assert level != null;
+        if (!level.isClientSide) {
+            BlockPos pPos = this.worldPosition;
+            BlockState pState = pLevel.getBlockState(pPos);
+            WoodenStrainerBlockEntity pBlockEntity = this;
+
+            if (!this.itemHandler.getStackInSlot(0).is(upgradeItem.getItem())) {
+                updateUpgrades(pBlockEntity);
+            }
+
+            if (this.itemHandler.getStackInSlot(0).isEmpty()) {
+                upgradeItem = ItemStack.EMPTY;
+                durationMultiplier = 1.0;
+                upgradeChance = 0.0;
+            }
+
+            if (hasRecipe(pBlockEntity)) {
             pBlockEntity.progress++;
             setChanged(pLevel, pPos, pState);
             if (pBlockEntity.progress > pBlockEntity.maxProgress) {
                 craftItem(pBlockEntity);
             }
-        } else {
-            pBlockEntity.resetProgress();
-            setChanged(pLevel, pPos, pState);
+            } else {
+                pBlockEntity.resetProgress();
+                setChanged(pLevel, pPos, pState);
+            }
         }
 
     }
 
-        private boolean hasRecipe(@NotNull WoodenStrainerBlockEntity entity) {
-            Level level = entity.level;
-            SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-            for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-                inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-            }
+    private boolean hasRecipe(@NotNull WoodenStrainerBlockEntity entity) {
+        Level level = entity.level;
+        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
+        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
+            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
+        }
 
-            assert level != null;
-            Optional<StrainerRecipe> match = level.getRecipeManager()
-                    .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
+        assert level != null;
+        Optional<StrainerRecipe> match = level.getRecipeManager()
+                .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
 
-            List<StrainerRecipe> allRecipes = level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
+        List<StrainerRecipe> allRecipes = level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
 
-            List<StrainerRecipe> matchingRecipes = allRecipes.stream()
-                    .filter(recipe -> recipe.matches(inventory, level))
-                    .collect(Collectors.toList());
-
-            BlockPos blockPos = entity.worldPosition.above(1);
-            BlockState blockAbove = level.getBlockState(blockPos);
-            FluidState fluidAbove = level.getFluidState(blockPos);
+        List<StrainerRecipe> matchingRecipes = allRecipes.stream()
+                .filter(recipe -> recipe.matches(inventory, level))
+                .collect(Collectors.toList());
 
 
-            if (!matchingRecipes.isEmpty()) {
-                for (StrainerRecipe matching : matchingRecipes) {
+        BlockPos blockPos = entity.worldPosition.above(1);
+        BlockState blockAbove = level.getBlockState(blockPos);
+        FluidState fluidAbove = level.getFluidState(blockPos);
 
-                    @Nullable Fluid fluidInRecipe = null;
-                    if (matching.getBlockAbove().isEmpty()) {
-                        fluidInRecipe = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(matching.getFluidAbove()));
-                    }
+        if (!matchingRecipes.isEmpty()) {
+            for (StrainerRecipe matching : matchingRecipes) {
 
-                    @Nullable Block blockInRecipe = null;
-                    if (matching.getFluidAbove().isEmpty()) {
-                        blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(matching.getBlockAbove()));
-                    }
+                entity.maxProgress = (int) (matching.getDuration() * durationMultiplier); //New Upgrade System
 
-                    // Set maxProgress based on the current recipe's duration
-                    int duration = matching.getDuration();
-                    if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.8);
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.6);
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.4);
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_DURATION_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 0.2);
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_OUTPUT_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 3.0);
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_SPEED_UPGRADE.get())) {
-                        entity.maxProgress = 20;
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_MESH_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 1.5);
-                    } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get())) {
-                        entity.maxProgress = (int) (duration * 4.0);
-                    } else {
-                        entity.maxProgress = duration;
-                    }
 
-                    // Check Block / Fluid
-                    if (!blockAbove.isAir() || blockAbove.is(blockInRecipe)) {
-                        if (blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty() && fluidAbove.is(fluidInRecipe) || match.get().getFluidAbove().isEmpty()) {
-                            return match.filter(currentRecipe ->
-                                    hasMeshItem(entity, currentRecipe)
-                                            && hasInputItem(entity, currentRecipe)
-                                            && canStartRecipe(inventory, currentRecipe.getOutput())
-                                            && hasDuration(currentRecipe)).isPresent();
-                        }
+                @Nullable Fluid fluidInRecipe = null;
+                if (matching.getBlockAbove().isEmpty()) {
+                    fluidInRecipe = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(matching.getFluidAbove()));
+                }
+
+                @Nullable Block blockInRecipe = null;
+                if (matching.getFluidAbove().isEmpty()) {
+                    blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(matching.getBlockAbove()));
+                }
+
+
+                // Check Block / Fluid
+                if (!blockAbove.isAir() || blockAbove.is(blockInRecipe)) {
+                    if (blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty() && fluidAbove.is(fluidInRecipe) || match.get().getFluidAbove().isEmpty()) {
+                        return match.filter(currentRecipe ->
+                                hasMeshItem(entity, currentRecipe)
+                                        && hasInputItem(entity, currentRecipe)
+                                        && canStartRecipe(inventory, currentRecipe.getOutput())
+                                        && hasDuration(currentRecipe)).isPresent();
                     }
                 }
             }
-            return false;
+        }
+        return false;
+    }
+
+    private void updateUpgrades(@NotNull WoodenStrainerBlockEntity entity) {
+
+        Level level = entity.level;
+        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
+        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
+            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
+        }
+
+        assert level != null;
+        List<UpgradeRecipeUtil> upgradeRecipe = level.getRecipeManager().getAllRecipesFor(UpgradeRecipeUtil.Type.INSTANCE);
+
+        List<UpgradeRecipeUtil> matchingUpgradeRecipes = upgradeRecipe.stream()
+                .filter(recipe -> recipe.matches(inventory, level))
+                .collect(Collectors.toList());
+
+        if (!matchingUpgradeRecipes.isEmpty()) {
+            for (UpgradeRecipeUtil matchingUpgrade : matchingUpgradeRecipes) {
+                if (itemHandler.getStackInSlot(0).is(matchingUpgrade.getUpgradeItem().getItem())) {
+                    durationMultiplier = matchingUpgrade.getDuration();
+                    upgradeChance = matchingUpgrade.getOutputIncrease();
+                    upgradeItem = matchingUpgrade.getUpgradeItem();
+                    break; // Exit the loop once the upgrade item is found
+                }
+            }
+        } else {
+            upgradeChance = 0.0;
+            upgradeItem = ItemStack.EMPTY;
+        }
+
     }
 
     private void craftItem(@NotNull WoodenStrainerBlockEntity entity) {
@@ -356,31 +379,10 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             for (StrainerRecipe match : matchingRecipes) {
                 Random random = new Random();
                 double chance = random.nextDouble();
-                int additionalOutputRuns;
-
-                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_OUTPUT_UPGRADE.get()) ||
-                        entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) &&
-                        chance < 0.2) {
+                int additionalOutputRuns = 0;
+                if (chance < upgradeChance) {
                     additionalOutputRuns = 1;
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_OUTPUT_UPGRADE.get()) ||
-                        entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) &&
-                        chance < 0.4) {
-                    additionalOutputRuns = 1;
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_OUTPUT_UPGRADE.get()) ||
-                        entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) &&
-                        chance < 0.6) {
-                    additionalOutputRuns = 1;
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_OUTPUT_UPGRADE.get()) ||
-                        entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) &&
-                        chance < 0.8) {
-                    additionalOutputRuns = 1;
-                } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_OUTPUT_UPGRADE.get())) {
-                    additionalOutputRuns = 5;
-                } else {
-                    additionalOutputRuns = 0;
                 }
-
-
 
                 // Normal output processing
                 for (int run = 0; run < (1 + additionalOutputRuns); run++) {
