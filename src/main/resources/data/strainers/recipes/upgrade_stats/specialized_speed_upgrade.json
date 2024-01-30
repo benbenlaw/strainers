@@ -1,10 +1,10 @@
 {
   "type": "opolisutilities:upgrades",
   "item": {
-    "item": "strainers:everlasting_duration_upgrade"
+    "item": "strainers:specialized_speed_upgrade"
   },
-  "duration_multiplier": 0.2,
+  "duration_multiplier" : 0.01,
   "input_item_consume_chance": 1.0,
   "mesh_use_chance": 1.0,
-  "output_increase_chance": 1.0
+  "mesh_extra_damage": 5
 }

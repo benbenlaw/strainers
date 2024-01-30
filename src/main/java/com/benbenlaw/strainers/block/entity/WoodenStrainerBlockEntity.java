@@ -240,7 +240,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     }
 
     double durationMultiplier = 1.0;
-    double upgradeChance = 0.0;
+    double outputChance = 0.0;
+    int outputRuns = 0;
+    double inputMultiplier = 1.0;
+    double meshMultiplier = 1.0;
+    int meshExtraDamage = 0;
+    int inputItemExtraAmount = 0;
     ItemStack upgradeItem = ItemStack.EMPTY;
 
     public void tick() {
@@ -260,7 +265,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             if (this.itemHandler.getStackInSlot(0).isEmpty()) {
                 upgradeItem = ItemStack.EMPTY;
                 durationMultiplier = 1.0;
-                upgradeChance = 0.0;
+                outputChance = 0.0;
+                outputRuns = 0;
+                inputMultiplier = 1.0;
+                meshMultiplier = 1.0;
+                meshExtraDamage = 0;
+                inputItemExtraAmount = 0;
             }
 
             if (hasRecipe(pBlockEntity)) {
@@ -349,14 +359,19 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         if (!matchingUpgradeRecipes.isEmpty()) {
             for (UpgradeRecipeUtil matchingUpgrade : matchingUpgradeRecipes) {
                 if (itemHandler.getStackInSlot(0).is(matchingUpgrade.getUpgradeItem().getItem())) {
-                    durationMultiplier = matchingUpgrade.getDuration();
-                    upgradeChance = matchingUpgrade.getOutputIncrease();
+                    durationMultiplier = matchingUpgrade.getDurationMultiplier();
+                    outputChance = matchingUpgrade.getOutputIncreaseChance();
                     upgradeItem = matchingUpgrade.getUpgradeItem();
+                    outputRuns = matchingUpgrade.getOutputIncreaseAmount();
+                    inputMultiplier = matchingUpgrade.getInputItemConsumeChance();
+                    meshMultiplier = matchingUpgrade.getMeshUseChance();
+                    meshExtraDamage = matchingUpgrade.getMeshExtraDamage();
+                    inputItemExtraAmount = matchingUpgrade.getInputItemExtraAmount();
                     break; // Exit the loop once the upgrade item is found
                 }
             }
         } else {
-            upgradeChance = 0.0;
+            outputChance = 0.0;
             upgradeItem = ItemStack.EMPTY;
         }
 
@@ -380,9 +395,11 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 Random random = new Random();
                 double chance = random.nextDouble();
                 int additionalOutputRuns = 0;
-                if (chance < upgradeChance) {
+                if (chance > outputChance && outputChance != 0.0) {
                     additionalOutputRuns = 1;
                 }
+
+                additionalOutputRuns = additionalOutputRuns + outputRuns;
 
                 // Normal output processing
                 for (int run = 0; run < (1 + additionalOutputRuns); run++) {
@@ -410,88 +427,56 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 }
             }
 
-            // Remove input item based on upgrades
+            // Upgrade Effects
 
-            if (!entity.itemHandler.getStackInSlot(2).isDamageableItem() || entity.itemHandler.getStackInSlot(2).is(ModTags.Items.REMOVE_ITEM_NO_DAMAGE_IN_STRAINER) ) {
+            if (!entity.itemHandler.getStackInSlot(2).isDamageableItem() || entity.itemHandler.getStackInSlot(2).is(ModTags.Items.REMOVE_ITEM_NO_DAMAGE_IN_STRAINER)) {
 
-                // Remove input item based on upgrades
-                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.2) {
-                    entity.itemHandler.extractItem(2, 0, false);
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.4) {
-                    entity.itemHandler.extractItem(2, 0, false);
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.6) {
-                    entity.itemHandler.extractItem(2, 0, false);
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) && Math.random() < 0.8) {
-                    entity.itemHandler.extractItem(2, 0, false);
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get()))) {
-                    entity.itemHandler.extractItem(2, 0, false);
-                } else {
-                    entity.itemHandler.extractItem(2, 1, false);
+                if (inputMultiplier != 1.0) {
+
+                    if (Math.random() > inputMultiplier) {
+                        entity.itemHandler.extractItem(2, 0, false);
+                    } else {
+                        entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
+                    }
+                }
+
+                else {
+                    entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
                 }
             }
 
-            else if (entity.itemHandler.getStackInSlot(2).isDamageableItem()) {
 
-                // Damage input item based on upgrades
-                if ((entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.2) {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 0, false);
-                    }
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get())) && Math.random() < 0.4) {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 0, false);
-                    }
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get())) && Math.random() < 0.6) {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 0, false);
-                    }
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_INPUT_UPGRADE.get()) || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get())) && Math.random() < 0.8) {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 0, false);
-                    }
-                } else if ((entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get()))) {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 0, false);
+            if (entity.itemHandler.getStackInSlot(2).isDamageableItem()) {
+
+                if (inputMultiplier != 1.0) {
+                    if (Math.random() > inputMultiplier) {
+                        if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
+                            entity.itemHandler.extractItem(2, 0, false);
+                        }
+                    } else {
+                        if (entity.itemHandler.getStackInSlot(2).hurt(1 + inputItemExtraAmount, RandomSource.create(), null)) {
+                            entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
+                        }
                     }
                 } else {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(1, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 1, false);
+                    if (entity.itemHandler.getStackInSlot(2).hurt(1 + inputItemExtraAmount, RandomSource.create(), null)) {
+                        entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
                     }
                 }
             }
 
-            // Damage mesh item based on upgrades
-            if (entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_MESH_UPGRADE.get()) && Math.random() < 0.2 || entity.itemHandler.getStackInSlot(0).is(ModItems.IMPROVED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.2) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
+            if (meshMultiplier != 1.0) {
+                if (Math.random() > meshMultiplier) {
+                    if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
+                        entity.itemHandler.extractItem(1, 0, false);
+                    } else if (entity.itemHandler.getStackInSlot(1).hurt(1 + meshExtraDamage, RandomSource.create(), null)) {
+                        entity.itemHandler.extractItem(1, 1, false);
+                    }
                 }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_MESH_UPGRADE.get()) && Math.random() < 0.4 || entity.itemHandler.getStackInSlot(0).is(ModItems.STURDY_EVERYTHING_UPGRADE.get()) && Math.random() < 0.4) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_MESH_UPGRADE.get()) && Math.random() < 0.6 || entity.itemHandler.getStackInSlot(0).is(ModItems.REINFORCED_EVERYTHING_UPGRADE.get()) && Math.random() < 0.6) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_MESH_UPGRADE.get()) && Math.random() < 0.8 || entity.itemHandler.getStackInSlot(0).is(ModItems.EVERLASTING_EVERYTHING_UPGRADE.get()) && Math.random() < 0.8) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_SPEED_UPGRADE.get())) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(5, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_MESH_UPGRADE.get())) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            } else if (entity.itemHandler.getStackInSlot(0).is(ModItems.SPECIALIZED_INPUT_UPGRADE.get())) {
-                if (entity.itemHandler.getStackInSlot(1).hurt(10, RandomSource.create(), null)) {
-                    entity.itemHandler.extractItem(1, 1, false);
-                }
-            } else if (entity.itemHandler.getStackInSlot(1).hurt(1, RandomSource.create(), null)) {
+            } else if (entity.itemHandler.getStackInSlot(1).hurt(1 + meshExtraDamage, RandomSource.create(), null)) {
                 entity.itemHandler.extractItem(1, 1, false);
             }
+
             entity.resetProgress();
         }
     }

@@ -3,6 +3,7 @@
   "item": {
     "item": "strainers:reinforced_duration_upgrade"
   },
-  "duration": 0.4,
-  "output_increase": 0.0
+  "duration_multiplier": 0.4,
+  "input_item_consume_chance": 1.0,
+  "mesh_use_chance": 1.0
 }

@@ -127,8 +127,8 @@ dependencies {
 
     //Opolis Utilities
 
-    compileOnly fg.deobf("curse.maven:opolis-utilities-649644:5063072")
-    runtimeOnly fg.deobf("curse.maven:opolis-utilities-649644:5063072")
+    compileOnly fg.deobf("curse.maven:opolis-utilities-649644:5067301")
+    runtimeOnly fg.deobf("curse.maven:opolis-utilities-649644:5067301")
 
     //TIAB
 

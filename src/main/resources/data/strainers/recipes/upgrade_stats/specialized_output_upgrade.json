@@ -1,0 +1,10 @@
+{
+  "type": "opolisutilities:upgrades",
+  "item": {
+    "item": "strainers:specialized_output_upgrade"
+  },
+  "duration_multiplier" : 3.0,
+  "output_increase_amount": 5,
+  "input_item_consume_chance": 1.0,
+  "mesh_use_chance": 0.0
+}
