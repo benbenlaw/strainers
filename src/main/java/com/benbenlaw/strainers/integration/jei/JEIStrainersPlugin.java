@@ -30,11 +30,6 @@ public class JEIStrainersPlugin implements IModPlugin {
     public static RecipeType<SummoningRecipe> SUMMONING =
             new RecipeType<>(SummoningRecipeCategory.UID, SummoningRecipe.class);
 
-    /*
-    public static RecipeType<UpgradeRecipeUtil> UPGRADES =
-            new RecipeType<>(UpgradeRecipeCategory.UID, UpgradeRecipeUtil.class);
-
-     */
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -46,7 +41,7 @@ public class JEIStrainersPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.WOODEN_STRAINER.get()), StrainerRecipeCategory.RECIPE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.SUMMONING_BLOCK.get()), SummoningRecipeCategory.RECIPE_TYPE);
 
-    ///    registration.addRecipeCatalyst(new ItemStack(ModBlocks.MULCH.get()), UpgradeRecipeCategory.RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.WOODEN_STRAINER.get()), UpgradeRecipeUtilCategory.RECIPE_TYPE);
 
     }
 
@@ -58,11 +53,7 @@ public class JEIStrainersPlugin implements IModPlugin {
 
         registration.addRecipeCategories(new
                 SummoningRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
-
-    //    registration.addRecipeCategories(new
-     //           UpgradeRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
-
-    }
+            }
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
 
@@ -74,8 +65,6 @@ public class JEIStrainersPlugin implements IModPlugin {
         List<SummoningRecipe> recipes1 = rm.getAllRecipesFor(SummoningRecipe.Type.INSTANCE);
         registration.addRecipes(SUMMONING, recipes1);
 
-   //     List<UpgradeRecipeUtil> recipes2 = rm.getAllRecipesFor(UpgradeRecipeUtil.Type.INSTANCE);
-    //    registration.addRecipes(UPGRADES, recipes2);
 
     }
 }

@@ -86,83 +86,83 @@ public class ModItems {
     //UPGRADES
 
     public static final RegistryObject<Item> IMPROVED_MESH_UPGRADE = ITEMS.register("improved_mesh_upgrade",
-            () -> new ImprovedMeshUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> STURDY_MESH_UPGRADE = ITEMS.register("sturdy_mesh_upgrade",
-            () -> new SturdyMeshUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> REINFORCED_MESH_UPGRADE = ITEMS.register("reinforced_mesh_upgrade",
-            () -> new ReinforcedMeshUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> EVERLASTING_MESH_UPGRADE = ITEMS.register("everlasting_mesh_upgrade",
-            () -> new EverlastingMeshUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
 
     public static final RegistryObject<Item> IMPROVED_INPUT_UPGRADE = ITEMS.register("improved_input_upgrade",
-            () -> new ImprovedInputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> STURDY_INPUT_UPGRADE = ITEMS.register("sturdy_input_upgrade",
-            () -> new SturdyInputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> REINFORCED_INPUT_UPGRADE = ITEMS.register("reinforced_input_upgrade",
-            () -> new ReinforcedInputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> EVERLASTING_INPUT_UPGRADE = ITEMS.register("everlasting_input_upgrade",
-            () -> new EverlastingInputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
 
     public static final RegistryObject<Item> IMPROVED_DURATION_UPGRADE = ITEMS.register("improved_duration_upgrade",
-            () -> new ImprovedDurationUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> STURDY_DURATION_UPGRADE = ITEMS.register("sturdy_duration_upgrade",
-            () -> new SturdyDurationUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> REINFORCED_DURATION_UPGRADE = ITEMS.register("reinforced_duration_upgrade",
-            () -> new ReinforcedDurationUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> EVERLASTING_DURATION_UPGRADE = ITEMS.register("everlasting_duration_upgrade",
-            () -> new EverlastingDurationUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
 
     public static final RegistryObject<Item> IMPROVED_OUTPUT_UPGRADE = ITEMS.register("improved_output_upgrade",
-            () -> new ImprovedOutputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> STURDY_OUTPUT_UPGRADE = ITEMS.register("sturdy_output_upgrade",
-            () -> new SturdyOutputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> REINFORCED_OUTPUT_UPGRADE = ITEMS.register("reinforced_output_upgrade",
-            () -> new ReinforcedOutputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> EVERLASTING_OUTPUT_UPGRADE = ITEMS.register("everlasting_output_upgrade",
-            () -> new EverlastingOutputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
 
 
     public static final RegistryObject<Item> IMPROVED_EVERYTHING_UPGRADE = ITEMS.register("improved_everything_upgrade",
-            () -> new ImprovedEverythingUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> STURDY_EVERYTHING_UPGRADE = ITEMS.register("sturdy_everything_upgrade",
-            () -> new SturdyEverythingUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> REINFORCED_EVERYTHING_UPGRADE = ITEMS.register("reinforced_everything_upgrade",
-            () -> new ReinforcedEverythingUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> EVERLASTING_EVERYTHING_UPGRADE = ITEMS.register("everlasting_everything_upgrade",
-            () -> new EverlastingEverythingUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     //Specialized Upgrades
 
     public static final RegistryObject<Item> SPECIALIZED_OUTPUT_UPGRADE = ITEMS.register("specialized_output_upgrade",
-            () -> new SpecializedOutputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> SPECIALIZED_SPEED_UPGRADE = ITEMS.register("specialized_speed_upgrade",
-            () -> new SpecializedSpeedUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> SPECIALIZED_MESH_UPGRADE = ITEMS.register("specialized_mesh_upgrade",
-            () -> new SpecializedMeshUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> SPECIALIZED_INPUT_UPGRADE = ITEMS.register("specialized_input_upgrade",
-            () -> new SpecializedInputUpgrade(new Item.Properties().stacksTo(1)));
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
     //BUCKETS
 
