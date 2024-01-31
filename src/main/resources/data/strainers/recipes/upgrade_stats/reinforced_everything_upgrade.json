@@ -1,10 +1,10 @@
 {
   "type": "opolisutilities:upgrades",
   "item": {
-    "item": "strainers:improved_everything_upgrade"
+    "item": "strainers:reinforced_everything_upgrade"
   },
   "duration_multiplier": 0.4,
-  "input_item_consume_chance": 0.4,
   "mesh_use_chance": 0.6,
-  "input_item_consume_chance": 0.4
+  "input_item_consume_chance": 0.4,
+  "output_increase_chance": 0.4
 }

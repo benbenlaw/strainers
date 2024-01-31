@@ -36,7 +36,7 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
 
-            this.addSlot(new WhitelistTagInputSlot(handler, 0, 8, 17, ModTags.Items.UPGRADES, 1)); //Upgrade
+            this.addSlot(new WhitelistTagInputSlot(handler, 0, 8, 17, com.benbenlaw.opolisutilities.util.ModTags.Items.UPGRADES, 1)); //Upgrade
             this.addSlot(new WhitelistTagInputSlot(handler, 1, 8, 35, ModTags.Items.MESHES, 1)); //Mesh
             this.addSlot(new BlacklistTagInputSlot(handler, 2, 8, 53, ModTags.Items.MESHES, 64)); //In Block/ Item
 
