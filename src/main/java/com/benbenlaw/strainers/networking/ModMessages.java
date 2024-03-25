@@ -1,6 +1,7 @@
 package com.benbenlaw.strainers.networking;
 
 import com.benbenlaw.strainers.Strainers;
+import com.benbenlaw.strainers.networking.packets.PacketSyncFluidToClient;
 import com.benbenlaw.strainers.networking.packets.PacketSyncItemStackToClient;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
@@ -32,6 +33,13 @@ public class ModMessages {
                 .encoder(PacketSyncItemStackToClient::toBytes)
                 .consumerMainThread(PacketSyncItemStackToClient::handle)
                 .add();
+
+        net.messageBuilder(PacketSyncFluidToClient.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(PacketSyncFluidToClient::new)
+                .encoder(PacketSyncFluidToClient::toBytes)
+                .consumerMainThread(PacketSyncFluidToClient::handle)
+                .add();
+
 
     }
 

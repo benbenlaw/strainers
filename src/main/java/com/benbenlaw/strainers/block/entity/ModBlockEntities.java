@@ -17,6 +17,11 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(WoodenStrainerBlockEntity::new,
                             ModBlocks.WOODEN_STRAINER.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<StrainerTankBlockEntity>> STRAINER_TANK_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("strainer_tank_block_entity", () ->
+                    BlockEntityType.Builder.of(StrainerTankBlockEntity::new,
+                            ModBlocks.STRAINER_TANK.get()).build(null));
+
 
 
 

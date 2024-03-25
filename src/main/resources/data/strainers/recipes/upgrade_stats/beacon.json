@@ -1,0 +1,13 @@
+{
+  "type": "opolisutilities:upgrades",
+  "item": {
+    "item": "minecraft:beacon"
+  },
+  "duration_multiplier": 0.37,
+  "mesh_use_chance": 0.65,
+  "input_item_consume_chance": 0.8,
+  "output_increase_chance": 0.2,
+  "output_increase_amount": 40,
+  "input_item_extra_amount": 20,
+  "mesh_extra_damage": 12
+}

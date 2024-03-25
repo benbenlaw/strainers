@@ -3,6 +3,7 @@ package com.benbenlaw.strainers.block.entity;
 import com.benbenlaw.opolisutilities.recipe.UpgradeRecipeUtil;
 import com.benbenlaw.opolisutilities.util.inventory.IInventoryHandlingBlockEntity;
 import com.benbenlaw.opolisutilities.util.inventory.WrappedHandler;
+import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.item.ModItems;
 import com.benbenlaw.strainers.networking.ModMessages;
 import com.benbenlaw.strainers.networking.packets.PacketSyncItemStackToClient;
@@ -14,6 +15,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -22,6 +25,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -309,6 +313,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         BlockState blockAbove = level.getBlockState(blockPos);
         FluidState fluidAbove = level.getFluidState(blockPos);
 
+
         if (!matchingRecipes.isEmpty()) {
             for (StrainerRecipe matching : matchingRecipes) {
 
@@ -328,14 +333,31 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
                 // Check Block / Fluid
                 if (!blockAbove.isAir() || blockAbove.is(blockInRecipe)) {
-                    if (blockAbove.is(blockInRecipe) || match.get().getBlockAbove().isEmpty() && fluidAbove.is(fluidInRecipe) || match.get().getFluidAbove().isEmpty()) {
+
+                    FluidState fluidInTank = null;
+                    if (blockAbove.is(ModBlocks.STRAINER_TANK.get())) {
+                        fluidInTank = ((StrainerTankBlockEntity) level.getBlockEntity(blockPos)).getFluidStack().getFluid().defaultFluidState();
+                    }
+
+                    if (fluidInTank == null) {
+                        fluidInTank = fluidAbove;
+                    }
+
+                    boolean isFluidMatching = fluidInTank.is(fluidInRecipe) || fluidAbove.is(fluidInRecipe);
+
+                    boolean isBlockMatching = blockAbove.is(blockInRecipe) || matching.getBlockAbove().isEmpty() && !blockAbove.is(ModBlocks.STRAINER_TANK.get());
+
+
+                    if (isFluidMatching || isBlockMatching) {
                         return match.filter(currentRecipe ->
                                 hasMeshItem(entity, currentRecipe)
                                         && hasInputItem(entity, currentRecipe)
                                         && canStartRecipe(inventory, currentRecipe.getOutput())
+                                        && hasCorrectCountInInputUpgrading(entity)
                                         && hasDuration(currentRecipe)).isPresent();
                     }
                 }
+
             }
         }
         return false;
@@ -367,7 +389,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                     meshMultiplier = matchingUpgrade.getMeshUseChance();
                     meshExtraDamage = matchingUpgrade.getMeshExtraDamage();
                     inputItemExtraAmount = matchingUpgrade.getInputItemExtraAmount();
-                    break; // Exit the loop once the upgrade item is found
+                    break;
                 }
             }
         } else {
@@ -408,7 +430,12 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
                     BlockPos blockPos = entity.worldPosition.above(1);
                     BlockState blockAbove = level.getBlockState(blockPos);
+
                     FluidState fluidAbove = level.getFluidState(blockPos);
+                    if (blockAbove.is(ModBlocks.STRAINER_TANK.get())) {
+                        fluidAbove = ((StrainerTankBlockEntity) level.getBlockEntity(blockPos)).getFluidStack().getFluid().defaultFluidState();
+                    }
+
 
                     if ((blockAbove.is(blockInRecipe) || match.getBlockAbove().isEmpty())
                             && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
@@ -426,7 +453,6 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                     }
                 }
             }
-
             // Upgrade Effects
 
             if (!entity.itemHandler.getStackInSlot(2).isDamageableItem() || entity.itemHandler.getStackInSlot(2).is(ModTags.Items.REMOVE_ITEM_NO_DAMAGE_IN_STRAINER)) {
@@ -475,9 +501,13 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 }
             } else if (entity.itemHandler.getStackInSlot(1).hurt(1 + meshExtraDamage, RandomSource.create(), null)) {
                 entity.itemHandler.extractItem(1, 1, false);
+
             }
 
             entity.resetProgress();
+
+
+
         }
     }
 
@@ -576,5 +606,9 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
         // Return false if all slots are occupied or if there are no empty slots
         return occupiedSlotCounter != 26 && emptySlotCounter != 0;
+    }
+
+    private boolean hasCorrectCountInInputUpgrading(WoodenStrainerBlockEntity entity) {
+        return entity.itemHandler.getStackInSlot(2).getCount() >= inputItemExtraAmount + 1;
     }
 }

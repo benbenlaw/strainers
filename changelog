@@ -1,10 +1,34 @@
 Changelog BBL Strainers
 
-//TODO JSON based upgrade files
+//TODO unify recipes types
+
+1.7.0
+
+Tanks
+
+1.6.0
+
+KubeJS support for strainers
+
+ServerEvents.recipes(event => {
+
+    // Add a recipe to the strainer
+    // event.recipes.strainers.strainer (INPUT, OUTPUT, CHANCE, CHANCE_INCREASE_PER_TIER, DURATION, MESH TIER) .aboveBlock("minecraft:emerald_block") or .aboveFluid("minecraft:water") )
+
+    event.recipes.strainers.strainer("minecraft:emerald", "minecraft:gravel", 0.1, 0.11, 602, 5).aboveBlock("minecraft:emerald_block")
+    event.recipes.strainers.strainer("minecraft:diamond", "minecraft:dirt", 0.3, 0.2, 100, 2).aboveFluid("minecraft:water")
+
+    // Add a summoning recipe to the strainer
+    // event.recipes.strainers.summoning([INPUT, SPAWN EGG (for JEI)], SUMMONED_MOB) .blockBelow("minecraft:emerald_block") or .fluidBelow("minecraft:water")
+    event.recipes.strainers.summoning(["minecraft:diamond", "minecraft:squid_spawn_egg"], "minecraft:squid").fluidBelow("minecraft:water")
+    event.recipes.strainers.summoning(["minecraft:feather", "minecraft:bat_spawn_egg"], "minecraft:bat").blockBelow("minecraft:obsidian")
+
+})
+
 
 1.5.0
 
-Moved to Opolis Utilities 2.8.0, allows for any items to be used as upgrades highly configurable
+Moved to Opolis Utilities 2.9.0, allows for any items to be used as upgrades highly configurable
 
 1.4.13
 

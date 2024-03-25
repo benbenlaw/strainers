@@ -75,6 +75,7 @@ public class ModCreativeTab {
 
 
                 output.accept(ModBlocks.WOODEN_STRAINER.get());
+                output.accept(ModBlocks.STRAINER_TANK.get());
                 output.accept(ModBlocks.SUMMONING_BLOCK.get());
 
             }).build());

@@ -2,6 +2,7 @@ package com.benbenlaw.strainers.block;
 
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.custom.MulchBlock;
+import com.benbenlaw.strainers.block.custom.StrainerTankBlock;
 import com.benbenlaw.strainers.block.custom.SummoningBlock;
 import com.benbenlaw.strainers.block.custom.WoodenStrainerBlock;
 import com.benbenlaw.strainers.fluid.ModFluids;
@@ -31,6 +32,9 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> WOODEN_STRAINER = registerBlock("wooden_strainer",
             () -> new WoodenStrainerBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE).strength(0.5f).sound(SoundType.WOOD)
+                    .noOcclusion()));
+    public static final RegistryObject<Block> STRAINER_TANK = registerBlock("strainer_tank",
+            () -> new StrainerTankBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).sound(SoundType.GLASS)
                     .noOcclusion()));
 
     public static final RegistryObject<Block> MULCH = registerBlock("mulch",
