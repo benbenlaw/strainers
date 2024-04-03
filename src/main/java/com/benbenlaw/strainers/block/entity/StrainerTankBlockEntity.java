@@ -51,6 +51,10 @@ public class StrainerTankBlockEntity extends BlockEntity implements IFluidHandli
         this.FLUID_TANK.setFluid(stack);
     }
 
+    public void getFluid(FluidStack stack) {
+        FLUID_TANK.setFluid(stack);
+    }
+
     public FluidStack getFluidStack() {
         return this.FLUID_TANK.getFluid();
     }
@@ -59,27 +63,6 @@ public class StrainerTankBlockEntity extends BlockEntity implements IFluidHandli
         super(ModBlockEntities.STRAINER_TANK_BLOCK_ENTITY.get(), pos, state);
 
     }
-
-    /*
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return lazyFluidHandler.cast();
-        }
-        return super.getCapability(cap);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return lazyFluidHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-
-     */
     @Override
     public void onLoad() {
         super.onLoad();
@@ -95,7 +78,7 @@ public class StrainerTankBlockEntity extends BlockEntity implements IFluidHandli
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    public void saveAdditional(@NotNull CompoundTag tag) {
         tag = FLUID_TANK.writeToNBT(tag);
         super.saveAdditional(tag);
     }

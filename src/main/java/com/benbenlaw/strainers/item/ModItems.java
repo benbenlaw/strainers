@@ -3,11 +3,6 @@ package com.benbenlaw.strainers.item;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.fluid.ModFluids;
 import com.benbenlaw.strainers.item.custom.*;
-import com.benbenlaw.strainers.item.custom.specialized.SpecializedInputUpgrade;
-import com.benbenlaw.strainers.item.custom.specialized.SpecializedMeshUpgrade;
-import com.benbenlaw.strainers.item.custom.specialized.SpecializedOutputUpgrade;
-import com.benbenlaw.strainers.item.custom.specialized.SpecializedSpeedUpgrade;
-import com.benbenlaw.strainers.item.custom.standard.*;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -35,53 +30,53 @@ public class ModItems {
     //TIER 1 MESHES
 
     public static final RegistryObject<Item> LEAFY_MESH = ITEMS.register("leafy_mesh",
-            () -> new Mesh(new Item.Properties().durability(96)));
+            () -> new MeshItem(new Item.Properties().durability(96)));
 
     public static final RegistryObject<Item> BAMBOO_MESH = ITEMS.register("bamboo_mesh",
-            () -> new Mesh(new Item.Properties().durability(320)));
+            () -> new MeshItem(new Item.Properties().durability(320)));
 
     public static final RegistryObject<Item> STRING_MESH = ITEMS.register("string_mesh",
-            () -> new Mesh(new Item.Properties().durability(160)));
+            () -> new MeshItem(new Item.Properties().durability(160)));
 
     //TIER 2 MESHES
 
     public static final RegistryObject<Item> FLINT_MESH = ITEMS.register("flint_mesh",
-            () -> new Mesh(new Item.Properties().durability(192)));
+            () -> new MeshItem(new Item.Properties().durability(192)));
 
     public static final RegistryObject<Item> COPPER_MESH = ITEMS.register("copper_mesh",
-            () -> new Mesh(new Item.Properties().durability(384)));
+            () -> new MeshItem(new Item.Properties().durability(384)));
 
     //TIER 3 MESHES
 
     public static final RegistryObject<Item> IRON_MESH = ITEMS.register("iron_mesh",
-            () -> new Mesh(new Item.Properties().durability(526)));
+            () -> new MeshItem(new Item.Properties().durability(526)));
 
     public static final RegistryObject<Item> AMETHYST_MESH = ITEMS.register("amethyst_mesh",
-            () -> new Mesh(new Item.Properties().durability(640)));
+            () -> new MeshItem(new Item.Properties().durability(640)));
 
     //TIER 4 MESHES
 
     public static final RegistryObject<Item> GOLD_MESH = ITEMS.register("gold_mesh",
-            () -> new Mesh(new Item.Properties().durability(128)));
+            () -> new MeshItem(new Item.Properties().durability(128)));
 
     public static final RegistryObject<Item> QUARTZ_MESH = ITEMS.register("quartz_mesh",
-            () -> new Mesh(new Item.Properties().durability(640)));
+            () -> new MeshItem(new Item.Properties().durability(640)));
 
     //TIER 5 MESHES
 
     public static final RegistryObject<Item> DIAMOND_MESH = ITEMS.register("diamond_mesh",
-            () -> new Mesh(new Item.Properties().durability(1536)));
+            () -> new MeshItem(new Item.Properties().durability(1536)));
 
     public static final RegistryObject<Item> ECHO_MESH = ITEMS.register("echo_mesh",
-            () -> new Mesh(new Item.Properties().durability(768)));
+            () -> new MeshItem(new Item.Properties().durability(768)));
 
     //TIER 6 MESHES
 
     public static final RegistryObject<Item> EMERALD_MESH = ITEMS.register("emerald_mesh",
-            () -> new Mesh(new Item.Properties().durability(1536)));
+            () -> new MeshItem(new Item.Properties().durability(1536)));
 
     public static final RegistryObject<Item> NETHERITE_MESH = ITEMS.register("netherite_mesh",
-            () -> new Mesh(new Item.Properties().durability(2048)));
+            () -> new MeshItem(new Item.Properties().durability(2048)));
 
     //UPGRADES
 

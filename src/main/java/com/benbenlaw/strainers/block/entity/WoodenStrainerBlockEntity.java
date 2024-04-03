@@ -255,6 +255,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     public void tick() {
 
         Level pLevel = this.level;
+        ModMessages.sendToClients(new PacketSyncItemStackToClient(itemHandler, worldPosition));
 
         assert level != null;
         if (!level.isClientSide) {

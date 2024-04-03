@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "P P",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
+    "P": {
+      "tag": "forge:glass_panes"
+    }
+  },
+  "result": {
+    "item": "strainers:strainer_tank"
+  }
+}

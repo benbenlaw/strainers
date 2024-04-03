@@ -142,12 +142,20 @@ dependencies {
 
     //Opolis Utilities
 
-    compileOnly fg.deobf("curse.maven:opolis-utilities-649644:5120564")
-    runtimeOnly fg.deobf("curse.maven:opolis-utilities-649644:5120564")
+    compileOnly fg.deobf("curse.maven:opolis-utilities-649644:5215942")
+    runtimeOnly fg.deobf("curse.maven:opolis-utilities-649644:5215942")
 
     //TIAB
 
     runtimeOnly fg.deobf("curse.maven:time-in-a-bottle-forge-895919:4744787")
+
+    //Mekanism
+    /*
+
+    runtimeOnly fg.deobf("curse.maven:mekanism-268560:4866575")
+    runtimeOnly fg.deobf("curse.maven:mekanism-generators-268566:4866578")
+
+     */
 
     //JEI
 
@@ -155,7 +163,8 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
-        //Architectury
+
+    //Architectury
     implementation fg.deobf("dev.architectury:architectury-forge:$architectury_version")
 
     // KubeJS

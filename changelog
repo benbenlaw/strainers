@@ -1,10 +1,24 @@
 Changelog BBL Strainers
 
 //TODO unify recipes types
+//TODO make tanks fluid handlers to pick up fluids
 
 1.7.0
 
-Tanks
+Update to Opolis Utilities 2.10.4
+
+Added Strainer tank;
+     - Stores a single bucket of fluid
+     - Can be filled and drained by pipes
+     - Can be filled and drained by buckets
+     - Can be place ontop of strainers and filled with a fluid to use in the strainers recipes
+     - Can be placed ontop of fluids already in world to store that fluid in the tank
+     - Broken tank sets the fluid in world
+
+Changed wooden strainer texture no longer has a fixed mesh texture
+Strainer will now render the mesh inside the strainer, custom meshes just need a mesh texture as a base texture and the item will be rendered as the mesh
+FIXED various z fighting issues with the strainer
+Mesh information now renders correctly for custom meshes with durability and tier shown
 
 1.6.0
 
