@@ -3,6 +3,7 @@ package com.benbenlaw.strainers;
 import com.benbenlaw.opolisutilities.screen.*;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.block.entity.ModBlockEntities;
+import com.benbenlaw.strainers.config.StrainersConfigFile;
 import com.benbenlaw.strainers.fluid.ModFluidTypes;
 import com.benbenlaw.strainers.fluid.ModFluids;
 import com.benbenlaw.strainers.item.ModCreativeTab;
@@ -20,7 +21,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -57,6 +60,8 @@ public class Strainers {
         ModFluidTypes.register(eventBus);
 
         eventBus.addListener(this::commonSetup);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, StrainersConfigFile.SPEC, "strainers.toml");
 
         MinecraftForge.EVENT_BUS.register(this);
     }

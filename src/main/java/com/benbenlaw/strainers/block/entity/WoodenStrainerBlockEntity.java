@@ -4,9 +4,9 @@ import com.benbenlaw.opolisutilities.recipe.UpgradeRecipeUtil;
 import com.benbenlaw.opolisutilities.util.inventory.IInventoryHandlingBlockEntity;
 import com.benbenlaw.opolisutilities.util.inventory.WrappedHandler;
 import com.benbenlaw.strainers.block.ModBlocks;
-import com.benbenlaw.strainers.item.ModItems;
 import com.benbenlaw.strainers.networking.ModMessages;
 import com.benbenlaw.strainers.networking.packets.PacketSyncItemStackToClient;
+import com.benbenlaw.strainers.networking.packets.PacketSyncProgressToClient;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
 import com.benbenlaw.strainers.screen.WoodenStrainerMenu;
 import com.benbenlaw.strainers.util.ModTags;
@@ -15,8 +15,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -25,7 +23,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -132,8 +130,8 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                             })));
 
     public final ContainerData data;
-    private int progress = 0;
-    private int maxProgress = 80;
+    public int progress = 0;
+    public int maxProgress = 1000;
 
     public void setHandler(ItemStackHandler handler) {
         copyHandlerContents(handler);
@@ -223,6 +221,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     protected void saveAdditional(@NotNull CompoundTag tag) {
         tag.put("inventory", itemHandler.serializeNBT());
         tag.putInt("wooden_strainer.progress", progress);
+        tag.putInt("wooden_strainer.maxProgress", maxProgress);
         super.saveAdditional(tag);
     }
 
@@ -231,6 +230,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         super.load(nbt);
         itemHandler.deserializeNBT(nbt.getCompound("inventory"));
         progress = nbt.getInt("wooden_strainer.progress");
+        maxProgress = nbt.getInt("wooden_strainer.maxProgress");
     }
 
     public void drops() {
@@ -255,10 +255,14 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     public void tick() {
 
         Level pLevel = this.level;
-        ModMessages.sendToClients(new PacketSyncItemStackToClient(itemHandler, worldPosition));
+
 
         assert level != null;
         if (!level.isClientSide) {
+
+            ModMessages.sendToClients(new PacketSyncItemStackToClient(itemHandler, worldPosition));
+            ModMessages.sendToClients(new PacketSyncProgressToClient(progress, maxProgress, worldPosition));
+
             BlockPos pPos = this.worldPosition;
             BlockState pState = pLevel.getBlockState(pPos);
             WoodenStrainerBlockEntity pBlockEntity = this;
@@ -315,11 +319,11 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         FluidState fluidAbove = level.getFluidState(blockPos);
 
 
+
         if (!matchingRecipes.isEmpty()) {
             for (StrainerRecipe matching : matchingRecipes) {
 
                 entity.maxProgress = (int) (matching.getDuration() * durationMultiplier); //New Upgrade System
-
 
                 @Nullable Fluid fluidInRecipe = null;
                 if (matching.getBlockAbove().isEmpty()) {
@@ -346,10 +350,11 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
                     boolean isFluidMatching = fluidInTank.is(fluidInRecipe) || fluidAbove.is(fluidInRecipe);
 
-                    boolean isBlockMatching = blockAbove.is(blockInRecipe) || matching.getBlockAbove().isEmpty() && !blockAbove.is(ModBlocks.STRAINER_TANK.get());
+                    boolean isBlockMatching = blockAbove.is(blockInRecipe) && (matching.getBlockAbove().isEmpty() && !blockAbove.is(ModBlocks.STRAINER_TANK.get())) && fluidAbove.is(Fluids.EMPTY);
 
+                    boolean isAirBlockRecipe = blockAbove.is(blockInRecipe);
 
-                    if (isFluidMatching || isBlockMatching) {
+                    if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
                         return match.filter(currentRecipe ->
                                 hasMeshItem(entity, currentRecipe)
                                         && hasInputItem(entity, currentRecipe)
@@ -507,13 +512,19 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
             entity.resetProgress();
 
-
-
         }
+    }
+
+    public void updateProgressValues(WoodenStrainerBlockEntity entity) {
+
+        progress = entity.progress;
+        maxProgress = entity.maxProgress;
+
     }
 
     private void resetProgress() {
         this.progress = 0;
+        this.maxProgress = 1000;
     }
 
     private boolean hasDuration(StrainerRecipe recipe) {

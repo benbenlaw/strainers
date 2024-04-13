@@ -3,6 +3,22 @@ Changelog BBL Strainers
 //TODO unify recipes types
 //TODO make tanks fluid handlers to pick up fluids
 
+1.7.3
+
+Fixed crash on servers with renderer
+
+1.7.2
+
+Fixed recipes starting if theres a block ontop of the strainer
+
+1.7.1
+
+Fixed an issue where flowing fluids were returning a true boolean for the isMatchingBlock instead of returning false
+Flowing fluids no longer triggers ghost recipes in the strainers, this is the intended behavior
+Strainers now save there maxProgress correctly between world loads
+Now syncing progress between client and server
+Strainers will now show items being processed in world if the item is a block, other items will not be shown
+
 1.7.0
 
 Update to Opolis Utilities 2.10.4
