@@ -7,6 +7,10 @@ Changelog BBL Strainers
 
 Fixed crash on servers with renderer
 
+1.7.3
+
+Fixed sponge having a 0% chance in the strainer
+
 1.7.2
 
 Fixed recipes starting if theres a block ontop of the strainer

@@ -149,6 +149,12 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:time-in-a-bottle-forge-895919:4744787")
 
+    //Observable
+
+
+    runtimeOnly fg.deobf("curse.maven:observable-509575:5080064")
+    runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:4578885")
+
     //Mekanism
     /*
 

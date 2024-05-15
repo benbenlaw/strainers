@@ -260,8 +260,8 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         assert level != null;
         if (!level.isClientSide) {
 
-            ModMessages.sendToClients(new PacketSyncItemStackToClient(itemHandler, worldPosition));
-            ModMessages.sendToClients(new PacketSyncProgressToClient(progress, maxProgress, worldPosition));
+        //    ModMessages.sendToClients(new PacketSyncItemStackToClient(itemHandler, worldPosition));
+        //    ModMessages.sendToClients(new PacketSyncProgressToClient(progress, maxProgress, worldPosition));
 
             BlockPos pPos = this.worldPosition;
             BlockState pState = pLevel.getBlockState(pPos);
@@ -283,11 +283,11 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             }
 
             if (hasRecipe(pBlockEntity)) {
-            pBlockEntity.progress++;
-            setChanged(pLevel, pPos, pState);
-            if (pBlockEntity.progress > pBlockEntity.maxProgress) {
-                craftItem(pBlockEntity);
-            }
+                pBlockEntity.progress++;
+                setChanged(pLevel, pPos, pState);
+                if (pBlockEntity.progress > pBlockEntity.maxProgress) {
+                    craftItem(pBlockEntity);
+                }
             } else {
                 pBlockEntity.resetProgress();
                 setChanged(pLevel, pPos, pState);

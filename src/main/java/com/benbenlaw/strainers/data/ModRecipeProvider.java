@@ -507,7 +507,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         //END STONE
 
         //MISC
-        new StrainerRecipeFluidBuilder(Items.YELLOW_WOOL, Items.SPONGE, 1,0.0, 0.0, 2, 300,"strainers:purified_water_fluid" ).unlockedBy("has_strainer", has(ModBlocks.WOODEN_STRAINER.get())).save(pWriter);
+        new StrainerRecipeFluidBuilder(Items.YELLOW_WOOL, Items.SPONGE, 1,0.1, 0.1, 2, 300,"strainers:purified_water_fluid" ).unlockedBy("has_strainer", has(ModBlocks.WOODEN_STRAINER.get())).save(pWriter);
         new StrainerRecipeFluidBuilder(Items.PURPUR_BLOCK, Items.SHULKER_SHELL, 1,0.25, 0.1, 4, 200,"strainers:purified_water_fluid" ).unlockedBy("has_strainer", has(ModBlocks.WOODEN_STRAINER.get())).save(pWriter);
         new StrainerRecipeFluidBuilder(Items.GREEN_DYE, Items.SLIME_BALL, 1,0.25, 0.1, 3, 200,"strainers:purified_water_fluid" ).unlockedBy("has_strainer", has(ModBlocks.WOODEN_STRAINER.get())).save(pWriter);
         new StrainerRecipeFluidBuilder(Items.BONE_BLOCK, Items.SKELETON_SKULL, 1,0.4, 0.2, 3, 460,"strainers:eroding_water_fluid" ).unlockedBy("has_strainer", has(ModBlocks.WOODEN_STRAINER.get())).save(pWriter);
