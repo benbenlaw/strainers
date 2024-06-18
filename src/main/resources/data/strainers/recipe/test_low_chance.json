@@ -1,0 +1,21 @@
+{
+  "type": "strainers:strainer",
+    "input": {
+      "count": 1,
+      "item": "minecraft:stone"
+    },
+    "mesh": {
+      "count": 1,
+      "item": "strainers:emerald_mesh"
+    },
+    "aboveBlock": "minecraft:dirt",
+      "output": {
+        "count": 1,
+        "id": "minecraft:gravel"
+      },
+      "minMeshTier": 1,
+
+      "chance": 0.1
+
+
+}

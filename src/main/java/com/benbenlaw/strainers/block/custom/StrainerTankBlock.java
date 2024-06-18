@@ -1,22 +1,18 @@
 package com.benbenlaw.strainers.block.custom;
 
-import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.block.entity.ModBlockEntities;
 import com.benbenlaw.strainers.block.entity.StrainerTankBlockEntity;
-import com.benbenlaw.strainers.block.entity.WoodenStrainerBlockEntity;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -25,32 +21,43 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class StrainerTankBlock extends BaseEntityBlock {
 
-    public StrainerTankBlock(Properties props) {
-        super(props);
+    public static final MapCodec<StrainerTankBlock> CODEC = simpleCodec(StrainerTankBlock::new);
+    public StrainerTankBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
-                                 InteractionHand hand, BlockHitResult hit) {
-        if (super.use(state, level, pos, player, hand, hit) == InteractionResult.PASS) {
-            StrainerTankBlockEntity be = (StrainerTankBlockEntity) level.getBlockEntity(pos);
-            if (be != null && be.onPlayerUse(player, hand)) {
-                return InteractionResult.sidedSuccess(level.isClientSide());
-            }
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
 
+    @Override
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull BlockHitResult hit) {
+
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
+
+        StrainerTankBlockEntity entity = (StrainerTankBlockEntity) level.getBlockEntity(blockPos);
+
+
+        //FILL BUCKET//
+
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem().equals(Items.BUCKET)) {
+                assert entity != null;
+            StrainerTankBlockEntity strainerTankBlockEntity = (StrainerTankBlockEntity) level.getBlockEntity(blockPos);
+                if (strainerTankBlockEntity != null && strainerTankBlockEntity.onPlayerUse(player, InteractionHand.MAIN_HAND)) {
+                    return InteractionResult.SUCCESS;
+                }
+
+            return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;
     }
@@ -59,14 +66,17 @@ public class StrainerTankBlock extends BaseEntityBlock {
     public void onPlace(BlockState tankState, Level level, BlockPos pos, BlockState currentState, boolean allow) {
 
         if (!currentState.isAir()) {
-            if (!currentState.getBlock().getFluidState(currentState).isEmpty()){
-                FluidType fluid = currentState.getBlock().getFluidState(currentState).getFluidType();
+
+            FluidState fluidState = currentState.getFluidState();
+
+            if (!fluidState.getFluidType().isAir()){
+                FluidType fluid = fluidState.getFluidType();
                 String fluidAsString = fluid.toString();
                 level.setBlockAndUpdate(pos, this.defaultBlockState());
                 BlockEntity entity = level.getBlockEntity(pos);
                 if (entity instanceof StrainerTankBlockEntity) {
                     StrainerTankBlockEntity tankEntity = (StrainerTankBlockEntity) entity;
-                    Fluid finalFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidAsString));
+                    Fluid finalFluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(fluidAsString));
                     tankEntity.setFluid(new FluidStack(finalFluid, 1000));
                 }
             }
@@ -85,9 +95,6 @@ public class StrainerTankBlock extends BaseEntityBlock {
                 BlockPos fluidPos = pos;
                 if (level.isEmptyBlock(fluidPos)) {
                     level.setBlockAndUpdate(fluidPos, fluid.defaultFluidState().createLegacyBlock());
-                } else {
-                    // Handle the case where there's already a block at the fluid position
-                    // For example, you might want to spill the fluid or merge it with the existing block
                 }
             }
         }
@@ -95,15 +102,32 @@ public class StrainerTankBlock extends BaseEntityBlock {
     }
 
     //BLOCK ENTITY
+
+
+    @SuppressWarnings("deprecation")
     @Override
-    public RenderShape getRenderShape(BlockState state) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState blockState) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    public void onRemove(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, BlockState newBlockState, boolean isMoving) {
+        blockState.getBlock();
+        newBlockState.getBlock();
+        super.onRemove(blockState, level, blockPos, newBlockState, isMoving);
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new StrainerTankBlockEntity(pPos, pState);
+    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+        return new StrainerTankBlockEntity(blockPos, blockState);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, ModBlockEntities.STRAINER_TANK_BLOCK_ENTITY.get(),
+                (world, blockPos, thisBlockState, blockEntity) -> blockEntity.tick());
     }
 
 }

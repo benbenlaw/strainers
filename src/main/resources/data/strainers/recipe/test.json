@@ -1,0 +1,21 @@
+{
+  "type": "strainers:strainer",
+    "input": {
+      "count": 1,
+      "item": "minecraft:stone_bricks"
+    },
+    "mesh": {
+      "count": 1,
+      "item": "strainers:netherite_mesh"
+    },
+    "aboveBlock": "minecraft:dirt",
+      "output": {
+        "count": 1,
+        "id": "minecraft:mud"
+      },
+      "minMeshTier": 1,
+
+      "chance": 1.0
+
+
+}

@@ -1,12 +1,16 @@
 package com.benbenlaw.strainers.block.custom;
 
+import com.benbenlaw.opolisutilities.screen.custom.EnderScramblerMenu;
 import com.benbenlaw.strainers.block.entity.ModBlockEntities;
 import com.benbenlaw.strainers.block.entity.WoodenStrainerBlockEntity;
+import com.benbenlaw.strainers.screen.custom.WoodenStrainerMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -19,13 +23,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WoodenStrainerBlock extends BaseEntityBlock {
+
+    public static final MapCodec<WoodenStrainerBlock> CODEC = simpleCodec(WoodenStrainerBlock::new);
+
     public WoodenStrainerBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
@@ -59,33 +70,40 @@ public class WoodenStrainerBlock extends BaseEntityBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public @NotNull InteractionResult use(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos,
-                                          @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
-        if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof WoodenStrainerBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (WoodenStrainerBlockEntity)entity, pPos);
-            } else {
-                throw new IllegalStateException("Our Container provider is missing!");
-            }
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull BlockHitResult hit) {
+
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        if (!level.isClientSide()) {
+
+            WoodenStrainerBlockEntity woodenStrainerBlockEntity = (WoodenStrainerBlockEntity) level.getBlockEntity(blockPos);
+
+            //MENU OPEN//
+
+            if (woodenStrainerBlockEntity instanceof WoodenStrainerBlockEntity) {
+                ContainerData data = woodenStrainerBlockEntity.data;
+                player.openMenu(new SimpleMenuProvider(
+                        (windowId, playerInventory, playerEntity) -> new WoodenStrainerMenu(windowId, playerInventory, blockPos, data),
+                        Component.translatable("block.strainers.wooden_strainer")), (buf -> buf.writeBlockPos(blockPos)));
+
+            }
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.FAIL;
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new WoodenStrainerBlockEntity(pPos, pState);
+    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+        return new WoodenStrainerBlockEntity(blockPos, blockState);
     }
-
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.WOODEN_STRAINER_BLOCK_ENTITY.get(),
-                (world, blockPos, blockState, blockEntity) -> blockEntity.tick());
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, @NotNull BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, ModBlockEntities.WOODEN_STRAINER_BLOCK_ENTITY.get(),
+                (world, blockPos, thisBlockState, blockEntity) -> blockEntity.tick());
     }
-
 }

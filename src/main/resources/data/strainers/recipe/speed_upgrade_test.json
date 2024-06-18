@@ -1,0 +1,7 @@
+{
+  "type": "opolisutilities:speed_upgrades",
+  "input": {
+    "item": "strainers:diamond_mesh"
+  },
+  "tickRate": 1
+}

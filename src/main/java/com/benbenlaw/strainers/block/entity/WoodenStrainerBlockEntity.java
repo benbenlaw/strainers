@@ -1,21 +1,29 @@
 package com.benbenlaw.strainers.block.entity;
 
-import com.benbenlaw.opolisutilities.recipe.UpgradeRecipeUtil;
+import com.benbenlaw.opolisutilities.block.entity.custom.handler.InputOutputItemHandler;
+import com.benbenlaw.opolisutilities.recipe.NoInventoryRecipe;
+import com.benbenlaw.opolisutilities.recipe.SpeedUpgradesRecipe;
 import com.benbenlaw.opolisutilities.util.inventory.IInventoryHandlingBlockEntity;
-import com.benbenlaw.opolisutilities.util.inventory.WrappedHandler;
 import com.benbenlaw.strainers.block.ModBlocks;
-import com.benbenlaw.strainers.networking.ModMessages;
-import com.benbenlaw.strainers.networking.packets.PacketSyncItemStackToClient;
-import com.benbenlaw.strainers.networking.packets.PacketSyncProgressToClient;
+import com.benbenlaw.strainers.recipe.MeshUpgradesRecipe;
+import com.benbenlaw.strainers.recipe.OutputUpgradesRecipe;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
-import com.benbenlaw.strainers.screen.WoodenStrainerMenu;
+import com.benbenlaw.strainers.screen.custom.WoodenStrainerMenu;
 import com.benbenlaw.strainers.util.ModTags;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -25,127 +33,117 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jline.utils.Log;
 
-import javax.annotation.Nonnull;
+import java.io.Console;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvider, IInventoryHandlingBlockEntity {
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(27) {
+
+    private final ItemStackHandler itemHandler = new ItemStackHandler(25) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            assert level != null;
-            if (!level.isClientSide()) {
-                ModMessages.sendToClients(new PacketSyncItemStackToClient(this, worldPosition));
+            sync();
+        }
+
+        @Override
+        protected int getStackLimit(int slot, ItemStack stack) {
+
+            if (slot == SPEED_UPGRADE || slot == MESH_UPGRADE || slot == OUTPUT_UPGRADE || slot == MESH_SLOT) {
+                return 1;
             }
+            return super.getStackLimit(slot, stack);
         }
     };
+    private FakePlayer fakePlayer;
 
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    private final Map<Direction, LazyOptional<WrappedHandler>> directionWrappedHandlerMap =
-            Map.of(
-                    Direction.DOWN, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
-                            (i, s) -> false)),
 
-                    Direction.UP, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
-                            (index, stack) -> {
-                                if (index == 1 && itemHandler.isItemValid(1, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
-                                }
-                                if (index == 2 && itemHandler.isItemValid(2, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
-                                }
-                                return false;
-                            })),
+    public void sync() {
+        if (level instanceof ServerLevel serverLevel) {
+            LevelChunk chunk = serverLevel.getChunkAt(getBlockPos());
+            if (Objects.requireNonNull(chunk.getLevel()).getChunkSource() instanceof ServerChunkCache chunkCache) {
+                chunkCache.chunkMap.getPlayers(chunk.getPos(), false).forEach(this::syncContents);
+            }
+        }
+    }
 
-                    Direction.NORTH, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
-                            (index, stack) -> {
-                                if (index == 1 && itemHandler.isItemValid(1, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
-                                }
-                                if (index == 2 && itemHandler.isItemValid(2, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
-                                }
-                                return false;
-                            })),
+    public void syncContents(ServerPlayer player) {
+        player.connection.send(Objects.requireNonNull(getUpdatePacket()));
+    }
 
-                    Direction.SOUTH, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
-                            (index, stack) -> {
-                                if (index == 1 && itemHandler.isItemValid(1, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
-                                }
-                                if (index == 2 && itemHandler.isItemValid(2, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
-                                }
-                                return false;
-                            })),
 
-                    Direction.WEST, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
-                            (index, stack) -> {
-                                if (index == 1 && itemHandler.isItemValid(1, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
-                                }
-                                if (index == 2 && itemHandler.isItemValid(2, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
-                                }
-                                return false;
-                            })),
-
-                    Direction.EAST, LazyOptional.of(() -> new WrappedHandler(itemHandler, (i) -> i >= 3 && i <= 26,
-                            (index, stack) -> {
-                                if (index == 1 && itemHandler.isItemValid(1, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().anyMatch(ModTags.Items.MESHES::equals);
-                                }
-                                if (index == 2 && itemHandler.isItemValid(2, stack)) {
-                                    // Add a condition to check for the specific item you want to allow
-                                    return stack.getTags().noneMatch(ModTags.Items.MESHES::equals);
-                                }
-                                return false;
-                            })));
 
     public final ContainerData data;
     public int progress = 0;
-    public int maxProgress = 1000;
+    public int maxProgress = 220;
+    public static final int INPUT_SLOT = 0;
+    public static final int MESH_SLOT = 1;
+    public static final int SPEED_UPGRADE = 2; // Upgrade Slot Opolis Utilities speed upgrades
+    public static final int MESH_UPGRADE = 3; // Mesh damage upgrades
+    public static final int OUTPUT_UPGRADE = 4; // Upgrade Slot Strainers chance increase upgrades
 
-    public void setHandler(ItemStackHandler handler) {
-        copyHandlerContents(handler);
+    //UPGRADE VALUES
+    public double meshDamageChance = 1.0;
+    public double outputChanceIncrease = 0.0;
+    public static final int[] OUTPUT_SLOTS = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+
+    private final IItemHandler strainerItemHandler = new InputOutputItemHandler(
+            itemHandler,
+            (i, stack) -> isInputSlot(i),
+            this::isOutputSlot
+    );
+
+    private boolean isInputSlot(int slot) {
+        return slot == INPUT_SLOT || slot == MESH_SLOT;
     }
 
-    private void copyHandlerContents(ItemStackHandler handler) {
+    private boolean isOutputSlot(int slot) {
+        for (int outputSlot : OUTPUT_SLOTS) {
+            if (slot == outputSlot) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public IItemHandler getItemHandlerCapability(Direction side) {
+        if (side == null)
+            return itemHandler;
+
+        return strainerItemHandler;
+    }
+
+
+    public void setHandler(ItemStackHandler handler) {
         for (int i = 0; i < handler.getSlots(); i++) {
-            itemHandler.setStackInSlot(i, handler.getStackInSlot(i));
+            this.itemHandler.setStackInSlot(i, handler.getStackInSlot(i));
         }
     }
 
     public ItemStackHandler getItemStackHandler() {
         return this.itemHandler;
     }
+
 
     public WoodenStrainerBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(ModBlockEntities.WOODEN_STRAINER_BLOCK_ENTITY.get(), blockPos, blockState);
@@ -169,68 +167,67 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 return 2;
             }
         };
+
+        if (level instanceof ServerLevel serverLevel) {
+            this.fakePlayer = createFakePlayer(serverLevel);
+        }
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.literal("Strainer");
+        return Component.translatable("block.strainers.wooden_strainer");
     }
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int containerID, @NotNull Inventory inventory, @NotNull Player player) {
-        return new WoodenStrainerMenu(containerID, inventory, this, this.data);
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return lazyItemHandler.cast();
-        }
-        return super.getCapability(cap);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return directionWrappedHandlerMap.get(side).cast();
-        }
-
-        return super.getCapability(cap, side);
+    public AbstractContainerMenu createMenu(int container, @NotNull Inventory inventory, @NotNull Player player) {
+        return new WoodenStrainerMenu(container, inventory, this.getBlockPos(), data);
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        this.setChanged();
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-        for (Direction dir : Direction.values()) {
-            if (directionWrappedHandlerMap.containsKey(dir)) {
-                directionWrappedHandlerMap.get(dir).invalidate();
-            }
-        }
+    public void handleUpdateTag(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+        super.loadAdditional(compoundTag, provider);
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
-        tag.putInt("wooden_strainer.progress", progress);
-        tag.putInt("wooden_strainer.maxProgress", maxProgress);
-        super.saveAdditional(tag);
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider provider) {
+        CompoundTag compoundTag = new CompoundTag();
+        saveAdditional(compoundTag, provider);
+        return compoundTag;
     }
 
     @Override
-    public void load(@NotNull CompoundTag nbt) {
-        super.load(nbt);
-        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
-        progress = nbt.getInt("wooden_strainer.progress");
-        maxProgress = nbt.getInt("wooden_strainer.maxProgress");
+    public void onDataPacket(@NotNull Connection connection, @NotNull ClientboundBlockEntityDataPacket clientboundBlockEntityDataPacket,
+                             HolderLookup.@NotNull Provider provider) {
+        super.onDataPacket(connection, clientboundBlockEntityDataPacket, provider);
+    }
+
+
+    @Nullable
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        compoundTag.put("inventory", this.itemHandler.serializeNBT(provider));
+        compoundTag.putInt("strainer.progress", progress);
+        compoundTag.putInt("strainer.maxProgress", maxProgress);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+        this.itemHandler.deserializeNBT(provider, compoundTag.getCompound("inventory"));
+        progress = compoundTag.getInt("strainer.progress");
+        maxProgress = compoundTag.getInt("strainer.maxProgress");
+        super.loadAdditional(compoundTag, provider);
     }
 
     public void drops() {
@@ -238,39 +235,50 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
-
         assert this.level != null;
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
-    double durationMultiplier = 1.0;
-    double outputChance = 0.0;
-    int outputRuns = 0;
-    double inputMultiplier = 1.0;
-    double meshMultiplier = 1.0;
-    int meshExtraDamage = 0;
-    int inputItemExtraAmount = 0;
-    ItemStack upgradeItem = ItemStack.EMPTY;
 
     public void tick() {
-
-        Level pLevel = this.level;
-
 
         assert level != null;
         if (!level.isClientSide) {
 
-        //    ModMessages.sendToClients(new PacketSyncItemStackToClient(itemHandler, worldPosition));
-        //    ModMessages.sendToClients(new PacketSyncProgressToClient(progress, maxProgress, worldPosition));
-
-            BlockPos pPos = this.worldPosition;
-            BlockState pState = pLevel.getBlockState(pPos);
-            WoodenStrainerBlockEntity pBlockEntity = this;
-
-            if (!this.itemHandler.getStackInSlot(0).is(upgradeItem.getItem())) {
-                updateUpgrades(pBlockEntity);
+            if (this.fakePlayer == null && level instanceof ServerLevel serverLevel) {
+                this.fakePlayer = createFakePlayer(serverLevel);
             }
 
+            //Speed Upgrade Check
+
+            if (itemHandler.getStackInSlot(SPEED_UPGRADE).isEmpty()) {
+                maxProgress = 220;
+            } else {
+                getMaxProgressFromUpgrade();
+            }
+
+            //Mesh Upgrade Check
+
+            if (itemHandler.getStackInSlot(MESH_UPGRADE).isEmpty()) {
+                meshDamageChance = 1.0;
+            } else {
+                getMeshDamageChanceUpgrade();
+            }
+
+            //Output Upgrade Check
+
+            if (itemHandler.getStackInSlot(OUTPUT_UPGRADE).isEmpty()) {
+                outputChanceIncrease = 0.0;
+            } else {
+                getOutputChanceIncrease();
+            }
+
+            BlockPos pPos = this.worldPosition;
+            BlockState pState = level.getBlockState(pPos);
+            WoodenStrainerBlockEntity pBlockEntity = this;
+
+
+            /*
             if (this.itemHandler.getStackInSlot(0).isEmpty()) {
                 upgradeItem = ItemStack.EMPTY;
                 durationMultiplier = 1.0;
@@ -282,236 +290,235 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 inputItemExtraAmount = 0;
             }
 
+             */
+
             if (hasRecipe(pBlockEntity)) {
                 pBlockEntity.progress++;
-                setChanged(pLevel, pPos, pState);
+                sync();
+
+                setChanged(level, pPos, pState);
                 if (pBlockEntity.progress > pBlockEntity.maxProgress) {
+                    setChanged();
                     craftItem(pBlockEntity);
                 }
             } else {
                 pBlockEntity.resetProgress();
-                setChanged(pLevel, pPos, pState);
+                sync();
+                setChanged();
             }
         }
 
     }
 
+
+    public void getMaxProgressFromUpgrade() {
+
+        for (RecipeHolder<SpeedUpgradesRecipe> match : level.getRecipeManager().getRecipesFor(SpeedUpgradesRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
+            NonNullList<Ingredient> input = match.value().getIngredients();
+
+            for (Ingredient ingredient : input) {
+                if (ingredient.test(itemHandler.getStackInSlot(SPEED_UPGRADE))) {
+                    maxProgress = match.value().tickRate();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void getMeshDamageChanceUpgrade() {
+
+        for (RecipeHolder<MeshUpgradesRecipe> match : level.getRecipeManager().getRecipesFor(MeshUpgradesRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
+            NonNullList<Ingredient> input = match.value().getIngredients();
+
+            for (Ingredient ingredient : input) {
+                if (ingredient.test(itemHandler.getStackInSlot(MESH_UPGRADE))) {
+                    meshDamageChance = match.value().meshDamageChance();
+                    break;
+                }
+            }
+        }
+    }
+    public void getOutputChanceIncrease() {
+
+        for (RecipeHolder<OutputUpgradesRecipe> match : level.getRecipeManager().getRecipesFor(OutputUpgradesRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
+            NonNullList<Ingredient> input = match.value().getIngredients();
+
+            for (Ingredient ingredient : input) {
+                if (ingredient.test(itemHandler.getStackInSlot(OUTPUT_UPGRADE))) {
+                    outputChanceIncrease = match.value().outputChanceIncrease();
+                    break;
+                }
+            }
+        }
+    }
+
     private boolean hasRecipe(@NotNull WoodenStrainerBlockEntity entity) {
         Level level = entity.level;
-        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
+        RecipeInput inventory = new RecipeInput() {
+            @Override
+            public @NotNull ItemStack getItem(int index) {
+                return itemHandler.getStackInSlot(index);
+            }
+
+            @Override
+            public int size() {
+                return itemHandler.getSlots();
+            }
+        };
 
         assert level != null;
-        Optional<StrainerRecipe> match = level.getRecipeManager()
-                .getRecipeFor(StrainerRecipe.Type.INSTANCE, inventory, level);
-
-        List<StrainerRecipe> allRecipes = level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
-
-        List<StrainerRecipe> matchingRecipes = allRecipes.stream()
-                .filter(recipe -> recipe.matches(inventory, level))
-                .collect(Collectors.toList());
-
+        List<RecipeHolder<StrainerRecipe>> allRecipes = level.getRecipeManager()
+                .getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
 
         BlockPos blockPos = entity.worldPosition.above(1);
         BlockState blockAbove = level.getBlockState(blockPos);
         FluidState fluidAbove = level.getFluidState(blockPos);
 
+        for (RecipeHolder<StrainerRecipe> recipeHolder : allRecipes) {
+            StrainerRecipe recipe = recipeHolder.value();
+            Fluid fluidInRecipe = recipe.getFluidAbove();
+            Block blockInRecipe = recipe.getBlockAbove();
 
+            FluidState fluidInTank = null;
+            if (blockAbove.is(ModBlocks.STRAINER_TANK.get())) {
+                fluidInTank = ((StrainerTankBlockEntity) Objects.requireNonNull(level.getBlockEntity(blockPos))).getFluidStack().getFluid().defaultFluidState();
+            }
 
-        if (!matchingRecipes.isEmpty()) {
-            for (StrainerRecipe matching : matchingRecipes) {
+            if (fluidInTank == null) {
+                fluidInTank = fluidAbove;
+            }
 
-                entity.maxProgress = (int) (matching.getDuration() * durationMultiplier); //New Upgrade System
+            boolean isFluidMatching = fluidInTank.is(fluidInRecipe) || fluidAbove.is(fluidInRecipe);
+            boolean isBlockMatching = blockAbove.is(blockInRecipe) && (recipe.getBlockAbove().isEmpty(level.getBlockState(blockPos)) && !blockAbove.is(ModBlocks.STRAINER_TANK.get())) && fluidAbove.is(Fluids.EMPTY);
+            boolean isAirBlockRecipe = blockAbove.is(blockInRecipe);
 
-                @Nullable Fluid fluidInRecipe = null;
-                if (matching.getBlockAbove().isEmpty()) {
-                    fluidInRecipe = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(matching.getFluidAbove()));
+            if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
+                if (hasMeshItem(entity, recipe)
+                        && hasInputItem(entity, recipe)
+                        && canStartRecipe(inventory, recipe.output())) {
+                    return true;
                 }
-
-                @Nullable Block blockInRecipe = null;
-                if (matching.getFluidAbove().isEmpty()) {
-                    blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(matching.getBlockAbove()));
-                }
-
-
-                // Check Block / Fluid
-                if (!blockAbove.isAir() || blockAbove.is(blockInRecipe)) {
-
-                    FluidState fluidInTank = null;
-                    if (blockAbove.is(ModBlocks.STRAINER_TANK.get())) {
-                        fluidInTank = ((StrainerTankBlockEntity) level.getBlockEntity(blockPos)).getFluidStack().getFluid().defaultFluidState();
-                    }
-
-                    if (fluidInTank == null) {
-                        fluidInTank = fluidAbove;
-                    }
-
-                    boolean isFluidMatching = fluidInTank.is(fluidInRecipe) || fluidAbove.is(fluidInRecipe);
-
-                    boolean isBlockMatching = blockAbove.is(blockInRecipe) && (matching.getBlockAbove().isEmpty() && !blockAbove.is(ModBlocks.STRAINER_TANK.get())) && fluidAbove.is(Fluids.EMPTY);
-
-                    boolean isAirBlockRecipe = blockAbove.is(blockInRecipe);
-
-                    if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
-                        return match.filter(currentRecipe ->
-                                hasMeshItem(entity, currentRecipe)
-                                        && hasInputItem(entity, currentRecipe)
-                                        && canStartRecipe(inventory, currentRecipe.getOutput())
-                                        && hasCorrectCountInInputUpgrading(entity)
-                                        && hasDuration(currentRecipe)).isPresent();
-                    }
-                }
-
             }
         }
         return false;
     }
 
-    private void updateUpgrades(@NotNull WoodenStrainerBlockEntity entity) {
+    private void craftItem(@NotNull WoodenStrainerBlockEntity entity) {
+        RecipeInput inventory = new RecipeInput() {
+            @Override
+            public @NotNull ItemStack getItem(int index) {
+                return itemHandler.getStackInSlot(index);
+            }
 
-        Level level = entity.level;
-        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
+            @Override
+            public int size() {
+                return itemHandler.getSlots();
+            }
+        };
 
         assert level != null;
-        List<UpgradeRecipeUtil> upgradeRecipe = level.getRecipeManager().getAllRecipesFor(UpgradeRecipeUtil.Type.INSTANCE);
+        List<RecipeHolder<StrainerRecipe>> allRecipes = level.getRecipeManager()
+                .getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
 
-        List<UpgradeRecipeUtil> matchingUpgradeRecipes = upgradeRecipe.stream()
-                .filter(recipe -> recipe.matches(inventory, level))
-                .collect(Collectors.toList());
+        BlockPos blockPos = entity.worldPosition.above(1);
+        BlockState blockAbove = level.getBlockState(blockPos);
+        FluidState fluidAbove = level.getFluidState(blockPos);
 
-        if (!matchingUpgradeRecipes.isEmpty()) {
-            for (UpgradeRecipeUtil matchingUpgrade : matchingUpgradeRecipes) {
-                if (itemHandler.getStackInSlot(0).is(matchingUpgrade.getUpgradeItem().getItem())) {
-                    durationMultiplier = matchingUpgrade.getDurationMultiplier();
-                    outputChance = matchingUpgrade.getOutputIncreaseChance();
-                    upgradeItem = matchingUpgrade.getUpgradeItem();
-                    outputRuns = matchingUpgrade.getOutputIncreaseAmount();
-                    inputMultiplier = matchingUpgrade.getInputItemConsumeChance();
-                    meshMultiplier = matchingUpgrade.getMeshUseChance();
-                    meshExtraDamage = matchingUpgrade.getMeshExtraDamage();
-                    inputItemExtraAmount = matchingUpgrade.getInputItemExtraAmount();
-                    break;
-                }
+        for (RecipeHolder<StrainerRecipe> recipeHolder : allRecipes) {
+            StrainerRecipe recipe = recipeHolder.value();
+            Fluid fluidInRecipe = recipe.getFluidAbove();
+            Block blockInRecipe = recipe.getBlockAbove();
+
+            FluidState fluidInTank = null;
+            if (blockAbove.is(ModBlocks.STRAINER_TANK.get())) {
+                fluidInTank = ((StrainerTankBlockEntity) Objects.requireNonNull(level.getBlockEntity(blockPos))).getFluidStack().getFluid().defaultFluidState();
             }
-        } else {
-            outputChance = 0.0;
-            upgradeItem = ItemStack.EMPTY;
-        }
 
-    }
+            if (fluidInTank == null) {
+                fluidInTank = fluidAbove;
+            }
 
-    private void craftItem(@NotNull WoodenStrainerBlockEntity entity) {
-        Level level = entity.level;
-        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
+            boolean isFluidMatching = fluidInTank.is(fluidInRecipe) || fluidAbove.is(fluidInRecipe);
+            boolean isBlockMatching = blockAbove.is(blockInRecipe) && (recipe.getBlockAbove().isEmpty(blockAbove) && !blockAbove.is(ModBlocks.STRAINER_TANK.get())) && fluidAbove.is(Fluids.EMPTY);
+            boolean isAirBlockRecipe = blockAbove.is(blockInRecipe);
 
-        List<StrainerRecipe> allRecipes = level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE);
-
-        List<StrainerRecipe> matchingRecipes = allRecipes.stream()
-                .filter(recipe -> recipe.matches(inventory, level))
-                .collect(Collectors.toList());
-
-        if (!matchingRecipes.isEmpty()) {
-            for (StrainerRecipe match : matchingRecipes) {
-                Random random = new Random();
-                double chance = random.nextDouble();
-                int additionalOutputRuns = 0;
-                if (chance > outputChance && outputChance != 0.0) {
-                    additionalOutputRuns = 1;
-                }
-
-                additionalOutputRuns = additionalOutputRuns + outputRuns;
-
-                // Normal output processing
-                for (int run = 0; run < (1 + additionalOutputRuns); run++) {
-                    Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(match.getFluidAbove()));
-                    Block blockInRecipe = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(match.getBlockAbove()));
-
-                    BlockPos blockPos = entity.worldPosition.above(1);
-                    BlockState blockAbove = level.getBlockState(blockPos);
-
-                    FluidState fluidAbove = level.getFluidState(blockPos);
-                    if (blockAbove.is(ModBlocks.STRAINER_TANK.get())) {
-                        fluidAbove = ((StrainerTankBlockEntity) level.getBlockEntity(blockPos)).getFluidStack().getFluid().defaultFluidState();
-                    }
+            if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
+                if (hasMeshItem(entity, recipe)
+                        && hasInputItem(entity, recipe)
+                        && canStartRecipe(inventory, recipe.output())) {
 
 
-                    if ((blockAbove.is(blockInRecipe) || match.getBlockAbove().isEmpty())
-                            && (fluidAbove.is(fluid) || match.getFluidAbove().isEmpty())) {
+                        if (!recipe.getOutput().isEmpty() && Math.random() < recipe.getOutputChance() + outputChanceIncrease) {
+                            ItemStack outputStack = new ItemStack(recipe.getOutput().getItem(), recipe.getOutput().getCount());
+                            boolean inserted = false;
 
-                        int meshTierStrainer = getMeshTierInStrainer(entity, match);
-                        int outputBoost = meshTierStrainer - match.getMeshTier();
+                            // Try to insert into existing stacks first
+                            for (int i = 5; i <= 24; i++) {
+                                ItemStack existingStack = entity.itemHandler.getStackInSlot(i);
+                                if (!existingStack.isEmpty() && ItemStack.isSameItem(existingStack, outputStack)) {
+                                    int combinedCount = existingStack.getCount() + outputStack.getCount();
+                                    int maxStackSize = Math.min(existingStack.getMaxStackSize(), entity.itemHandler.getSlotLimit(i));
 
-                        if (!match.getOutput().isEmpty() && Math.random() < match.getOutputChance() + (match.getChanceIncreasePerTier() * outputBoost)) {
-                            for (int i = 3; i <= 26; i++) {
-                                if (entity.itemHandler.isItemValid(i, match.getOutput().getItem().getDefaultInstance()) && entity.itemHandler.insertItem(i, new ItemStack(match.getOutput().getItem(), match.getOutput().getCount()), false).isEmpty()) {
-                                    break;
+                                    if (combinedCount <= maxStackSize) {
+                                        existingStack.grow(outputStack.getCount());
+                                        inserted = true;
+                                        break;
+                                    } else {
+                                        int remaining = maxStackSize - existingStack.getCount();
+                                        existingStack.grow(remaining);
+                                        outputStack.shrink(remaining);
+                                    }
                                 }
                             }
-                        }
+
+                            // If there is still remaining output, insert into empty slots
+                            if (!inserted && !outputStack.isEmpty()) {
+                                for (int i = 5; i <= 24; i++) {
+                                    if (entity.itemHandler.getStackInSlot(i).isEmpty()) {
+                                        entity.itemHandler.setStackInSlot(i, outputStack);
+                                        inserted = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!inserted) {
+                                // If no space is available, drop the output item in the world
+                                Containers.dropItemStack(level, entity.worldPosition.getX(), entity.worldPosition.getY(), entity.worldPosition.getZ(), outputStack);
+                            }
+
                     }
+
+                    // Handle input item consumption and mesh damage
+                    consumeInputItem(entity);
+                    damageMeshItem(entity);
+                    entity.resetProgress();
+                    return;  // Exit after processing the first valid recipe
                 }
             }
-            // Upgrade Effects
+        }
+    }
 
-            if (!entity.itemHandler.getStackInSlot(2).isDamageableItem() || entity.itemHandler.getStackInSlot(2).is(ModTags.Items.REMOVE_ITEM_NO_DAMAGE_IN_STRAINER)) {
 
-                if (inputMultiplier != 1.0) {
+    private void consumeInputItem(WoodenStrainerBlockEntity entity) {
+        ItemStack inputItem = entity.itemHandler.getStackInSlot(INPUT_SLOT);
+        if (!inputItem.isEmpty()) {
+            inputItem.shrink(1);
+            if (inputItem.getCount() <= 0) {
+                entity.itemHandler.setStackInSlot(INPUT_SLOT, ItemStack.EMPTY);
+            }
+        }
+    }
 
-                    if (Math.random() > inputMultiplier) {
-                        entity.itemHandler.extractItem(2, 0, false);
-                    } else {
-                        entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
-                    }
-                }
-
-                else {
-                    entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
+    private void damageMeshItem(WoodenStrainerBlockEntity entity) {
+        ItemStack meshItem = entity.itemHandler.getStackInSlot(MESH_SLOT);
+        if (meshItem.isDamageableItem()) {
+            if (Math.random() <= meshDamageChance) {
+                meshItem.hurtAndBreak(1, createFakePlayer((ServerLevel) this.level), fakePlayer.getEquipmentSlotForItem(meshItem));
+                if (meshItem.getCount() <= 0) {
+                    entity.itemHandler.setStackInSlot(MESH_SLOT, ItemStack.EMPTY);
                 }
             }
-
-
-            if (entity.itemHandler.getStackInSlot(2).isDamageableItem()) {
-
-                if (inputMultiplier != 1.0) {
-                    if (Math.random() > inputMultiplier) {
-                        if (entity.itemHandler.getStackInSlot(2).hurt(0, RandomSource.create(), null)) {
-                            entity.itemHandler.extractItem(2, 0, false);
-                        }
-                    } else {
-                        if (entity.itemHandler.getStackInSlot(2).hurt(1 + inputItemExtraAmount, RandomSource.create(), null)) {
-                            entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
-                        }
-                    }
-                } else {
-                    if (entity.itemHandler.getStackInSlot(2).hurt(1 + inputItemExtraAmount, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(2, 1 + inputItemExtraAmount, false);
-                    }
-                }
-            }
-
-            if (meshMultiplier != 1.0) {
-                if (Math.random() > meshMultiplier) {
-                    if (entity.itemHandler.getStackInSlot(1).hurt(0, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(1, 0, false);
-                    } else if (entity.itemHandler.getStackInSlot(1).hurt(1 + meshExtraDamage, RandomSource.create(), null)) {
-                        entity.itemHandler.extractItem(1, 1, false);
-                    }
-                }
-            } else if (entity.itemHandler.getStackInSlot(1).hurt(1 + meshExtraDamage, RandomSource.create(), null)) {
-                entity.itemHandler.extractItem(1, 1, false);
-
-            }
-
-            entity.resetProgress();
-
         }
     }
 
@@ -524,31 +531,27 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     private void resetProgress() {
         this.progress = 0;
-        this.maxProgress = 1000;
-    }
-
-    private boolean hasDuration(StrainerRecipe recipe) {
-        return 0 <= recipe.getDuration();
+        this.maxProgress = 220;
     }
 
     private boolean hasMeshItem(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
-        ItemStack meshItem = entity.itemHandler.getStackInSlot(1);
-        if (recipe.getMeshTier() == 1) {
+        ItemStack meshItem = entity.itemHandler.getStackInSlot(MESH_SLOT);
+        if (recipe.getMinMeshTier() == 1) {
             return meshItem.is(ModTags.Items.TIER_1_MESHES) || meshItem.is(ModTags.Items.TIER_2_MESHES) || meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        else if (recipe.getMeshTier() == 2) {
+        else if (recipe.getMinMeshTier() == 2) {
             return meshItem.is(ModTags.Items.TIER_2_MESHES) || meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        else if (recipe.getMeshTier() == 3) {
+        else if (recipe.getMinMeshTier() == 3) {
             return meshItem.is(ModTags.Items.TIER_3_MESHES) || meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        else if (recipe.getMeshTier() == 4) {
+        else if (recipe.getMinMeshTier() == 4) {
             return meshItem.is(ModTags.Items.TIER_4_MESHES) || meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        else if (recipe.getMeshTier() == 5) {
+        else if (recipe.getMinMeshTier() == 5) {
             return meshItem.is(ModTags.Items.TIER_5_MESHES) || meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
-        else if (recipe.getMeshTier() == 6) {
+        else if (recipe.getMinMeshTier() == 6) {
             return meshItem.is(ModTags.Items.TIER_6_MESHES);
         }
         return false;
@@ -556,7 +559,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     public int getMeshTierInStrainer(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {
         if (hasMeshItem(entity, recipe)) {
-            Item meshItem = entity.itemHandler.getStackInSlot(1).getItem();
+            Item meshItem = entity.itemHandler.getStackInSlot(MESH_SLOT).getItem();
 
             if (meshItem.asItem().getDefaultInstance().is(ModTags.Items.TIER_6_MESHES)) {
                 return 6;
@@ -582,8 +585,8 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     private boolean hasInputItem(@NotNull WoodenStrainerBlockEntity entity, @NotNull StrainerRecipe recipe) {
 
-        ItemStack[] items = recipe.getIngredients().get(0).getItems();
-        ItemStack slotItem = entity.itemHandler.getStackInSlot(2);
+        ItemStack[] items = recipe.input().getItems();
+        ItemStack slotItem = entity.itemHandler.getStackInSlot(INPUT_SLOT);
 
         for (ItemStack item : items) {
             if (ItemStack.isSameItem(item, slotItem)) {
@@ -593,11 +596,11 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         return false;
     }
 
-    private boolean canStartRecipe(SimpleContainer inventory, ItemStack stack) {
+    private boolean canStartRecipe(RecipeInput inventory, ItemStack stack) {
         int emptySlotCounter = 0;
         int occupiedSlotCounter = 0;
 
-        for (int i = 3; i <= 26; i++) {
+        for (int i = 5; i <= 24; i++) {
             ItemStack itemStack = inventory.getItem(i);
 
             if (itemStack.isEmpty()) {
@@ -617,10 +620,11 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         }
 
         // Return false if all slots are occupied or if there are no empty slots
-        return occupiedSlotCounter != 26 && emptySlotCounter != 0;
+        return occupiedSlotCounter != 24 && emptySlotCounter != 0;
     }
 
-    private boolean hasCorrectCountInInputUpgrading(WoodenStrainerBlockEntity entity) {
-        return entity.itemHandler.getStackInSlot(2).getCount() >= inputItemExtraAmount + 1;
+
+    private FakePlayer createFakePlayer(ServerLevel level) {
+        return new FakePlayer(level, new GameProfile(UUID.randomUUID(), "Strainer"));
     }
 }

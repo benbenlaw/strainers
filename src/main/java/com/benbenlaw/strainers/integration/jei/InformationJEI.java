@@ -2,24 +2,20 @@ package com.benbenlaw.strainers.integration.jei;
 
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
-import com.benbenlaw.strainers.fluid.ModFluids;
 import com.benbenlaw.strainers.item.ModItems;
-import com.benbenlaw.strainers.recipe.StrainerRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 @JeiPlugin
 public class InformationJEI implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(Strainers.MOD_ID, "information");
+        return ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "information");
     }
 
     @Override
@@ -27,7 +23,7 @@ public class InformationJEI implements IModPlugin {
 
         ItemStack[] purifyingItems = new ItemStack[] {
                 ModItems.PURIFYING_SALT_MULCH.get().asItem().getDefaultInstance(),
-                ModItems.PURIFIED_WATER_BUCKET.get().asItem().getDefaultInstance()
+          //      ModItems.PURIFIED_WATER_BUCKET.get().asItem().getDefaultInstance()
         };
 
         for (ItemStack item : purifyingItems) {

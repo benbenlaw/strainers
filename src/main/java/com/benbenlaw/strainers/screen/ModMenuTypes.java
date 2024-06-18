@@ -1,28 +1,23 @@
 package com.benbenlaw.strainers.screen;
 
 import com.benbenlaw.strainers.Strainers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.inventory.AbstractContainerMenu;
+import com.benbenlaw.strainers.screen.custom.WoodenStrainerMenu;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.network.IContainerFactory;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS =
-            DeferredRegister.create(ForgeRegistries.MENU_TYPES, Strainers.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.MENU, Strainers.MOD_ID);
 
+    public static final DeferredHolder<MenuType<?>, MenuType<WoodenStrainerMenu>> WOODEN_STRAINER_MENU;
 
-    public static final RegistryObject<MenuType<WoodenStrainerMenu>> WOODEN_STRAINER_MENU =
-            registerMenuType(WoodenStrainerMenu::new, "wooden_strainer_menu");
-
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
-        return MENUS.register(name, () -> IForgeMenuType.create(factory));
+    static {
+        WOODEN_STRAINER_MENU = MENUS.register("wooden_strainer_menu", () ->
+                IMenuTypeExtension.create(WoodenStrainerMenu::new));
     }
 
     public static void register(IEventBus eventBus) {

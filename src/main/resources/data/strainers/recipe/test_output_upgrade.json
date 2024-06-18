@@ -1,0 +1,10 @@
+{
+  "type": "strainers:output_upgrade",
+    "input": {
+      "count": 1,
+      "item": "minecraft:beacon"
+    },
+    "outputChanceIncrease": 1.0
+
+
+}

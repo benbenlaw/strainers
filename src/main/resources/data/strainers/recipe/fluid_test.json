@@ -1,0 +1,21 @@
+{
+  "type": "strainers:strainer",
+    "input": {
+      "count": 1,
+      "item": "minecraft:dirt"
+    },
+    "mesh": {
+      "count": 1,
+      "tag": "strainers:mesh_tier_4"
+    },
+    "aboveBlock": "minecraft:water",
+      "output": {
+        "count": 1,
+        "id": "minecraft:emerald"
+      },
+      "minMeshTier": 4,
+
+      "chance": 1.0
+
+
+}

@@ -2,9 +2,11 @@ package com.benbenlaw.strainers.block.entity.client;
 
 import com.benbenlaw.opolisutilities.util.RenderUtil;
 import com.benbenlaw.strainers.block.entity.StrainerTankBlockEntity;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -12,8 +14,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidStack;
+
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -25,29 +29,32 @@ public class StrainerTankBlockEntityRenderer implements BlockEntityRenderer<Stra
     }
 
     @Override
-    public void render(StrainerTankBlockEntity entity, float ticks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light, int overlay) {
+    public void render(StrainerTankBlockEntity entity, float pPartialTick, PoseStack pPoseStack,
+                       MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+
+        FluidTank fluidTank = entity.FLUID_TANK;
 
         if (!entity.getFluidStack().isEmpty()) {
 
             FluidStack fluid = entity.getFluidStack();
 
-            VertexConsumer buffer = multiBufferSource.getBuffer(Sheets.translucentCullBlockSheet());
+            VertexConsumer buffer = pBufferSource.getBuffer(Sheets.translucentCullBlockSheet());
 
-            PoseStack.Pose last = poseStack.last();
+            PoseStack.Pose last = pPoseStack.last();
 
-            renderFluid(last.pose(), last.normal(),buffer, entity, fluid.getFluid(), entity.FLUID_TANK.getFluidAmount()/ (float) entity.FLUID_TANK.getCapacity(), light);
+            renderFluid(last, buffer, entity, fluid.getFluid(), fluidTank.getFluidAmount() / (float) fluidTank.getCapacity(), pPackedLight);
         }
 
     }
 
-    private static void renderFluid(Matrix4f pose, Matrix3f normal, VertexConsumer consumer, BlockEntity entity, Fluid fluid, float fillAmount, int packedLight) {
+    private static void renderFluid(PoseStack.Pose pose, VertexConsumer consumer, BlockEntity entity, Fluid fluid, float fillAmount, int packedLight) {
         int color = IClientFluidTypeExtensions.of(fluid).getTintColor(fluid.defaultFluidState(), entity.getLevel(), entity.getBlockPos());
         //if (color == -1) color = 0xffffff;
-        renderFluid(pose, normal, consumer, fluid, fillAmount, color, packedLight);
+        renderFluid(pose, consumer, fluid, fillAmount, color, packedLight);
     }
 
 
-    public static void renderFluid(Matrix4f pose, Matrix3f normal, VertexConsumer consumer, Fluid fluid, float fillAmount, int color, int packedLight) {
+    public static void renderFluid(PoseStack.Pose pose, VertexConsumer consumer, Fluid fluid, float fillAmount, int color, int packedLight) {
         // Get fluid texture
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluid);
         TextureAtlasSprite texture = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(props.getStillTexture());
@@ -58,14 +65,12 @@ public class StrainerTankBlockEntityRenderer implements BlockEntityRenderer<Stra
         float faceSize = 14 / 16.0f;
 
 
-        // Top
-        RenderUtil.renderFace(Direction.UP, pose, normal, consumer, texture, inset, inset, inset + fluidHeight, faceSize, faceSize, color, packedLight);
-
         // Sides
-        RenderUtil.renderFace(Direction.SOUTH, pose, normal, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
-        RenderUtil.renderFace(Direction.NORTH, pose, normal, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
-        RenderUtil.renderFace(Direction.EAST, pose, normal, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
-        RenderUtil.renderFace(Direction.WEST, pose, normal, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
+        RenderUtil.renderFace(Direction.SOUTH, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
+        RenderUtil.renderFace(Direction.NORTH, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
+        RenderUtil.renderFace(Direction.EAST, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
+        RenderUtil.renderFace(Direction.WEST, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
+        RenderUtil.renderFace(Direction.UP, pose, consumer, texture, inset, inset, inset + fluidHeight, faceSize, faceSize, color, packedLight);
     }
 
 

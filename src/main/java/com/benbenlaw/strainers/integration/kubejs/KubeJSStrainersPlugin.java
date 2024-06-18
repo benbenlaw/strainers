@@ -1,12 +1,6 @@
 package com.benbenlaw.strainers.integration.kubejs;
 
-import com.benbenlaw.strainers.Strainers;
-import dev.latvian.mods.kubejs.KubeJSPlugin;
-import dev.latvian.mods.kubejs.event.EventGroup;
-import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
-import net.minecraft.resources.ResourceLocation;
-
-public class KubeJSStrainersPlugin extends KubeJSPlugin {
+public class KubeJSStrainersPlugin {} /* extends KubeJSPlugin {
 
     public static EventGroup GROUP = EventGroup.of("StrainersEvents");
 
@@ -23,3 +17,5 @@ public class KubeJSStrainersPlugin extends KubeJSPlugin {
 }
 
 
+
+*/

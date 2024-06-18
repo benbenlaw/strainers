@@ -1,6 +1,7 @@
 package com.benbenlaw.strainers.item.custom;
 
 import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.fluid.ModFluids;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -12,10 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class ErodingSaltMulchItem extends Item {
         InteractionHand hand = player.getUsedItemHand();
 
         if (player.getItemInHand(hand).is(this) && state.is(ModBlocks.MULCH.get()) && !level.isClientSide) {
-            level.setBlockAndUpdate(pos, ModBlocks.ERODING_WATER_BLOCK.get().defaultBlockState());
+            level.setBlockAndUpdate(pos, ModFluids.ERODING_WATER_FLUID_BLOCK.get().defaultBlockState());
             player.getItemInHand(hand).shrink(1);
             return InteractionResult.SUCCESS;
         }
@@ -43,14 +41,13 @@ public class ErodingSaltMulchItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
             components.add(Component.translatable("jei.strainers.eroding_water"));
         } else {
             components.add(Component.translatable("tooltips.strainers.upgrade"));
         }
 
-        super.appendHoverText(stack, level, components, tooltipFlag);
+        super.appendHoverText(stack, tooltipContext, components, tooltipFlag);
     }
 }

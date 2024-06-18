@@ -1,18 +1,6 @@
 package com.benbenlaw.strainers.integration.kubejs;
 
-import dev.latvian.mods.kubejs.item.InputItem;
-import dev.latvian.mods.kubejs.item.OutputItem;
-import dev.latvian.mods.kubejs.recipe.RecipeJS;
-import dev.latvian.mods.kubejs.recipe.RecipeKey;
-import dev.latvian.mods.kubejs.recipe.component.ItemComponents;
-import dev.latvian.mods.kubejs.recipe.component.NumberComponent;
-import dev.latvian.mods.kubejs.recipe.component.StringComponent;
-import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
-import net.minecraft.world.item.crafting.Ingredient;
-
-import java.util.Locale;
-
-public interface StrainerRecipeJS {
+public interface StrainerRecipeJS {} /* {
 
 
     RecipeKey<String> FLUID_ABOVE = StringComponent.ANY.key("aboveFluid").optional("").alwaysWrite();
@@ -25,11 +13,6 @@ public interface StrainerRecipeJS {
     RecipeKey<OutputItem> OUTPUT = ItemComponents.OUTPUT.key("output");
 
 
-/*
-    RecipeSchema SCHEMA = new RecipeSchema(StrainerRecipeJSHelper.class, StrainerRecipeJSHelper::new,
-            FLUID_ABOVE, BLOCK_ABOVE, INGREDIENT, OUTPUT, CHANCE, CHANCE_INCREASE_PER_TIER, DURATION, MIN_MESH_TIER);
-
- */
     RecipeSchema SCHEMA = new RecipeSchema(StrainerRecipeJSHelper.class, StrainerRecipeJSHelper::new,
             INGREDIENT, OUTPUT, CHANCE, CHANCE_INCREASE_PER_TIER, DURATION, MIN_MESH_TIER, FLUID_ABOVE, BLOCK_ABOVE);
 
@@ -44,6 +27,7 @@ public interface StrainerRecipeJS {
         }
     }
 }
+*/
 
 
 

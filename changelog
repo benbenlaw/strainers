@@ -3,6 +3,18 @@ Changelog BBL Strainers
 //TODO unify recipes types
 //TODO make tanks fluid handlers to pick up fluids
 
+2.0.0
+
+Updated to minecraft 1.21
+Duration removed from the recipes (Duration now uses opolis utilities speed upgrades recipes instead)
+Output upgrades now effect the chance from an item not increasing the count of the output item
+
+STRAINER CHANGES
+    now has 3 slots for upgrades; one for speed, one for mesh damage and output chance
+    reduced output inventory slots
+
+
+
 1.7.4
 
 Fixed sponge having a 0% chance in the strainer

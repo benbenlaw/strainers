@@ -1,51 +1,83 @@
 package com.benbenlaw.strainers.block.entity;
 
-import com.benbenlaw.strainers.networking.ModMessages;
-import com.benbenlaw.strainers.networking.packets.PacketSyncFluidToClient;
-import com.benbenlaw.strainers.util.IFluidHandlingBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.Containers;
+import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public class StrainerTankBlockEntity extends BlockEntity implements IFluidHandlingBlockEntity {
+public class StrainerTankBlockEntity extends BlockEntity {
 
-    private LazyOptional<IFluidHandler> lazyFluidHandler = LazyOptional.empty();
 
     public final FluidTank FLUID_TANK = new FluidTank(1000) {
         @Override
         protected void onContentsChanged() {
             setChanged();
-            assert level != null;
-            if(!level.isClientSide()) {
-                ModMessages.sendToClients(new PacketSyncFluidToClient(this.fluid, worldPosition));
-            }
+            sync();
         }
     };
+
+    private final IFluidHandler fluidHandler = new IFluidHandler() {
+        @Override
+        public int getTanks() {
+            return 1;
+        }
+
+        @Override
+        public FluidStack getFluidInTank(int tank) {
+            return FLUID_TANK.getFluid();
+        }
+
+        @Override
+        public int getTankCapacity(int tank) {
+            return FLUID_TANK.getCapacity();
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, FluidStack stack) {
+            return FLUID_TANK.isFluidValid(stack);
+        }
+
+        @Override
+        public int fill(FluidStack resource, FluidAction action) {
+            return resource.getAmount() - FLUID_TANK.fill(resource, action);
+        }
+
+        @Override
+        public FluidStack drain(FluidStack resource, FluidAction action) {
+            return null;
+        }
+
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            return null;
+        }
+    };
+
+    public IFluidHandler getFluidHandlerCapability(Direction side) {
+        return fluidHandler;
+    }
+
+
 
     public void setFluid(FluidStack stack) {
         this.FLUID_TANK.setFluid(stack);
@@ -63,30 +95,59 @@ public class StrainerTankBlockEntity extends BlockEntity implements IFluidHandli
         super(ModBlockEntities.STRAINER_TANK_BLOCK_ENTITY.get(), pos, state);
 
     }
+
     @Override
     public void onLoad() {
         super.onLoad();
-        lazyFluidHandler = LazyOptional.of(() -> FLUID_TANK);
+        this.setChanged();
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyFluidHandler.invalidate();
-
-
+    public void handleUpdateTag(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+        super.loadAdditional(compoundTag, provider);
     }
 
     @Override
-    public void saveAdditional(@NotNull CompoundTag tag) {
-        tag = FLUID_TANK.writeToNBT(tag);
-        super.saveAdditional(tag);
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider provider) {
+        CompoundTag compoundTag = new CompoundTag();
+        saveAdditional(compoundTag, provider);
+        return compoundTag;
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
-        FLUID_TANK.readFromNBT(tag);
+    public void onDataPacket(@NotNull Connection connection, @NotNull ClientboundBlockEntityDataPacket clientboundBlockEntityDataPacket,
+                             HolderLookup.@NotNull Provider provider) {
+        super.onDataPacket(connection, clientboundBlockEntityDataPacket, provider);
+    }
+
+    @Nullable
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public void sync() {
+        if (level instanceof ServerLevel serverLevel) {
+            LevelChunk chunk = serverLevel.getChunkAt(getBlockPos());
+            if (Objects.requireNonNull(chunk.getLevel()).getChunkSource() instanceof ServerChunkCache chunkCache) {
+                chunkCache.chunkMap.getPlayers(chunk.getPos(), false).forEach(this::syncContents);
+            }
+        }
+    }
+
+    public void syncContents(ServerPlayer player) {
+        player.connection.send(Objects.requireNonNull(getUpdatePacket()));
+    }
+
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        compoundTag.put("fluid_generator.fluidTank", FLUID_TANK.writeToNBT(provider, new CompoundTag()));
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+        FLUID_TANK.readFromNBT(provider, compoundTag.getCompound("fluid_generator.fluidTank"));
+        super.loadAdditional(compoundTag, provider);
 
     }
 
@@ -94,20 +155,8 @@ public class StrainerTankBlockEntity extends BlockEntity implements IFluidHandli
         return FluidUtil.interactWithFluidHandler(player, hand, FLUID_TANK);
     }
 
-    @Nullable
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
+    public void tick() {
 
-    @Override
-    public CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
     }
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
-    }
-
 
 }

@@ -1,40 +1,24 @@
 package com.benbenlaw.strainers.block.entity.client;
 
-import com.benbenlaw.strainers.block.entity.StrainerTankBlockEntity;
 import com.benbenlaw.strainers.block.entity.WoodenStrainerBlockEntity;
 import com.benbenlaw.strainers.config.StrainersConfigFile;
-import com.benbenlaw.strainers.networking.ModMessages;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-
-import java.util.Objects;
 
 public class StrainerMeshEntityRenderer implements BlockEntityRenderer<WoodenStrainerBlockEntity> {
 
@@ -45,8 +29,8 @@ public class StrainerMeshEntityRenderer implements BlockEntityRenderer<WoodenStr
     public void render(WoodenStrainerBlockEntity entity, float ticks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light, int overlay) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 
-        ItemStack mesh = entity.getItemStackHandler().getStackInSlot(1);
-        ItemStack insideItem = entity.getItemStackHandler().getStackInSlot(2); // Get insideItem ItemStack
+        ItemStack mesh = entity.getItemStackHandler().getStackInSlot(WoodenStrainerBlockEntity.MESH_SLOT);
+        ItemStack insideItem = entity.getItemStackHandler().getStackInSlot(WoodenStrainerBlockEntity.INPUT_SLOT); // Get insideItem ItemStack
         int progress = entity.progress;
         int maxProgress = entity.maxProgress;
 
