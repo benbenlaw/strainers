@@ -18,7 +18,13 @@ import java.util.function.Consumer;
 public class ErodingWaterFluidType extends FluidType {
 
     public ErodingWaterFluidType() {
-        super(Properties.create().density(1000).viscosity(1000).temperature(300)
+        super(Properties.create()
+                .density(1000)
+                .viscosity(1000)
+                .temperature(300)
+                .canSwim(true)
+                .canDrown(true)
+                .fallDistanceModifier(0F)
                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                 .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH));
@@ -33,9 +39,9 @@ public class ErodingWaterFluidType extends FluidType {
     public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
         consumer.accept(new IClientFluidTypeExtensions() {
             private static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation.withDefaultNamespace("textures/misc/underwater.png"),
-                    ERODING_STILL = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/fluid_source"),
-                    ERODING_FLOW = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/fluid_flowing"),
-                    ERODING_OVERLAY = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/fluid_overlay");
+                    ERODING_STILL = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/eroding_water_still"),
+                    ERODING_FLOW = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/eroding_water_flow"),
+                    ERODING_OVERLAY = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/eroding_water_overlay");
 
             @Override
             public ResourceLocation getStillTexture() {

@@ -57,20 +57,29 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
     private void renderUpgradeSlotInformation (GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y) {
         if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 17, 55, 16, 16)) {
             if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
-                guiGraphics.renderTooltip(this.font, Component.literal("SPEED"), mouseX, mouseY);
+                guiGraphics.renderTooltip(this.font, Component.literal("SPEED UPGRADE"), mouseX, mouseY);
             }
+            String ticks = String.valueOf(this.menu.blockEntity.maxProgress);
+            guiGraphics.renderTooltip(this.font,  Component.literal(ticks+ " ticks"), this.leftPos,
+                    this.topPos);
         }
 
         else if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 35, 55, 16, 16)) {
             if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
-                guiGraphics.renderTooltip(this.font, Component.literal("MESH"), mouseX, mouseY);
+                guiGraphics.renderTooltip(this.font, Component.literal("MESH UPGRADE"), mouseX, mouseY);
             }
+            String meshDamage = String.valueOf(this.menu.blockEntity.meshDamageChance * 100);
+            guiGraphics.renderTooltip(this.font,  Component.literal("Mesh damage chance: " + meshDamage + " %"), this.leftPos,
+                    this.topPos);
         }
 
         else if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 53, 55, 16, 16)) {
             if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
-                guiGraphics.renderTooltip(this.font, Component.literal("OUTPUT"), mouseX, mouseY);
+                guiGraphics.renderTooltip(this.font, Component.literal("OUTPUT UPGRADE"), mouseX, mouseY);
             }
+            double outputChance = this.menu.blockEntity.outputChanceIncrease;
+            guiGraphics.renderTooltip(this.font,  Component.literal(outputChance + " added to recipe output chance"), this.leftPos,
+                    this.topPos);
         }
     }
 

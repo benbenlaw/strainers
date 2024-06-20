@@ -63,14 +63,18 @@ dependencies {
 
     //Opolis Utilities
 
-    compileOnly "curse.maven:opolis-utilities-649644:5437779"
-    runtimeOnly "curse.maven:opolis-utilities-649644:5437779"
+    compileOnly "curse.maven:opolis-utilities-649644:5444610"
+    runtimeOnly "curse.maven:opolis-utilities-649644:5444610"
 
 
     //JEI
 
-    compileOnly "curse.maven:jei-238222:5440361"
-   // runtimeOnly "curse.maven:jei-238222:5440361"
+    compileOnly "curse.maven:jei-238222:5443471"
+    runtimeOnly "curse.maven:jei-238222:5443471"
+
+    //Mekanism
+
+   // runtimeOnly "curse.maven:mekanism-268560:5433143"
 
 }
 

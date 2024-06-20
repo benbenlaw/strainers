@@ -9,12 +9,15 @@ import com.benbenlaw.strainers.item.ModItems;
 import com.benbenlaw.strainers.recipe.ModRecipes;
 import com.benbenlaw.strainers.screen.ModMenuTypes;
 import com.benbenlaw.strainers.screen.custom.WoodenStrainerScreen;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -67,27 +70,21 @@ public class Strainers {
 
             event.register(ModMenuTypes.WOODEN_STRAINER_MENU.get(), WoodenStrainerScreen::new);
 
-
         }
 
-        /*
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
             event.enqueueWork(() -> {
 
-                MenuScreens.register(ModMenuTypes.WOODEN_STRAINER_MENU.get(), WoodenStrainerScreen::new);
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.ERODING_WATER_FLUID_SOURCE.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.ERODING_WATER_FLUID_FLOWING.get(), RenderType.translucent());
 
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_ERODING_WATER.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_ERODING_WATER.get(), RenderType.translucent());
-
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_PURIFIED_WATER.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_PURIFIED_WATER.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.PURIFYING_WATER_FLUID_SOURCE.get(), RenderType.translucent());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.PURIFYING_WATER_FLUID_FLOWING.get(), RenderType.translucent());
 
             });
         }
-
-         */
     }
 }
 

@@ -14,6 +14,10 @@ STRAINER CHANGES
     now has 3 slots for upgrades; one for speed, one for mesh damage and output chance
     reduced output inventory slots
 
+Complete changed strainer recipe type
+Added new meshes, 4 per tier *(tin and bronze only exist if a mod with those metals is present)
+Added ore pieces for most ores, including modded common ores
+Remove all previous upgrades
 
 
 1.7.4

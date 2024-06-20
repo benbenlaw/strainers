@@ -220,6 +220,8 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         compoundTag.put("inventory", this.itemHandler.serializeNBT(provider));
         compoundTag.putInt("strainer.progress", progress);
         compoundTag.putInt("strainer.maxProgress", maxProgress);
+        compoundTag.putDouble("strainer.meshDamageChance", meshDamageChance);
+        compoundTag.putDouble("strainer.outputChanceIncrease", outputChanceIncrease);
     }
 
     @Override
@@ -227,6 +229,8 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         this.itemHandler.deserializeNBT(provider, compoundTag.getCompound("inventory"));
         progress = compoundTag.getInt("strainer.progress");
         maxProgress = compoundTag.getInt("strainer.maxProgress");
+        meshDamageChance = compoundTag.getDouble("strainer.meshDamageChance");
+        outputChanceIncrease = compoundTag.getDouble("strainer.outputChanceIncrease");
         super.loadAdditional(compoundTag, provider);
     }
 
@@ -243,7 +247,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     public void tick() {
 
         assert level != null;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
 
             if (this.fakePlayer == null && level instanceof ServerLevel serverLevel) {
                 this.fakePlayer = createFakePlayer(serverLevel);
@@ -255,6 +259,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 maxProgress = 220;
             } else {
                 getMaxProgressFromUpgrade();
+                sync();
             }
 
             //Mesh Upgrade Check
@@ -263,6 +268,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 meshDamageChance = 1.0;
             } else {
                 getMeshDamageChanceUpgrade();
+                sync();
             }
 
             //Output Upgrade Check
@@ -271,6 +277,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                 outputChanceIncrease = 0.0;
             } else {
                 getOutputChanceIncrease();
+                sync();
             }
 
             BlockPos pPos = this.worldPosition;
@@ -312,10 +319,8 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
 
     public void getMaxProgressFromUpgrade() {
-
         for (RecipeHolder<SpeedUpgradesRecipe> match : level.getRecipeManager().getRecipesFor(SpeedUpgradesRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
             NonNullList<Ingredient> input = match.value().getIngredients();
-
             for (Ingredient ingredient : input) {
                 if (ingredient.test(itemHandler.getStackInSlot(SPEED_UPGRADE))) {
                     maxProgress = match.value().tickRate();
@@ -326,10 +331,9 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
     }
 
     public void getMeshDamageChanceUpgrade() {
-
+        assert level != null;
         for (RecipeHolder<MeshUpgradesRecipe> match : level.getRecipeManager().getRecipesFor(MeshUpgradesRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
             NonNullList<Ingredient> input = match.value().getIngredients();
-
             for (Ingredient ingredient : input) {
                 if (ingredient.test(itemHandler.getStackInSlot(MESH_UPGRADE))) {
                     meshDamageChance = match.value().meshDamageChance();
@@ -339,10 +343,9 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         }
     }
     public void getOutputChanceIncrease() {
-
+        assert level != null;
         for (RecipeHolder<OutputUpgradesRecipe> match : level.getRecipeManager().getRecipesFor(OutputUpgradesRecipe.Type.INSTANCE, NoInventoryRecipe.INSTANCE, level)) {
             NonNullList<Ingredient> input = match.value().getIngredients();
-
             for (Ingredient ingredient : input) {
                 if (ingredient.test(itemHandler.getStackInSlot(OUTPUT_UPGRADE))) {
                     outputChanceIncrease = match.value().outputChanceIncrease();
@@ -522,16 +525,9 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         }
     }
 
-    public void updateProgressValues(WoodenStrainerBlockEntity entity) {
-
-        progress = entity.progress;
-        maxProgress = entity.maxProgress;
-
-    }
-
     private void resetProgress() {
         this.progress = 0;
-        this.maxProgress = 220;
+        //this.maxProgress = 220;
     }
 
     private boolean hasMeshItem(WoodenStrainerBlockEntity entity, StrainerRecipe recipe) {

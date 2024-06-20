@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
 
-public record StrainerRecipe(Ingredient input, Ingredient mesh, String aboveBlock, ItemStack output, int minMeshTier, double chance) implements Recipe<RecipeInput> {
+public record StrainerRecipe(Ingredient input, String aboveBlock, ItemStack output, int minMeshTier, double chance) implements Recipe<RecipeInput> {
 
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
@@ -108,7 +108,6 @@ public record StrainerRecipe(Ingredient input, Ingredient mesh, String aboveBloc
         public static final MapCodec<StrainerRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) ->
                 instance.group(
                         Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(StrainerRecipe::input),
-                        Ingredient.CODEC_NONEMPTY.fieldOf("mesh").forGetter(StrainerRecipe::mesh),
                         Codec.STRING.fieldOf("aboveBlock").forGetter(StrainerRecipe::aboveBlock),
                         ItemStack.CODEC.fieldOf("output").forGetter(StrainerRecipe::output),
                         Codec.INT.fieldOf("minMeshTier").forGetter(StrainerRecipe::minMeshTier),
@@ -131,17 +130,15 @@ public record StrainerRecipe(Ingredient input, Ingredient mesh, String aboveBloc
 
         private static StrainerRecipe read(RegistryFriendlyByteBuf buffer) {
             Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-            Ingredient mesh = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             String aboveBlock = buffer.readUtf(Short.MAX_VALUE);
             ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
             int minMeshTier = buffer.readInt();
             double chance = buffer.readDouble();
-            return new StrainerRecipe(input, mesh, aboveBlock, output, minMeshTier, chance);
+            return new StrainerRecipe(input, aboveBlock, output, minMeshTier, chance);
         }
 
         private static void write(RegistryFriendlyByteBuf buffer, StrainerRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.mesh);
             buffer.writeUtf(recipe.aboveBlock, Short.MAX_VALUE);
             ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
             buffer.writeInt(recipe.minMeshTier);

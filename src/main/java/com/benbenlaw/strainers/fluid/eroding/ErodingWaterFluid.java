@@ -15,8 +15,10 @@ public class ErodingWaterFluid extends BaseFlowingFluid {
     public static final Properties PROPERTIES = new Properties(
             ModFluids.ERODING_WATER_FLUID_TYPE,
             ModFluids.ERODING_WATER_FLUID_FLOWING,
-            ModFluids.ERODING_WATER_FLUID_SOURCE
-                ).bucket(ModItems.ERODING_WATER_BUCKET).block(ModFluids.ERODING_WATER_FLUID_BLOCK);
+            ModFluids.ERODING_WATER_FLUID_SOURCE).bucket(ModItems.ERODING_WATER_BUCKET).block(ModFluids.ERODING_WATER_FLUID_BLOCK)
+
+
+    ;
 
     protected ErodingWaterFluid(Properties properties) {
         super(properties);
@@ -72,6 +74,8 @@ public class ErodingWaterFluid extends BaseFlowingFluid {
         public boolean isSource(@NotNull FluidState pState) {
             return false;
         }
+
+
     }
 
     public static class Source extends ErodingWaterFluid {

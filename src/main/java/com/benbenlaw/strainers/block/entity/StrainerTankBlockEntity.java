@@ -77,8 +77,6 @@ public class StrainerTankBlockEntity extends BlockEntity {
         return fluidHandler;
     }
 
-
-
     public void setFluid(FluidStack stack) {
         this.FLUID_TANK.setFluid(stack);
     }
@@ -156,7 +154,6 @@ public class StrainerTankBlockEntity extends BlockEntity {
     }
 
     public void tick() {
-
+        sync();
     }
-
 }
