@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "strainers:purifying_water_fluid",
+  "chance": 0.05,
+  "input": {
+    "item": "minecraft:short_grass"
+  },
+  "minMeshTier": 6,
+  "output": {
+    "count": 1,
+    "id": "minecraft:torchflower"
+  }
+}

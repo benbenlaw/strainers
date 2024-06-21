@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "strainers:leafy_mesh",
-    "strainers:bamboo_mesh",
-    "strainers:string_mesh",
-    "strainers:flint_mesh"
-  ]
-}

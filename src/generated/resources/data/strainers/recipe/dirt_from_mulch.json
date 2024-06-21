@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "strainers",
+  "key": {
+    "L": {
+      "tag": "minecraft:leaves"
+    },
+    "M": {
+      "item": "strainers:mulch"
+    }
+  },
+  "pattern": [
+    " L ",
+    "LML",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:dirt"
+  }
+}

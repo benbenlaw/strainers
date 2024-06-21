@@ -1,9 +1,0 @@
-{
-  "type": "opolisutilities:upgrades",
-  "item": {
-    "item": "strainers:improved_duration_upgrade"
-  },
-  "duration_multiplier": 0.8,
-  "input_item_consume_chance": 1.0,
-  "mesh_use_chance": 1.0
-}

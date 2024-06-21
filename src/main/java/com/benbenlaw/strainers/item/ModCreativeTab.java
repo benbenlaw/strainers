@@ -20,8 +20,17 @@ public class ModCreativeTab {
             .title(Component.translatable("itemGroup.strainers"))
             .displayItems((parameters, output) -> {
 
-                output.accept(ModItems.BLAZE_MESH);
+                output.accept(ModBlocks.WOODEN_STRAINER.get());
+                output.accept(ModBlocks.STRAINER_TANK.get());
+
+                output.accept(ModItems.WOODEN_MESH);
                 output.accept(ModItems.BONE_MESH);
+                output.accept(ModItems.BAMBOO_MESH);
+                output.accept(ModItems.STRING_MESH);
+                output.accept(ModItems.LEAFY_MESH);
+
+
+                output.accept(ModItems.BLAZE_MESH);
                 output.accept(ModItems.BREEZE_MESH);
                 output.accept(ModItems.BRONZE_MESH);
                 output.accept(ModItems.COPPER_MESH);
@@ -34,9 +43,7 @@ public class ModCreativeTab {
                 output.accept(ModItems.LAPIS_MESH);
                 output.accept(ModItems.LEAFY_MESH);
                 output.accept(ModItems.REDSTONE_MESH);
-                output.accept(ModItems.STRING_MESH);
                 output.accept(ModItems.TIN_MESH);
-                output.accept(ModItems.WOODEN_MESH);
                 output.accept(ModItems.AMETHYST_MESH);
                 output.accept(ModItems.QUARTZ_MESH);
 
@@ -61,14 +68,12 @@ public class ModCreativeTab {
 
                 output.accept(ModBlocks.MULCH.get());
                 output.accept(ModItems.STONE_PEBBLE.get());
-                output.accept(ModItems.DEEPSLATE_PEBBLE.get());
                 output.accept(ModItems.PURIFYING_SALT_MULCH.get());
                 output.accept(ModItems.ERODING_SALT_MULCH.get());
                 output.accept(ModItems.ERODING_WATER_BUCKET.get());
                 output.accept(ModItems.PURIFYING_WATER_BUCKET.get());
 
-                output.accept(ModBlocks.WOODEN_STRAINER.get());
-                output.accept(ModBlocks.STRAINER_TANK.get());
+
 
             }).build());
 

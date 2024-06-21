@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "minecraft:lava",
+  "chance": 0.35,
+  "input": {
+    "item": "strainers:ore_mulch"
+  },
+  "minMeshTier": 6,
+  "output": {
+    "count": 1,
+    "id": "strainers:debris_ore_piece"
+  }
+}

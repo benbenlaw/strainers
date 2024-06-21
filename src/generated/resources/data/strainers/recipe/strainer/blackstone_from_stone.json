@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "minecraft:lava",
+  "chance": 0.1,
+  "input": {
+    "item": "minecraft:stone"
+  },
+  "minMeshTier": 4,
+  "output": {
+    "count": 1,
+    "id": "minecraft:blackstone"
+  }
+}

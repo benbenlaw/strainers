@@ -19,9 +19,6 @@ public class ModItems {
     public static final DeferredItem<Item> STONE_PEBBLE = ITEMS.register("stone_pebble",
             () -> new Item(new Item.Properties()));
 
-    public static final DeferredItem<Item> DEEPSLATE_PEBBLE = ITEMS.register("deepslate_pebble",
-            () -> new Item(new Item.Properties()));
-
     public static final DeferredItem<Item> PURIFYING_SALT_MULCH = ITEMS.register("purifying_salt_mulch",
             () -> new PurifyingSaltMulchItem(new Item.Properties()));
 

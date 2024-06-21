@@ -1,12 +1,7 @@
 package com.benbenlaw.strainers.datagen;
 
 
-import com.benbenlaw.opolisutilities.OpolisUtilities;
-import com.benbenlaw.opolisutilities.datagen.OpolisUtilitiesBlockTags;
-import com.benbenlaw.opolisutilities.datagen.OpolisUtilitiesItemTags;
-import com.benbenlaw.opolisutilities.datagen.OpolisUtilitiesRecipes;
 import com.benbenlaw.strainers.Strainers;
-import com.benbenlaw.strainers.datagen.recipes.StrainersItemModelProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -35,6 +30,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), itemTags);
 
         generator.addProvider(event.includeClient(), new StrainersItemModelProvider(packOutput, event.getExistingFileHelper()));
+        generator.addProvider(event.includeClient(), new StrainersBlockStatesProvider(packOutput, event.getExistingFileHelper()));
 
 
 

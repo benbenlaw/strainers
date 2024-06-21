@@ -392,7 +392,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             }
 
             boolean isFluidMatching = fluidInTank.is(fluidInRecipe) || fluidAbove.is(fluidInRecipe);
-            boolean isBlockMatching = blockAbove.is(blockInRecipe) && (recipe.getBlockAbove().isEmpty(level.getBlockState(blockPos)) && !blockAbove.is(ModBlocks.STRAINER_TANK.get())) && fluidAbove.is(Fluids.EMPTY);
+            boolean isBlockMatching = blockAbove.is(blockInRecipe) && (recipe.getBlockAbove().isEmpty(blockAbove) && !blockAbove.is(ModBlocks.STRAINER_TANK.get())) && fluidAbove.is(Fluids.EMPTY);
             boolean isAirBlockRecipe = blockAbove.is(blockInRecipe);
 
             if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
@@ -450,56 +450,57 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
                         && hasInputItem(entity, recipe)
                         && canStartRecipe(inventory, recipe.output())) {
 
+                    // Handle multiple potential outputs based on chance
+                    if (!recipe.getOutput().isEmpty() && Math.random() < recipe.getOutputChance() + outputChanceIncrease) {
+                        ItemStack outputStack = new ItemStack(recipe.getOutput().getItem(), recipe.getOutput().getCount());
+                        boolean inserted = false;
 
-                        if (!recipe.getOutput().isEmpty() && Math.random() < recipe.getOutputChance() + outputChanceIncrease) {
-                            ItemStack outputStack = new ItemStack(recipe.getOutput().getItem(), recipe.getOutput().getCount());
-                            boolean inserted = false;
+                        // Try to insert into existing stacks first
+                        for (int i = 5; i <= 24; i++) {
+                            ItemStack existingStack = entity.itemHandler.getStackInSlot(i);
+                            if (!existingStack.isEmpty() && ItemStack.isSameItem(existingStack, outputStack)) {
+                                int combinedCount = existingStack.getCount() + outputStack.getCount();
+                                int maxStackSize = Math.min(existingStack.getMaxStackSize(), entity.itemHandler.getSlotLimit(i));
 
-                            // Try to insert into existing stacks first
+                                if (combinedCount <= maxStackSize) {
+                                    existingStack.grow(outputStack.getCount());
+                                    inserted = true;
+                                    break;
+                                } else {
+                                    int remaining = maxStackSize - existingStack.getCount();
+                                    existingStack.grow(remaining);
+                                    outputStack.shrink(remaining);
+                                }
+                            }
+                        }
+
+                        // If there is still remaining output, insert into empty slots
+                        if (!inserted && !outputStack.isEmpty()) {
                             for (int i = 5; i <= 24; i++) {
-                                ItemStack existingStack = entity.itemHandler.getStackInSlot(i);
-                                if (!existingStack.isEmpty() && ItemStack.isSameItem(existingStack, outputStack)) {
-                                    int combinedCount = existingStack.getCount() + outputStack.getCount();
-                                    int maxStackSize = Math.min(existingStack.getMaxStackSize(), entity.itemHandler.getSlotLimit(i));
-
-                                    if (combinedCount <= maxStackSize) {
-                                        existingStack.grow(outputStack.getCount());
-                                        inserted = true;
-                                        break;
-                                    } else {
-                                        int remaining = maxStackSize - existingStack.getCount();
-                                        existingStack.grow(remaining);
-                                        outputStack.shrink(remaining);
-                                    }
+                                if (entity.itemHandler.getStackInSlot(i).isEmpty()) {
+                                    entity.itemHandler.setStackInSlot(i, outputStack);
+                                    inserted = true;
+                                    break;
                                 }
                             }
+                        }
 
-                            // If there is still remaining output, insert into empty slots
-                            if (!inserted && !outputStack.isEmpty()) {
-                                for (int i = 5; i <= 24; i++) {
-                                    if (entity.itemHandler.getStackInSlot(i).isEmpty()) {
-                                        entity.itemHandler.setStackInSlot(i, outputStack);
-                                        inserted = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!inserted) {
-                                // If no space is available, drop the output item in the world
-                                Containers.dropItemStack(level, entity.worldPosition.getX(), entity.worldPosition.getY(), entity.worldPosition.getZ(), outputStack);
-                            }
-
+                        if (!inserted) {
+                            // If no space is available, drop the output item in the world
+                            Containers.dropItemStack(level, entity.worldPosition.getX(), entity.worldPosition.getY(), entity.worldPosition.getZ(), outputStack);
+                        }
                     }
 
-                    // Handle input item consumption and mesh damage
-                    consumeInputItem(entity);
-                    damageMeshItem(entity);
-                    entity.resetProgress();
-                    return;  // Exit after processing the first valid recipe
+
                 }
             }
         }
+
+        // Handle input item consumption and mesh damage
+        consumeInputItem(entity);
+        damageMeshItem(entity);
+        entity.resetProgress();
+        // Continue to next recipe to handle multiple outputs
     }
 
 

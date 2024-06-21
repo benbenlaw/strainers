@@ -1,0 +1,9 @@
+// 1.21	2024-06-21T10:38:06.6903837	strainers Item Tags
+c548373d25e53bf52aa4e7110d5cd5dcebaa7cd9 data/opolisutilities/tags/item/banned_in_block_placer.json
+87a1e0d6e86b0396cd73184f2ba84c2f27cbae82 data/strainers/tags/item/meshes.json
+d9d5e7d42aec77a62b65490c398ca7864165e95e data/strainers/tags/item/tier_1_meshes.json
+09ff2493bb9e1e92603c24c99193a1a808c3d5a6 data/strainers/tags/item/tier_2_meshes.json
+a755dc54b2ae36e0f7aaad9560fca9a9d8866fe1 data/strainers/tags/item/tier_3_meshes.json
+38e573c374c48e42cd39428c56625953c1d9d50d data/strainers/tags/item/tier_4_meshes.json
+cf93a9114e7986dc393bc0f873edd05a8e7516e4 data/strainers/tags/item/tier_5_meshes.json
+6633e3a7cc7cef2002ca3b261e7a78173bc7dcef data/strainers/tags/item/tier_6_meshes.json

@@ -17,7 +17,12 @@ STRAINER CHANGES
 Complete changed strainer recipe type
 Added new meshes, 4 per tier *(tin and bronze only exist if a mod with those metals is present)
 Added ore pieces for most ores, including modded common ores
-Remove all previous upgrades
+Remove all previous upgrades, some will come in the future
+
+PACK MAKERS
+speed upgrades can be added using the opolis utilities speed upgrade recipe type
+mesh upgrades can be added using the strainers mesh upgrade recipe type
+output upgrades can be added using the strainers output upgrade recipe type
 
 
 1.7.4

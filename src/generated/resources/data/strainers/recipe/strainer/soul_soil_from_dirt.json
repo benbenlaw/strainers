@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "minecraft:lava",
+  "chance": 0.8,
+  "input": {
+    "item": "minecraft:dirt"
+  },
+  "minMeshTier": 4,
+  "output": {
+    "count": 1,
+    "id": "minecraft:soul_soil"
+  }
+}

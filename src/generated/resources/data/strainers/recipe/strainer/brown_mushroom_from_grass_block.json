@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "strainers:eroding_water_fluid",
+  "chance": 0.2,
+  "input": {
+    "item": "minecraft:grass_block"
+  },
+  "minMeshTier": 3,
+  "output": {
+    "count": 1,
+    "id": "minecraft:brown_mushroom"
+  }
+}

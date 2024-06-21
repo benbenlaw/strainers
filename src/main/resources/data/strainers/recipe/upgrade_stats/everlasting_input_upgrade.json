@@ -1,9 +1,0 @@
-{
-  "type": "opolisutilities:upgrades",
-  "item": {
-    "item": "strainers:everlasting_input_upgrade"
-  },
-  "input_item_consume_chance": 0.2,
-  "duration_multiplier" : 1.0,
-  "mesh_use_chance": 1.0
-}

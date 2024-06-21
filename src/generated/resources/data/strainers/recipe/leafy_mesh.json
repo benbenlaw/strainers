@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "strainers",
+  "key": {
+    "L": {
+      "item": "opolisutilities:leafy_string"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "SLS",
+    "LLL",
+    "SLS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "strainers:leafy_mesh"
+  }
+}

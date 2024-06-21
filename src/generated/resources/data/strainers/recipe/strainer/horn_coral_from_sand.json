@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "strainers:purifying_water_fluid",
+  "chance": 0.15,
+  "input": {
+    "item": "minecraft:sand"
+  },
+  "minMeshTier": 3,
+  "output": {
+    "count": 1,
+    "id": "minecraft:horn_coral"
+  }
+}

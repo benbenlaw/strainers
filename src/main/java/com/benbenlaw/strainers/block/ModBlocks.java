@@ -27,13 +27,15 @@ public class ModBlocks {
             () -> new WoodenStrainerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CRAFTING_TABLE).strength(0.5f).sound(SoundType.WOOD)
                     .noOcclusion()));
 
-
     public static final DeferredBlock<Block> STRAINER_TANK = registerBlock("strainer_tank",
             () -> new StrainerTankBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).sound(SoundType.GLASS)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> MULCH = registerBlock("mulch",
             () -> new MulchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSS_BLOCK).strength(0.5f).sound(SoundType.PACKED_MUD)));
+
+    public static final DeferredBlock<Block> ORE_MULCH = registerBlock("ore_mulch",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSS_BLOCK).strength(0.5f).sound(SoundType.PACKED_MUD)));
 
 
 

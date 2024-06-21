@@ -1,0 +1,13 @@
+{
+  "type": "strainers:strainer",
+  "aboveBlock": "minecraft:water",
+  "chance": 0.35,
+  "input": {
+    "item": "strainers:ore_mulch"
+  },
+  "minMeshTier": 5,
+  "output": {
+    "count": 1,
+    "id": "strainers:diamond_ore_piece"
+  }
+}

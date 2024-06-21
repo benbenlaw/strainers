@@ -12,8 +12,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.util.List;
-/*
-@EventBusSubscriber(modid = Strainers.MOD_ID, bus = EventBusSubscriber.Bus.MOD ,value = Dist.CLIENT)
+
+@EventBusSubscriber(modid = Strainers.MOD_ID ,value = Dist.CLIENT)
 
 public class ItemTooltipEventHandler {
 
@@ -63,4 +63,4 @@ public class ItemTooltipEventHandler {
     }
 }
 
- */
+
