@@ -2,15 +2,19 @@ package com.benbenlaw.strainers.datagen;
 
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import com.benbenlaw.strainers.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -23,12 +27,15 @@ public class StrainersItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
 
+        //Buckets
+
+        simpleBucketItem("purifying_water_bucket", StrainersFluids.PURIFYING_WATER.getFluid());
+        simpleBucketItem("eroding_water_bucket", StrainersFluids.ERODING_WATER.getFluid());
+
         //Misc Items
         simpleItem(ModItems.STONE_PEBBLE);
         simpleItem(ModItems.PURIFYING_SALT_MULCH);
         simpleItem(ModItems.ERODING_SALT_MULCH);
-        simpleBucketItem(ModItems.ERODING_WATER_BUCKET);
-        simpleBucketItem(ModItems.PURIFYING_WATER_BUCKET);
 
         //Meshes
         simpleItem(ModItems.WOODEN_MESH);
@@ -93,10 +100,10 @@ public class StrainersItemModelProvider extends ItemModelProvider {
                 ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "item/" + item.getId().getPath()));
     }
 
-    private void simpleBucketItem(DeferredItem<BucketItem> item) {
-        withExistingParent(item.getId().getPath(),
-                ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
-                ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "item/" + item.getId().getPath()));
+    private void simpleBucketItem(String name, Fluid fluid) {
+        withExistingParent(name, ResourceLocation.fromNamespaceAndPath(NeoForgeVersion.MOD_ID, "item/bucket"))
+                .customLoader(DynamicFluidContainerModelBuilder::begin)
+                .fluid(fluid);
     }
 
     private ItemModelBuilder simpleBlockItem(DeferredBlock<Block> item) {

@@ -2,6 +2,7 @@ package com.benbenlaw.strainers.datagen;
 
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import com.benbenlaw.strainers.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -24,9 +25,12 @@ public class StrainersBlockStatesProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
 
-        blockWithItem(ModBlocks.STRAINER_TANK);
         blockWithItem(ModBlocks.MULCH);
         blockWithItem(ModBlocks.ORE_MULCH);
+
+        fluidBlocks("purifying_water", StrainersFluids.PURIFYING_WATER.getBlock());
+        fluidBlocks("eroding_water", StrainersFluids.ERODING_WATER.getBlock());
+
 
 
     }
@@ -35,6 +39,11 @@ public class StrainersBlockStatesProvider extends BlockStateProvider {
     private void blockWithItem(DeferredBlock<Block> blockRegistryObject) {
         simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
     }
+
+    private void fluidBlocks(String name, Block block) {
+        simpleBlock(block, models().getBuilder(name).texture("particle", ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "block/" + name + "_still")));
+    }
+
 
     @Override
     public String getName() {

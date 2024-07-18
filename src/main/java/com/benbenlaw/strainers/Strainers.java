@@ -3,9 +3,10 @@ package com.benbenlaw.strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.block.entity.ModBlockEntities;
 import com.benbenlaw.strainers.config.StrainersConfigFile;
-import com.benbenlaw.strainers.fluid.ModFluids;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import com.benbenlaw.strainers.item.ModCreativeTab;
 import com.benbenlaw.strainers.item.ModItems;
+import com.benbenlaw.strainers.item.StrainersDataComponents;
 import com.benbenlaw.strainers.recipe.ModRecipes;
 import com.benbenlaw.strainers.screen.ModMenuTypes;
 import com.benbenlaw.strainers.screen.custom.WoodenStrainerScreen;
@@ -35,6 +36,7 @@ public class Strainers {
 
     public Strainers(IEventBus modEventBus) {
         ModItems.register(modEventBus);
+        StrainersDataComponents.COMPONENTS.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModCreativeTab.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -44,7 +46,7 @@ public class Strainers {
         modEventBus.addListener(this::registerCapabilities);
 
 
-        ModFluids.register(modEventBus);
+        StrainersFluids.FLUIDS.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -76,12 +78,6 @@ public class Strainers {
         public static void onClientSetup(FMLClientSetupEvent event) {
 
             event.enqueueWork(() -> {
-
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.ERODING_WATER_FLUID_SOURCE.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.ERODING_WATER_FLUID_FLOWING.get(), RenderType.translucent());
-
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.PURIFYING_WATER_FLUID_SOURCE.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(ModFluids.PURIFYING_WATER_FLUID_FLOWING.get(), RenderType.translucent());
 
             });
         }

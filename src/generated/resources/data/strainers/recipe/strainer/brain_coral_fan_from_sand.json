@@ -1,6 +1,6 @@
 {
   "type": "strainers:strainer",
-  "aboveBlock": "strainers:purifying_water_fluid",
+  "aboveBlock": "strainers:purifying_water",
   "chance": 0.15,
   "input": {
     "item": "minecraft:sand"

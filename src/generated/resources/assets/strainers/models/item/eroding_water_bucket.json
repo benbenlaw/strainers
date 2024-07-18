@@ -1,6 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "strainers:item/eroding_water_bucket"
-  }
+  "parent": "neoforge:item/bucket",
+  "fluid": "strainers:eroding_water",
+  "loader": "neoforge:fluid_container"
 }

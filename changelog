@@ -3,7 +3,34 @@ Changelog BBL Strainers
 //TODO unify recipes types
 //TODO make tanks fluid handlers to pick up fluids
 
-as
+Join the discord here for mod and modpack updates and support https://discord.gg/benbenlaw
+
+2.3.0
+
+Updated to latest opolis utilities and neo forge versions
+Moved to opolis utilities fluid registry, fluid names changed from "strainers:purified_water_fluid" to "strainers:purified_water"
+    same for eroding water, also fixed buckets not always making sounds when being placed or picket up
+Re run data to change recipes and blockstates
+Fixed log spam with strainer fluids not having blocksstates
+Fixed purifying buckets not having the correct names
+
+2.2.0
+
+Update to Opolis Utilities 4.1.4
+Update to Neoforge 21.0.30-beta
+Update to JEI (latest)
+Fixed rendering of the tank not showing fluids correctly
+Strainer Tanks will no longer fill in world if the fluid is not a source block
+Filled Strainer Tanks will now hold there fluid when broken
+Fixed breaking particle on the strainer
+
+
+2.1.0
+
+Fixed hoe on mulch recipe
+Fixed some missing recipes
+
+
 2.0.0
 
 Updated to minecraft 1.21

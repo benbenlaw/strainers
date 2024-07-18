@@ -1,6 +1,6 @@
 {
   "type": "strainers:strainer",
-  "aboveBlock": "strainers:eroding_water_fluid",
+  "aboveBlock": "strainers:eroding_water",
   "chance": 0.8,
   "input": {
     "item": "minecraft:grass_block"

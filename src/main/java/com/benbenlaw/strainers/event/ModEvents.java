@@ -1,7 +1,6 @@
 package com.benbenlaw.strainers.event;
 
 import com.benbenlaw.strainers.Strainers;
-import com.benbenlaw.strainers.fluid.ModFluids;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

@@ -2,6 +2,7 @@ package com.benbenlaw.strainers.item;
 
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,12 +24,14 @@ public class ModCreativeTab {
                 output.accept(ModBlocks.WOODEN_STRAINER.get());
                 output.accept(ModBlocks.STRAINER_TANK.get());
 
+                output.accept(StrainersFluids.PURIFYING_WATER.getBucket());
+                output.accept(StrainersFluids.ERODING_WATER.getBucket());
+
                 output.accept(ModItems.WOODEN_MESH);
                 output.accept(ModItems.BONE_MESH);
                 output.accept(ModItems.BAMBOO_MESH);
                 output.accept(ModItems.STRING_MESH);
                 output.accept(ModItems.LEAFY_MESH);
-
 
                 output.accept(ModItems.BLAZE_MESH);
                 output.accept(ModItems.BREEZE_MESH);
@@ -41,7 +44,6 @@ public class ModCreativeTab {
                 output.accept(ModItems.GOLD_MESH);
                 output.accept(ModItems.IRON_MESH);
                 output.accept(ModItems.LAPIS_MESH);
-                output.accept(ModItems.LEAFY_MESH);
                 output.accept(ModItems.REDSTONE_MESH);
                 output.accept(ModItems.TIN_MESH);
                 output.accept(ModItems.AMETHYST_MESH);
@@ -67,11 +69,10 @@ public class ModCreativeTab {
 
 
                 output.accept(ModBlocks.MULCH.get());
+                output.accept(ModBlocks.ORE_MULCH.get());
                 output.accept(ModItems.STONE_PEBBLE.get());
                 output.accept(ModItems.PURIFYING_SALT_MULCH.get());
                 output.accept(ModItems.ERODING_SALT_MULCH.get());
-                output.accept(ModItems.ERODING_WATER_BUCKET.get());
-                output.accept(ModItems.PURIFYING_WATER_BUCKET.get());
 
 
 

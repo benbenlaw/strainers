@@ -4,7 +4,7 @@
 		"0": "block/oak_log",
 		"1": "strainers:block/machine_side",
 		"3": "strainers:block/machine_top",
-		"particle": "strainers:block/mesh"
+		"particle": "strainers:block/machine_side"
 	},
 	"elements": [
 		{

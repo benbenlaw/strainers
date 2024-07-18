@@ -1,7 +1,7 @@
 package com.benbenlaw.strainers.item;
 
 import com.benbenlaw.strainers.Strainers;
-import com.benbenlaw.strainers.fluid.ModFluids;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import com.benbenlaw.strainers.item.custom.ErodingSaltMulchItem;
 import com.benbenlaw.strainers.item.custom.MeshItem;
 import com.benbenlaw.strainers.item.custom.PurifyingSaltMulchItem;
@@ -113,15 +113,7 @@ public class ModItems {
     public static final DeferredItem<Item> QUARTZ_ORE_PIECE = ITEMS.register("quartz_ore_piece", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> DEBRIS_ORE_PIECE = ITEMS.register("debris_ore_piece", () -> new Item(new Item.Properties()));
 
-    //BUCKETS
 
-    public static final DeferredItem<BucketItem> ERODING_WATER_BUCKET = ITEMS.register("eroding_water_bucket",
-            () -> new BucketItem(ModFluids.ERODING_WATER_FLUID_SOURCE.get(),
-                    new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
-
-    public static final DeferredItem<BucketItem> PURIFYING_WATER_BUCKET = ITEMS.register("purifying_water_bucket",
-            () -> new BucketItem(ModFluids.PURIFYING_WATER_FLUID_SOURCE.get(),
-                    new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
 
 
 

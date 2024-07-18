@@ -1,4 +1,4 @@
-// 1.21	2024-06-21T10:28:43.4270029	strainers Item Models
+// 1.21	2024-07-18T14:50:55.3193334	strainers Item Models
 b69f56bc8b44d8fe3ac25db64f6a9042c78b9bf6 assets/strainers/models/item/aluminum_ore_piece.json
 074ae95612a1a6e0a183fd795072a53bf287ff9a assets/strainers/models/item/amethyst_mesh.json
 f1d1064e00f6b576b43e9fc1f2e7c15cf8e0cb1d assets/strainers/models/item/bamboo_mesh.json
@@ -17,7 +17,7 @@ d736c8c0eb22466262ebb938a20af7c6d81ae19b assets/strainers/models/item/debris_ore
 bc2f38f775caed465740e1ec1d8686851be8945d assets/strainers/models/item/emerald_ore_piece.json
 d65445a39202b435f61f63b050eb3fbc0570581d assets/strainers/models/item/end_mesh.json
 68693ec36512e183957f18c25c03cd5dc777613c assets/strainers/models/item/eroding_salt_mulch.json
-ee2ab7e19a0add305099d3f6163f2092215ba859 assets/strainers/models/item/eroding_water_bucket.json
+ccc244d6e45bb97f32474c841c53cf2bc15118fe assets/strainers/models/item/eroding_water_bucket.json
 a72e6fcb43da35dd75c8aa400393f685748481ac assets/strainers/models/item/flint_mesh.json
 cdf99470f9ec1c56bd79b35599d85e66418dae61 assets/strainers/models/item/gold_mesh.json
 3685943cca82876e2c79c8e06bc9070ae2494417 assets/strainers/models/item/gold_ore_piece.json
@@ -35,7 +35,7 @@ a1ccb3c85c54aad2f09b6f1ea6f90c72418c2f6b assets/strainers/models/item/osmium_ore
 d1f5f2b28ac4824424ba191072e95285442bdaf3 assets/strainers/models/item/platinum_ore_piece.json
 78c64ac47da0e237f003234d83661c275fea8300 assets/strainers/models/item/prismarine_mesh.json
 20ef51a061b634756502d6573cad7af6ea67ed89 assets/strainers/models/item/purifying_salt_mulch.json
-044549d8643f846cf3d40c7df265a3eedc0d25ce assets/strainers/models/item/purifying_water_bucket.json
+21edf6e4020fb55ba1300f8cc110cd737f3e980a assets/strainers/models/item/purifying_water_bucket.json
 fe7afa2d22c09ea072871c9b414d0fb9aa0401b1 assets/strainers/models/item/quartz_mesh.json
 2f1309c3a9b24e7fa0425e40edc3a5fb7a8d1ea8 assets/strainers/models/item/quartz_ore_piece.json
 23ad633879ae9ee180fdafbf865bece075a50f12 assets/strainers/models/item/redstone_mesh.json

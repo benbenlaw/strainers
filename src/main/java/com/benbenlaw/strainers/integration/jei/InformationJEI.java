@@ -2,6 +2,7 @@ package com.benbenlaw.strainers.integration.jei;
 
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import com.benbenlaw.strainers.item.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -33,7 +34,7 @@ public class InformationJEI implements IModPlugin {
 
         ItemStack[] erodingItems = new ItemStack[] {
                 ModItems.ERODING_SALT_MULCH.get().asItem().getDefaultInstance(),
-                ModItems.ERODING_WATER_BUCKET.get().asItem().getDefaultInstance()
+                StrainersFluids.ERODING_WATER.getBucket().asItem().getDefaultInstance()
         };
 
         for (ItemStack item : erodingItems) {

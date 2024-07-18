@@ -1,7 +1,7 @@
 package com.benbenlaw.strainers.item.custom;
 
 import com.benbenlaw.strainers.block.ModBlocks;
-import com.benbenlaw.strainers.fluid.ModFluids;
+import com.benbenlaw.strainers.fluid.StrainersFluids;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -14,6 +14,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -23,20 +24,24 @@ public class ErodingSaltMulchItem extends Item {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public @NotNull InteractionResult useOn(UseOnContext context) {
 
-        Level level = context.getLevel();
-        Player player = context.getPlayer();
-        BlockPos pos = context.getClickedPos();
-        BlockState state = level.getBlockState(pos);
-        assert player != null;
-        InteractionHand hand = player.getUsedItemHand();
+        if (!context.getLevel().isClientSide()) {
 
-        if (player.getItemInHand(hand).is(this) && state.is(ModBlocks.MULCH.get()) && !level.isClientSide) {
-            level.setBlockAndUpdate(pos, ModFluids.ERODING_WATER_FLUID_BLOCK.get().defaultBlockState());
-            player.getItemInHand(hand).shrink(1);
-            return InteractionResult.SUCCESS;
+            Level level = context.getLevel();
+            Player player = context.getPlayer();
+            BlockPos pos = context.getClickedPos();
+            BlockState state = level.getBlockState(pos);
+            assert player != null;
+            InteractionHand hand = player.getUsedItemHand();
+
+            if (player.getItemInHand(hand).is(this) && state.is(ModBlocks.MULCH.get())) {
+                level.setBlockAndUpdate(pos, StrainersFluids.ERODING_WATER.getBlock().defaultBlockState());
+                player.getItemInHand(hand).shrink(1);
+                return InteractionResult.SUCCESS;
+            }
         }
+
         return super.useOn(context);
     }
 

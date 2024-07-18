@@ -33,16 +33,11 @@ public class StrainerTankBlockEntityRenderer implements BlockEntityRenderer<Stra
                        MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
 
         FluidTank fluidTank = entity.FLUID_TANK;
-
-        if (!entity.getFluidStack().isEmpty()) {
-
-            FluidStack fluid = entity.getFluidStack();
-
+        if (!fluidTank.isEmpty()) {
+            FluidStack fluidStack = fluidTank.getFluid();
             VertexConsumer buffer = pBufferSource.getBuffer(Sheets.translucentCullBlockSheet());
-
             PoseStack.Pose last = pPoseStack.last();
-
-            renderFluid(last, buffer, entity, fluid.getFluid(), fluidTank.getFluidAmount() / (float) fluidTank.getCapacity(), pPackedLight);
+            renderFluid(last, buffer, entity, fluidStack.getFluid(), fluidTank.getFluidAmount() / (float) fluidTank.getCapacity(), pPackedLight);
         }
 
     }
@@ -54,16 +49,15 @@ public class StrainerTankBlockEntityRenderer implements BlockEntityRenderer<Stra
     }
 
 
+
     public static void renderFluid(PoseStack.Pose pose, VertexConsumer consumer, Fluid fluid, float fillAmount, int color, int packedLight) {
         // Get fluid texture
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluid);
         TextureAtlasSprite texture = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(props.getStillTexture());
 
-        // Get sizes
         float fluidHeight = (14 * fillAmount) / 16.0f;
         float inset = 0.0625F;
         float faceSize = 14 / 16.0f;
-
 
         // Sides
         RenderUtil.renderFace(Direction.SOUTH, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
@@ -71,14 +65,7 @@ public class StrainerTankBlockEntityRenderer implements BlockEntityRenderer<Stra
         RenderUtil.renderFace(Direction.EAST, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
         RenderUtil.renderFace(Direction.WEST, pose, consumer, texture, inset, inset, inset, faceSize, fluidHeight, color, packedLight);
         RenderUtil.renderFace(Direction.UP, pose, consumer, texture, inset, inset, inset + fluidHeight, faceSize, faceSize, color, packedLight);
+
     }
-
-
-
-
-
-
-
-
 
 }
