@@ -2,14 +2,17 @@ package com.benbenlaw.strainers.integration.jei;
 
 import com.benbenlaw.opolisutilities.OpolisUtilities;
 import com.benbenlaw.opolisutilities.integration.jei.JEIOpolisUtilitiesPlugin;
+import com.benbenlaw.opolisutilities.integration.jei.OpolisIRecipeSlotTooltipCallback;
 import com.benbenlaw.opolisutilities.recipe.SpeedUpgradesRecipe;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.recipe.MeshUpgradesRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
@@ -95,8 +98,25 @@ public class MeshUpgradesRecipeCategory implements IRecipeCategory<MeshUpgradesR
 
             int damageChance = (int) (mutableRecipes.get(i).meshDamageChance() * 100);
 
-            builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input()).addTooltipCallback(durationTime(damageChance));
-            builder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input()).addTooltipCallback(durationTime(damageChance))
+            builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input())
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                                            @Override
+                                            public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltipBuilder) {
+                                                tooltipBuilder.add(Component.literal("Mesh Damage Chance: " + damageChance + " %"));
+                                            }
+                    });
+
+
+            builder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input())
+
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltipBuilder) {
+                            tooltipBuilder.add(Component.literal("Mesh Damage Chance: " + damageChance + " %"));
+                        }
+                    })
+
+
                     .setBackground(JEIOpolisUtilitiesPlugin.slotDrawable, slotX - (i % 9 * 19) - 5, slotY - (2 + i / 9 * 19) - 1);
 
         }

@@ -2,14 +2,17 @@ package com.benbenlaw.strainers.integration.jei;
 
 import com.benbenlaw.opolisutilities.OpolisUtilities;
 import com.benbenlaw.opolisutilities.integration.jei.JEIOpolisUtilitiesPlugin;
+import com.benbenlaw.opolisutilities.integration.jei.OpolisIRecipeSlotTooltipCallback;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.recipe.MeshUpgradesRecipe;
 import com.benbenlaw.strainers.recipe.OutputUpgradesRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
@@ -95,18 +98,30 @@ public class OutputUpgradesRecipeCategory implements IRecipeCategory<OutputUpgra
 
             double outputChanceIncrease = (mutableRecipes.get(i).outputChanceIncrease());
 
-            builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input()).addTooltipCallback(durationTime(outputChanceIncrease));
-            builder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input()).addTooltipCallback(durationTime(outputChanceIncrease))
+            builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input())
+
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltipBuilder) {
+                            tooltipBuilder.add(Component.literal(outputChanceIncrease + " added to recipe output chance"));
+
+                        }
+                    });
+
+
+            builder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input())
+
+
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltipBuilder) {
+                            tooltipBuilder.add(Component.literal(outputChanceIncrease + " added to recipe output chance"));
+
+                        }
+                    })
                     .setBackground(JEIOpolisUtilitiesPlugin.slotDrawable, slotX - (i % 9 * 19) - 5, slotY - (2 + i / 9 * 19) - 1);
 
         }
-    }
-
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback durationTime(double outputChanceIncrease) {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal(outputChanceIncrease + " added to recipe output chance"));
-        };
     }
 }
 

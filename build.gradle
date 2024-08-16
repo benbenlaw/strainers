@@ -62,14 +62,12 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     //Opolis Utilities
-
-    compileOnly "curse.maven:opolis-utilities-649644:5513642"
-    runtimeOnly "curse.maven:opolis-utilities-649644:5513642"
+    compileOnly "curse.maven:opolis-utilities-649644:5608587"
+    runtimeOnly "curse.maven:opolis-utilities-649644:5608587"
 
     //JEI
-
-    compileOnly "curse.maven:jei-238222:5533450"
-    runtimeOnly "curse.maven:jei-238222:5533450"
+    compileOnly "curse.maven:jei-238222:5606861"
+    runtimeOnly "curse.maven:jei-238222:5606861"
     //Mekanism
 
    // runtimeOnly "curse.maven:mekanism-268560:5433143"

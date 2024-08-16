@@ -1,13 +1,16 @@
 package com.benbenlaw.strainers.integration.jei;
 
+import com.benbenlaw.opolisutilities.integration.jei.OpolisIRecipeSlotTooltipCallback;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
 import com.benbenlaw.strainers.util.ModTags;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -74,46 +77,119 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
 
         if (recipe.getMinMeshTier() == 1) {
             builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_1_MESHES))
-                    .addTooltipCallback(tier1Mesh());
+
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 1"));
+                        }
+                    });
             builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
-                    .addTooltipCallback(tier1MeshStats(recipe));
+
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
+                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
+                        }
+                    });
         }
         if (recipe.getMinMeshTier() == 2) {
             builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_2_MESHES))
-                    .addTooltipCallback(tier2Mesh());
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 2"));
+                        }
+                    });
             builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
-                    .addTooltipCallback(tier2MeshStats(recipe));
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
+                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
+                        }
+                    });
         }
         if (recipe.getMinMeshTier() == 3) {
             builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_3_MESHES))
-                    .addTooltipCallback(tier3Mesh());
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 3"));
+                        }
+                    });
             builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
-                    .addTooltipCallback(tier3MeshStats(recipe));
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
+                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
+                        }
+                    });
         }
         if (recipe.getMinMeshTier() == 4) {
             builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_4_MESHES))
-                    .addTooltipCallback(tier4Mesh());
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 4"));
+                        }
+                    });
             builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
-                    .addTooltipCallback(tier4MeshStats(recipe));
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
+                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
+                        }
+                    });
         }
         if (recipe.getMinMeshTier() == 5) {
             builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_5_MESHES))
-                    .addTooltipCallback(tier5Mesh());
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 5"));
+                        }
+                    });
             builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
-                    .addTooltipCallback(tier5MeshStats(recipe));
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
+                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
+                        }
+                    });
         }
         if (recipe.getMinMeshTier() == 6) {
             builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_6_MESHES))
-                    .addTooltipCallback(tier6Mesh());
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 6"));
+                        }
+                    });
             builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
-                    .addTooltipCallback(tier6MeshStats(recipe));
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
+                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
+                        }
+                    });
         }
 
         Block blockInRecipe = recipe.getBlockAbove();
 
         if(!blockInRecipe.asItem().equals(Items.AIR)) {
             builder.addSlot(RecipeIngredientRole.CATALYST, 4, 3).addItemStack(blockInRecipe.asItem().getDefaultInstance())
-                    .addTooltipCallback(getPlaceAbove());
+                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
+                        @Override
+                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
+                            iTooltipBuilder.add(Component.literal("Place above the strainer"));
+                        }
+                    });
         }
 
         Fluid fluid = recipe.getFluidAbove();
@@ -121,134 +197,6 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                 , 1000).setFluidRenderer(1000, true, 16,16);
 
     }
-
-    private IRecipeSlotTooltipCallback getPlaceAbove() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Place above the strainer"));
-        };
-    }
-
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier1Mesh() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Minimum Mesh Tier 1"));
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier2Mesh() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Minimum Mesh Tier 2"));
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier3Mesh() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Minimum Mesh Tier 3"));
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier4Mesh() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Minimum Mesh Tier 4"));
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier5Mesh() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Minimum Mesh Tier 5"));
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier6Mesh() {
-        return (chance, addTooltip) -> {
-            addTooltip.add(Component.literal("Minimum Mesh Tier 6"));
-        };
-    }
-
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier1MeshStats(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-
-            if(!Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                addTooltip.add(Component.literal("Press §eSHIFT§r for more Information"));
-
-            }
-            if(Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Tier 1 Mesh: " + ((int) (recipe.getOutputChance() * 100)) + "%"));
-            }
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier2MeshStats(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-
-            if(!Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                addTooltip.add(Component.literal("Press §eSHIFT§r for more Information"));
-
-            }
-            if(Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Tier 2 Mesh: " + ((int) (recipe.getOutputChance() * 100)) + "%"));
-            }
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier3MeshStats(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-
-            if(!Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                addTooltip.add(Component.literal("Press §eSHIFT§r for more Information"));
-
-            }
-            if(Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Tier 3 Mesh: " + ((int) (recipe.getOutputChance() * 100)) + "%"));
-            }
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier4MeshStats(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-
-            if(!Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                addTooltip.add(Component.literal("Press §eSHIFT§r for more Information"));
-
-            }
-            if(Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Tier 4 Mesh: " + ((int) (recipe.getOutputChance() * 100)) + "%"));
-            }
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier5MeshStats(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-
-            if(!Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                addTooltip.add(Component.literal("Press §eSHIFT§r for more Information"));
-
-            }
-            if(Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Tier 5 Mesh: " + ((int) (recipe.getOutputChance() * 100)) + "%"));
-           }
-        };
-    }
-    @Contract(pure = true)
-    private @NotNull IRecipeSlotTooltipCallback tier6MeshStats(StrainerRecipe recipe) {
-        return (chance, addTooltip) -> {
-
-            if(!Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                addTooltip.add(Component.literal("Press §eSHIFT§r for more Information"));
-
-            }
-            if(Screen.hasShiftDown()) {
-                addTooltip.add(Component.literal("Tier 6 Mesh: " + ((int) (recipe.getOutputChance() * 100)) + "%"));}
-        };
-    }
-
 
     @Override
     public void draw(StrainerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {

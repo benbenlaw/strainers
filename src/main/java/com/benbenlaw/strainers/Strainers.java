@@ -21,6 +21,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,6 +73,14 @@ public class Strainers {
 
             event.register(ModMenuTypes.WOODEN_STRAINER_MENU.get(), WoodenStrainerScreen::new);
 
+        }
+
+        @SubscribeEvent
+        public static void onClientExtensions(RegisterClientExtensionsEvent event) {
+            event.registerFluidType(StrainersFluids.ERODING_WATER.getFluidType().getClientExtensions(),
+                    StrainersFluids.ERODING_WATER.getFluidType());
+            event.registerFluidType(StrainersFluids.PURIFYING_WATER.getFluidType().getClientExtensions(),
+                    StrainersFluids.PURIFYING_WATER.getFluidType());
         }
 
         @SubscribeEvent
