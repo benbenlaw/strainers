@@ -1,9 +1,9 @@
 package com.benbenlaw.strainers.recipe;
 
 import com.benbenlaw.strainers.Strainers;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -30,12 +30,19 @@ public class ModRecipes {
     public static final Supplier<RecipeType<OutputUpgradesRecipe>> OUTPUT_UPGRADE_TYPE =
             TYPES.register("output_upgrade", () -> OutputUpgradesRecipe.Type.INSTANCE);
 
+    RecipeSerializer<ShieldDecorationRecipe> PIECE_TO_NUGGET_SERIALIZER = register(
+            "piece_to_nugget", new SimpleCraftingRecipeSerializer<>(ShieldDecorationRecipe::new)
+    );
 
 
 
     public static void register(IEventBus eventBus) {
         SERIALIZER.register(eventBus);
         TYPES.register(eventBus);
+    }
+
+    static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String p_44099_, S p_44100_) {
+        return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, p_44099_, p_44100_);
     }
 
 

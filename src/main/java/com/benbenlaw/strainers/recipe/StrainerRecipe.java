@@ -17,9 +17,10 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 
-public record StrainerRecipe(Ingredient input, String aboveBlock, ItemStack output, int minMeshTier, double chance) implements Recipe<RecipeInput> {
+public record StrainerRecipe(Ingredient input, String aboveBlock, SizedIngredient output, int minMeshTier, double chance) implements Recipe<RecipeInput> {
 
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
@@ -56,18 +57,18 @@ public record StrainerRecipe(Ingredient input, String aboveBlock, ItemStack outp
 
     @Override
     public @NotNull ItemStack assemble(@NotNull RecipeInput container, HolderLookup.@NotNull Provider provider) {
-        return output.copy();
+        return ItemStack.EMPTY;
     }
 
     @Override
     public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
-        return this.output.copy();
+        return ItemStack.EMPTY;
     }
     public double getOutputChance() {
         return chance;
     }
 
-    public ItemStack getOutput() {
+    public SizedIngredient getOutput() {
         return output;
     }
 
@@ -109,7 +110,7 @@ public record StrainerRecipe(Ingredient input, String aboveBlock, ItemStack outp
                 instance.group(
                         Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(StrainerRecipe::input),
                         Codec.STRING.fieldOf("aboveBlock").forGetter(StrainerRecipe::aboveBlock),
-                        ItemStack.CODEC.fieldOf("output").forGetter(StrainerRecipe::output),
+                        SizedIngredient.FLAT_CODEC.fieldOf("output").forGetter(StrainerRecipe::output),
                         Codec.INT.fieldOf("minMeshTier").forGetter(StrainerRecipe::minMeshTier),
                         Codec.DOUBLE.fieldOf("chance").forGetter(StrainerRecipe::chance)
                 ).apply(instance, StrainerRecipe::new)
@@ -131,7 +132,7 @@ public record StrainerRecipe(Ingredient input, String aboveBlock, ItemStack outp
         private static StrainerRecipe read(RegistryFriendlyByteBuf buffer) {
             Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             String aboveBlock = buffer.readUtf(Short.MAX_VALUE);
-            ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
+            SizedIngredient output = SizedIngredient.STREAM_CODEC.decode(buffer);
             int minMeshTier = buffer.readInt();
             double chance = buffer.readDouble();
             return new StrainerRecipe(input, aboveBlock, output, minMeshTier, chance);
@@ -140,7 +141,7 @@ public record StrainerRecipe(Ingredient input, String aboveBlock, ItemStack outp
         private static void write(RegistryFriendlyByteBuf buffer, StrainerRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
             buffer.writeUtf(recipe.aboveBlock, Short.MAX_VALUE);
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
+            SizedIngredient.STREAM_CODEC.encode(buffer, recipe.output);
             buffer.writeInt(recipe.minMeshTier);
             buffer.writeDouble(recipe.chance);
         }

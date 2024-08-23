@@ -55,9 +55,22 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
     }
 
     private void renderUpgradeSlotInformation (GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y) {
+
+        if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 8, 17, 16, 16)) {
+            if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
+                guiGraphics.renderTooltip(this.font, Component.translatable("block.gui.mesh"), mouseX, mouseY);
+            }
+        }
+
+        if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 8, 35, 16, 16)) {
+            if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
+                guiGraphics.renderTooltip(this.font, Component.translatable("block.gui.input_item"), mouseX, mouseY);
+            }
+        }
+
         if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 17, 55, 16, 16)) {
             if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
-                guiGraphics.renderTooltip(this.font, Component.literal("SPEED UPGRADE"), mouseX, mouseY);
+                guiGraphics.renderTooltip(this.font, Component.translatable("block.gui.speed_upgrade"), mouseX, mouseY);
             }
             String ticks = String.valueOf(this.menu.blockEntity.maxProgress);
             guiGraphics.renderTooltip(this.font,  Component.literal(ticks+ " ticks"), this.leftPos,
@@ -66,7 +79,7 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
 
         else if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 35, 55, 16, 16)) {
             if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
-                guiGraphics.renderTooltip(this.font, Component.literal("MESH UPGRADE"), mouseX, mouseY);
+                guiGraphics.renderTooltip(this.font, Component.translatable("block.gui.mesh_upgrade"), mouseX, mouseY);
             }
             String meshDamage = String.valueOf(this.menu.blockEntity.meshDamageChance * 100);
             guiGraphics.renderTooltip(this.font,  Component.literal("Mesh damage chance: " + meshDamage + " %"), this.leftPos,
@@ -75,7 +88,7 @@ public class WoodenStrainerScreen extends AbstractContainerScreen<WoodenStrainer
 
         else if (MouseUtil.isMouseAboveArea(mouseX, mouseY, x, y, 53, 55, 16, 16)) {
             if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
-                guiGraphics.renderTooltip(this.font, Component.literal("OUTPUT UPGRADE"), mouseX, mouseY);
+                guiGraphics.renderTooltip(this.font, Component.translatable("block.gui.output_upgrade"), mouseX, mouseY);
             }
             double outputChance = this.menu.blockEntity.outputChanceIncrease;
             guiGraphics.renderTooltip(this.font,  Component.literal(outputChance + " added to recipe output chance"), this.leftPos,

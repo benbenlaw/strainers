@@ -17,6 +17,6 @@
   "minMeshTier": 2,
   "output": {
     "count": 1,
-    "id": "strainers:zinc_ore_piece"
+    "item": "strainers:zinc_ore_piece"
   }
 }

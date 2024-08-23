@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
@@ -26,12 +27,12 @@ public class StrainerRecipeBuilder implements RecipeBuilder {
     protected String group;
     protected Ingredient input;
     protected String aboveBlock;
-    protected ItemStack output;
+    protected SizedIngredient output;
     protected int minMeshTier;
     protected double chance;
     protected final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
 
-    public StrainerRecipeBuilder(Ingredient input, String aboveBlock, ItemStack output, int minMeshTier, double chance) {
+    public StrainerRecipeBuilder(Ingredient input, String aboveBlock, SizedIngredient output, int minMeshTier, double chance) {
         this.input = input;
         this.aboveBlock = aboveBlock;
         this.output = output;
@@ -39,7 +40,7 @@ public class StrainerRecipeBuilder implements RecipeBuilder {
         this.chance = chance;
     }
 
-    public static StrainerRecipeBuilder strainerRecipe(Ingredient input, String aboveBlock, ItemStack output, int minMeshTier, double chance) {
+    public static StrainerRecipeBuilder strainerRecipe(Ingredient input, String aboveBlock, SizedIngredient output, int minMeshTier, double chance) {
         return new StrainerRecipeBuilder(input, aboveBlock, output, minMeshTier, chance);
     }
 
@@ -57,22 +58,19 @@ public class StrainerRecipeBuilder implements RecipeBuilder {
 
     @Override
     public @NotNull Item getResult() {
-        return output.getItem();
+        return ItemStack.EMPTY.getItem();
     }
 
     public void save(@NotNull RecipeOutput recipeOutput) {
 
         if (this.input.isEmpty() || this.input.hasNoItems() || this.input.getItems()[0].is(Blocks.BARRIER.asItem())) {
             this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "strainer/" +
-                    BuiltInRegistries.ITEM.getKey(this.output.getItem()).getPath() + "_from_a_tag"));
+                    BuiltInRegistries.ITEM.getKey(this.output.getItems()[0].getItem()).getPath() + "_from_a_tag"));
         } else {
             this.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "strainer/" +
-                    BuiltInRegistries.ITEM.getKey(this.output.getItem()).getPath() + "_from_" +
+                    BuiltInRegistries.ITEM.getKey(this.output.getItems()[0].getItem()).getPath() + "_from_" +
                     BuiltInRegistries.ITEM.getKey(this.input.getItems()[0].getItem()).getPath()));
         }
-
-
-            //
     }
 
     @Override

@@ -8,6 +8,6 @@
   "minMeshTier": 6,
   "output": {
     "count": 1,
-    "id": "minecraft:pitcher_pod"
+    "item": "minecraft:pitcher_pod"
   }
 }

@@ -106,5 +106,11 @@
   "jei.strainer.place_fluid": "Place Fluid Above",
   "jei.strainer.duration": "Duration",
 
+  "block.gui.output_upgrade": "Output Upgrade",
+  "block.gui.mesh_upgrade": "Mesh Upgrade",
+  "block.gui.input_item": "Input Item",
+  "block.gui.mesh": "Mesh Item",
+
+
   "itemGroup.strainers": "BBL Strainers"
 }

@@ -17,6 +17,6 @@
   "minMeshTier": 2,
   "output": {
     "count": 1,
-    "id": "strainers:aluminum_ore_piece"
+    "item": "strainers:aluminum_ore_piece"
   }
 }

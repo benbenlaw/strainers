@@ -1,7 +1,5 @@
 package com.benbenlaw.strainers.datagen;
 
-import com.benbenlaw.opolisutilities.OpolisUtilities;
-import com.benbenlaw.opolisutilities.datagen.recipes.*;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.datagen.recipes.MeshUpgradesRecipeBuilder;
@@ -9,10 +7,7 @@ import com.benbenlaw.strainers.datagen.recipes.OutputUpgradesRecipeBuilder;
 import com.benbenlaw.strainers.datagen.recipes.StrainerRecipeBuilder;
 import com.benbenlaw.strainers.item.ModItems;
 import com.benbenlaw.strainers.util.ModTags;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -21,23 +16,17 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
-import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import static com.benbenlaw.strainers.datagen.ModdedTags.*;
 import static net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance.hasItems;
 
 public class StrainersRecipes extends RecipeProvider {
@@ -388,382 +377,460 @@ public class StrainersRecipes extends RecipeProvider {
 
         // Leaves //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.OAK_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.OAK_SAPLING, 1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.SPRUCE_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.SPRUCE_SAPLING,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.BIRCH_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.BIRCH_SAPLING,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.JUNGLE_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.JUNGLE_SAPLING,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.ACACIA_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.ACACIA_SAPLING,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.DARK_OAK_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.DARK_OAK_SAPLING,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.CHERRY_SAPLING), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.CHERRY_SAPLING,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.MANGROVE_PROPAGULE), 1, 0.1)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.MANGROVE_PROPAGULE,1), 1, 0.1)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", new ItemStack(Items.BAMBOO), 1, 0.05)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ItemTags.LEAVES), "minecraft:air", SizedIngredient.of(Items.BAMBOO,1), 1, 0.05)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // MUD (WATER) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.MUD), "minecraft:water", new ItemStack(Items.CLAY_BALL), 2, 0.70)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.MUD), "minecraft:water", SizedIngredient.of(Items.CLAY_BALL,1), 2, 0.70)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
 
         // MYCELIUM  (LAVA) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "minecraft:lava", new ItemStack(Blocks.CRIMSON_NYLIUM), 4, 0.25)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "minecraft:lava", SizedIngredient.of(Blocks.CRIMSON_NYLIUM,1), 4, 0.25)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "minecraft:lava", new ItemStack(Blocks.WARPED_NYLIUM), 4, 0.25)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "minecraft:lava", SizedIngredient.of(Blocks.WARPED_NYLIUM,1), 4, 0.25)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // MYCELIUM  (EROD) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "strainers:eroding_water", new ItemStack(Blocks.BROWN_MUSHROOM), 3, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "strainers:eroding_water", SizedIngredient.of(Blocks.BROWN_MUSHROOM,1), 3, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "strainers:eroding_water", new ItemStack(Blocks.RED_MUSHROOM), 3, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "strainers:eroding_water", SizedIngredient.of(Blocks.RED_MUSHROOM,1), 3, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // GRASS BLOCK (EROD) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "strainers:eroding_water", new ItemStack(Blocks.MYCELIUM), 1, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRASS_BLOCK), "strainers:eroding_water", SizedIngredient.of(Blocks.MYCELIUM,1), 1, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // DIRT (PURE)
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.DIRT), "minecraft:water", new ItemStack(Items.GRASS_BLOCK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.DIRT), "strainers:purifying_water", SizedIngredient.of(Items.GRASS_BLOCK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // DIRT (WATER) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.DIRT), "minecraft:water", new ItemStack(ModItems.STONE_PEBBLE.get()), 1, 0.2)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.DIRT), "minecraft:water", SizedIngredient.of(ModItems.STONE_PEBBLE.get(),1), 1, 0.2)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // DIRT (LAVA)
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.DIRT), "minecraft:lava", new ItemStack(Blocks.SOUL_SOIL), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.DIRT), "minecraft:lava", SizedIngredient.of(Blocks.SOUL_SOIL,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         //STONE (PURE) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.GRANITE), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.GRANITE,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.ANDESITE), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.ANDESITE,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.DIORITE), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.DIORITE,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.CALCITE), 2, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.CALCITE,1), 2, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.DRIPSTONE_BLOCK), 2, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.DRIPSTONE_BLOCK,1), 2, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.TUFF), 2, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.TUFF,1), 2, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", new ItemStack(Blocks.DEEPSLATE), 3, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:purifying_water", SizedIngredient.of(Blocks.DEEPSLATE,1), 3, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // DEEPSLATE (WATER) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:water", new ItemStack(Items.ECHO_SHARD), 4, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:water", SizedIngredient.of(Items.ECHO_SHARD,1), 4, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // NETHERRACK (LAVA) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", new ItemStack(Blocks.BASALT), 3, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", SizedIngredient.of(Blocks.BASALT, 1), 3, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", new ItemStack(Blocks.BLACKSTONE), 4, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", SizedIngredient.of(Blocks.BLACKSTONE,1), 4, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", new ItemStack(Blocks.GILDED_BLACKSTONE), 5, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", SizedIngredient.of(Blocks.GILDED_BLACKSTONE,1), 5, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // STONE (EROD) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:eroding_water", new ItemStack(Blocks.COBBLESTONE), 1, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "strainers:eroding_water", SizedIngredient.of(Blocks.COBBLESTONE,1), 1, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // STONE (LAVA) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", new ItemStack(Blocks.NETHERRACK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.STONE), "minecraft:lava", SizedIngredient.of(Blocks.NETHERRACK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // COBBLESTONE //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.COBBLESTONE), "strainers:eroding_water", new ItemStack(Blocks.GRAVEL), 1, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.COBBLESTONE), "strainers:eroding_water", SizedIngredient.of(Blocks.GRAVEL,1), 1, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // GRAVEL //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRAVEL), "strainers:eroding_water", new ItemStack(Blocks.SAND), 1, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.GRAVEL), "strainers:eroding_water", SizedIngredient.of(Blocks.SAND,1), 1, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // Mulch (WATER) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", new ItemStack(Items.WHEAT_SEEDS), 1, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", SizedIngredient.of(Items.WHEAT_SEEDS,1), 1, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", new ItemStack(Items.BEETROOT_SEEDS), 2, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", SizedIngredient.of(Items.BEETROOT_SEEDS,1), 2, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", new ItemStack(Items.MELON_SEEDS), 3, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", SizedIngredient.of(Items.MELON_SEEDS,1), 3, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", new ItemStack(Items.PUMPKIN_SEEDS), 3, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "minecraft:water", SizedIngredient.of(Items.PUMPKIN_SEEDS,1), 3, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // Mulch (PURE) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", new ItemStack(Items.CARROT), 3, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", SizedIngredient.of(Items.CARROT,1), 3, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", new ItemStack(Items.POTION), 3, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", SizedIngredient.of(Items.POTION,1), 3, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", new ItemStack(Items.COCOA_BEANS), 4, 0.20)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", SizedIngredient.of(Items.COCOA_BEANS,1), 4, 0.20)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", new ItemStack(Items.TORCHFLOWER_SEEDS), 6, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", SizedIngredient.of(Items.TORCHFLOWER_SEEDS,1), 6, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", new ItemStack(Items.PITCHER_POD), 6, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.MULCH), "strainers:purifying_water", SizedIngredient.of(Items.PITCHER_POD,1), 6, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // GRASS (PURE) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.POPPY), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.POPPY,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.DANDELION), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.DANDELION,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.BLUE_ORCHID), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.BLUE_ORCHID,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.ALLIUM), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.ALLIUM,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.AZURE_BLUET), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.AZURE_BLUET,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.ORANGE_TULIP), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.ORANGE_TULIP,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.PINK_TULIP), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.PINK_TULIP,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.RED_TULIP), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.RED_TULIP,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.WHITE_TULIP), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.WHITE_TULIP,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.CORNFLOWER), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.CORNFLOWER,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.LILY_OF_THE_VALLEY), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.LILY_OF_THE_VALLEY,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.TORCHFLOWER), 6, 0.05)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.TORCHFLOWER,1), 6, 0.05)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", new ItemStack(Items.WITHER_ROSE), 6, 0.01)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SHORT_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.WITHER_ROSE,1), 6, 0.01)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // TALL GRASS (PURE) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", new ItemStack(Items.SUNFLOWER), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.SUNFLOWER,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", new ItemStack(Items.LILAC), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.LILAC,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", new ItemStack(Items.ROSE_BUSH), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.ROSE_BUSH,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", new ItemStack(Items.PEONY), 1, 0.10)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.PEONY,1), 1, 0.10)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", new ItemStack(Items.PITCHER_PLANT), 6, 0.05)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.TALL_GRASS), "strainers:purifying_water", SizedIngredient.of(Items.PITCHER_PLANT,1), 6, 0.05)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         //SOUL SAND (WATER) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SOUL_SAND), "minecraft:lava", new ItemStack(Blocks.NETHER_WART), 3, 0.3)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SOUL_SAND), "minecraft:lava", SizedIngredient.of(Blocks.NETHER_WART,1), 3, 0.3)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SOUL_SAND), "minecraft:lava", new ItemStack(Blocks.WARPED_FUNGUS), 4, 0.2)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SOUL_SAND), "minecraft:lava", SizedIngredient.of(Blocks.WARPED_FUNGUS,1), 4, 0.2)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SOUL_SAND), "minecraft:lava", new ItemStack(Blocks.CRIMSON_FUNGUS), 4, 0.2)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SOUL_SAND), "minecraft:lava", SizedIngredient.of(Blocks.CRIMSON_FUNGUS,1), 4, 0.2)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // SAND (LAVA) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:lava", new ItemStack(Blocks.SOUL_SAND), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:lava", SizedIngredient.of(Blocks.SOUL_SAND,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
 
         // SAND (WATER) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", new ItemStack(Items.SUGAR_CANE), 2, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", SizedIngredient.of(Items.SUGAR_CANE,1), 2, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", new ItemStack(Items.CACTUS), 2, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", SizedIngredient.of(Items.CACTUS,1), 2, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", new ItemStack(Items.LILY_PAD), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", SizedIngredient.of(Items.LILY_PAD,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", new ItemStack(Items.KELP), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "minecraft:water", SizedIngredient.of(Items.KELP,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // SAND (PURE) //
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.TUBE_CORAL_FAN), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.TUBE_CORAL_FAN,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.TUBE_CORAL), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.TUBE_CORAL,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.HORN_CORAL_FAN), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.HORN_CORAL_FAN,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.HORN_CORAL), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.HORN_CORAL,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.FIRE_CORAL_FAN), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.FIRE_CORAL_FAN,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.FIRE_CORAL), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.FIRE_CORAL,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.BUBBLE_CORAL_FAN), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.BUBBLE_CORAL_FAN,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.BUBBLE_CORAL), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.BUBBLE_CORAL,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.BRAIN_CORAL_FAN), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.BRAIN_CORAL_FAN,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", new ItemStack(Items.BRAIN_CORAL), 3, 0.15)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Blocks.SAND), "strainers:purifying_water", SizedIngredient.of(Items.BRAIN_CORAL,1), 3, 0.15)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // CORAL BLOCKS (PURE) //
 
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.BRAIN_CORAL_FAN), "strainers:purifying_water", new ItemStack(Items.BRAIN_CORAL_BLOCK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.BRAIN_CORAL_FAN), "strainers:purifying_water", SizedIngredient.of(Items.BRAIN_CORAL_BLOCK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.BUBBLE_CORAL_FAN), "strainers:purifying_water", new ItemStack(Items.BUBBLE_CORAL_BLOCK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.BUBBLE_CORAL_FAN), "strainers:purifying_water", SizedIngredient.of(Items.BUBBLE_CORAL_BLOCK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.FIRE_CORAL_FAN), "strainers:purifying_water", new ItemStack(Items.FIRE_CORAL_BLOCK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.FIRE_CORAL_FAN), "strainers:purifying_water", SizedIngredient.of(Items.FIRE_CORAL_BLOCK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.HORN_CORAL_FAN), "strainers:purifying_water", new ItemStack(Items.HORN_CORAL_BLOCK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.HORN_CORAL_FAN), "strainers:purifying_water", SizedIngredient.of(Items.HORN_CORAL_BLOCK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.TUBE_CORAL_FAN), "strainers:purifying_water", new ItemStack(Items.TUBE_CORAL_BLOCK), 4, 0.8)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(Items.TUBE_CORAL_FAN), "strainers:purifying_water", SizedIngredient.of(Items.TUBE_CORAL_BLOCK,1), 4, 0.8)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // ORE MULCH T1//
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.COAL_ORE_PIECE.get()), 1, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.COAL_ORE_PIECE.get(),1), 1, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // ORE MULCH T2
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.COPPER_ORE_PIECE.get()), 2, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.COPPER_ORE_PIECE.get(),1), 2, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.TIN_ORE_PIECE.get()), 2, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.TIN_ORE_PIECE.get(),1), 2, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.ALUMINUM_ORE_PIECE.get()), 2, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.ALUMINUM_ORE_PIECE.get(),1), 2, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(aluminumIngotTag))));
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.ZINC_ORE_PIECE.get()), 2, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.ZINC_ORE_PIECE.get(),1), 2, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(zincIngotTag))));
 
 
         // ORE MULCH T3
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.IRON_ORE_PIECE.get()), 3, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.IRON_ORE_PIECE.get(),1), 3, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.LAPIS_ORE_PIECE.get()), 3, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.LAPIS_ORE_PIECE.get(),1), 3, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // ORE MULCH T4
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.GOLD_ORE_PIECE.get()), 4, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.GOLD_ORE_PIECE.get(),1), 4, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.SILVER_ORE_PIECE.get()), 4, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.SILVER_ORE_PIECE.get(),1), 4, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(silverIngotTag))));
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.REDSTONE_ORE_PIECE.get()), 4, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.REDSTONE_ORE_PIECE.get(),1), 4, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.OSMIUM_ORE_PIECE.get()), 4, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.OSMIUM_ORE_PIECE.get(),1), 4, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(osmiumIngotTag))));
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:lava", new ItemStack(ModItems.QUARTZ_ORE_PIECE.get()), 4, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:lava", SizedIngredient.of(ModItems.QUARTZ_ORE_PIECE.get(),1), 4, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
 
         // ORE MULCH T5
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.DIAMOND_ORE_PIECE.get()), 5, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.DIAMOND_ORE_PIECE.get(),1), 5, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.EMERALD_ORE_PIECE.get()), 5, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.EMERALD_ORE_PIECE.get(),1), 5, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.URANIUM_ORE_PIECE.get()), 5, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.URANIUM_ORE_PIECE.get(),1), 5, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(uraniumIngotTag))));
 
         // ORE MULCH T6
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:lava", new ItemStack(ModItems.DEBRIS_ORE_PIECE.get()), 6, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:lava", SizedIngredient.of(ModItems.DEBRIS_ORE_PIECE.get(),1), 6, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer);
-        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", new ItemStack(ModItems.PLATINUM_ORE_PIECE.get()), 6, 0.35)
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModBlocks.ORE_MULCH), "minecraft:water", SizedIngredient.of(ModItems.PLATINUM_ORE_PIECE.get(),1), 6, 0.35)
                 .unlockedBy("has_item", hasItems(ModBlocks.WOODEN_STRAINER))
                 .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(platinumIngotTag))));
+
+        // ORE PIECES TO NUGGETS //
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.TIN_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(tinNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(tinNuggetTag))), "strainers:strainer/pieces_to_resources/tin");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.COPPER_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(copperNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(copperNuggetTag))), "strainers:strainer/pieces_to_resources/copper");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.ALUMINUM_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(aluminumNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(aluminumNuggetTag))), "strainers:strainer/pieces_to_resources/aluminum");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.ZINC_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(zincNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(zincNuggetTag))), "strainers:strainer/pieces_to_resources/zinc");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.OSMIUM_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(osmiumNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(osmiumNuggetTag))), "strainers:strainer/pieces_to_resources/osmium");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.SILVER_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(silverNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(silverNuggetTag))), "strainers:strainer/pieces_to_resources/silver");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.URANIUM_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(uraniumNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(uraniumNuggetTag))), "strainers:strainer/pieces_to_resources/uranium");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.PLATINUM_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(platinumNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(platinumNuggetTag))), "strainers:strainer/pieces_to_resources/platinum");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.COAL_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(com.benbenlaw.opolisutilities.item.ModItems.MINI_COAL,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/coal");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.IRON_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(ironNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(ironNuggetTag))), "strainers:strainer/pieces_to_resources/iron");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.LAPIS_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(Items.LAPIS_LAZULI,1), 1, 0.2)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/lapis");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.GOLD_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(goldNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(goldNuggetTag))), "strainers:strainer/pieces_to_resources/gold");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.LEAD_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(leadNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(leadNuggetTag))), "strainers:strainer/pieces_to_resources/lead");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.NICKEL_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(nickelNuggetTag,1), 1, 1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer.withConditions(new NotCondition(new TagEmptyCondition(nickelNuggetTag))), "strainers:strainer/pieces_to_resources/nickel");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.DIAMOND_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(Items.DIAMOND,1), 1, 0.2)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/diamond");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.EMERALD_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(Items.EMERALD,1), 1, 0.2)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/emerald");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.QUARTZ_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(Items.QUARTZ,1), 1, 0.2)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/quartz");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.REDSTONE_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(Items.REDSTONE,1), 1, 0.2)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/redstone");
+
+        StrainerRecipeBuilder.strainerRecipe(Ingredient.of(ModItems.DEBRIS_ORE_PIECE), "strainers:purifying_water", SizedIngredient.of(Items.ANCIENT_DEBRIS,1), 1, 0.1)
+                .unlockedBy("has_item", has(ModBlocks.WOODEN_STRAINER))
+                .save(consumer, "strainers:strainer/pieces_to_resources/debris");
 
 
 

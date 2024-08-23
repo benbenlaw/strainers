@@ -8,6 +8,6 @@
   "minMeshTier": 4,
   "output": {
     "count": 1,
-    "id": "minecraft:soul_soil"
+    "item": "minecraft:soul_soil"
   }
 }

@@ -8,6 +8,6 @@
   "minMeshTier": 1,
   "output": {
     "count": 1,
-    "id": "minecraft:blue_orchid"
+    "item": "minecraft:blue_orchid"
   }
 }

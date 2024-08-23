@@ -8,6 +8,6 @@
   "minMeshTier": 6,
   "output": {
     "count": 1,
-    "id": "minecraft:torchflower"
+    "item": "minecraft:torchflower"
   }
 }

@@ -8,6 +8,6 @@
   "minMeshTier": 1,
   "output": {
     "count": 1,
-    "id": "minecraft:mangrove_propagule"
+    "item": "minecraft:mangrove_propagule"
   }
 }

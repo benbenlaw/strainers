@@ -8,6 +8,6 @@
   "minMeshTier": 4,
   "output": {
     "count": 1,
-    "id": "strainers:quartz_ore_piece"
+    "item": "strainers:quartz_ore_piece"
   }
 }

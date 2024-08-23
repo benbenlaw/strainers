@@ -8,6 +8,6 @@
   "minMeshTier": 6,
   "output": {
     "count": 1,
-    "id": "minecraft:wither_rose"
+    "item": "minecraft:wither_rose"
   }
 }

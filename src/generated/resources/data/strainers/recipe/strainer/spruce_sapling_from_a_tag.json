@@ -8,6 +8,6 @@
   "minMeshTier": 1,
   "output": {
     "count": 1,
-    "id": "minecraft:spruce_sapling"
+    "item": "minecraft:spruce_sapling"
   }
 }

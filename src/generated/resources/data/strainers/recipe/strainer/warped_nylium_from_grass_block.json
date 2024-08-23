@@ -8,6 +8,6 @@
   "minMeshTier": 4,
   "output": {
     "count": 1,
-    "id": "minecraft:warped_nylium"
+    "item": "minecraft:warped_nylium"
   }
 }

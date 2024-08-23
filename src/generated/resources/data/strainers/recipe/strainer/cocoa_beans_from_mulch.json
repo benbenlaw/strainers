@@ -8,6 +8,6 @@
   "minMeshTier": 4,
   "output": {
     "count": 1,
-    "id": "minecraft:cocoa_beans"
+    "item": "minecraft:cocoa_beans"
   }
 }

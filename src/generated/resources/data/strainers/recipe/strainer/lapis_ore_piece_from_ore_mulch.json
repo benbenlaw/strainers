@@ -8,6 +8,6 @@
   "minMeshTier": 3,
   "output": {
     "count": 1,
-    "id": "strainers:lapis_ore_piece"
+    "item": "strainers:lapis_ore_piece"
   }
 }

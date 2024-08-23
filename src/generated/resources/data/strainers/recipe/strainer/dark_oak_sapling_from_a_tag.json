@@ -8,6 +8,6 @@
   "minMeshTier": 1,
   "output": {
     "count": 1,
-    "id": "minecraft:dark_oak_sapling"
+    "item": "minecraft:dark_oak_sapling"
   }
 }

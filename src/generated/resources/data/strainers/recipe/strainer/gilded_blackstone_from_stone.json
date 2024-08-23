@@ -8,6 +8,6 @@
   "minMeshTier": 5,
   "output": {
     "count": 1,
-    "id": "minecraft:gilded_blackstone"
+    "item": "minecraft:gilded_blackstone"
   }
 }

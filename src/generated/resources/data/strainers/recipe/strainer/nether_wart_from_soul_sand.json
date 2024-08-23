@@ -8,6 +8,6 @@
   "minMeshTier": 3,
   "output": {
     "count": 1,
-    "id": "minecraft:nether_wart"
+    "item": "minecraft:nether_wart"
   }
 }

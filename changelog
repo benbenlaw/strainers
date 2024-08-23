@@ -5,6 +5,27 @@ Changelog BBL Strainers
 
 Join the discord here for mod and modpack updates and support https://discord.gg/benbenlaw
 
+2.5.0
+
+Strainer GUI now hides upgrade icons when an item is in the slot
+Mesh and input slots now show names when hovered over
+Fixed grass block recipe using water instead of purifying water
+Ore pieces can now be used in a strainer to create nuggets/ gems of that resource, these recipe only exist if that resource is present in the world
+Output in recipes is now a SizedIngredient from this
+
+  "output": {
+    "count": 1,
+    "id": "minecraft:beetroot_seeds"
+  }
+
+  to this
+
+  "output": {
+    "count": 1,
+    "item": "minecraft:beetroot_seeds"
+  }
+  This allows for tags to be used in the output for recipes so instead of id use "item" or "tag"
+
 2.4.0
 
 Updated to latest opolis utilities and neo forge versions

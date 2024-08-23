@@ -17,6 +17,6 @@
   "minMeshTier": 6,
   "output": {
     "count": 1,
-    "id": "strainers:platinum_ore_piece"
+    "item": "strainers:platinum_ore_piece"
   }
 }

@@ -8,6 +8,6 @@
   "minMeshTier": 1,
   "output": {
     "count": 1,
-    "id": "minecraft:red_tulip"
+    "item": "minecraft:red_tulip"
   }
 }

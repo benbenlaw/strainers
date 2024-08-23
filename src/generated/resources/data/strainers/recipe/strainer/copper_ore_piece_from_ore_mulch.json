@@ -8,6 +8,6 @@
   "minMeshTier": 2,
   "output": {
     "count": 1,
-    "id": "strainers:copper_ore_piece"
+    "item": "strainers:copper_ore_piece"
   }
 }

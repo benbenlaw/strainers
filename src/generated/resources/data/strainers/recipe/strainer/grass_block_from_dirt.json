@@ -1,6 +1,6 @@
 {
   "type": "strainers:strainer",
-  "aboveBlock": "minecraft:water",
+  "aboveBlock": "strainers:purifying_water",
   "chance": 0.8,
   "input": {
     "item": "minecraft:dirt"
@@ -8,6 +8,6 @@
   "minMeshTier": 4,
   "output": {
     "count": 1,
-    "id": "minecraft:grass_block"
+    "item": "minecraft:grass_block"
   }
 }

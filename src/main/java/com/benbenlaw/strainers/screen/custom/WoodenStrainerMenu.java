@@ -1,12 +1,14 @@
 package com.benbenlaw.strainers.screen.custom;
 
 import com.benbenlaw.opolisutilities.screen.slot.utils.*;
+import com.benbenlaw.opolisutilities.screen.utils.ModSlotTextures;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.block.entity.WoodenStrainerBlockEntity;
 import com.benbenlaw.strainers.screen.ModMenuTypes;
 import com.benbenlaw.strainers.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -14,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
+import com.mojang.datafixers.util.Pair;
+
 
 public class WoodenStrainerMenu extends AbstractContainerMenu {
     protected final WoodenStrainerBlockEntity blockEntity;
@@ -44,9 +48,25 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
         this.addSlot(new BlacklistTagInputSlot(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.INPUT_SLOT, 8, 35, ModTags.Items.MESHES, 64)); //Upgrade
         this.addSlot(new WhitelistTagInputSlot(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.MESH_SLOT, 8, 17, ModTags.Items.MESHES, 1)); //Mesh
 
-        this.addSlot(new SlotItemHandler(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.SPEED_UPGRADE, 17, 55));
-        this.addSlot(new SlotItemHandler(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.MESH_UPGRADE, 35, 55));
-        this.addSlot(new SlotItemHandler(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.OUTPUT_UPGRADE, 53, 55));
+        this.addSlot(new SlotItemHandler(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.SPEED_UPGRADE, 17, 55) {
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, ModSlotTextures.SPEED_UPGRADE);
+            }
+        });
+
+        this.addSlot(new SlotItemHandler(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.MESH_UPGRADE, 35, 55) {
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, ModSlotTextures.SPEED_UPGRADE);
+            }
+        });
+        this.addSlot(new SlotItemHandler(blockEntity.getItemStackHandler(), WoodenStrainerBlockEntity.OUTPUT_UPGRADE, 53, 55) {
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, ModSlotTextures.SPEED_UPGRADE);
+            }
+        });
 
         //Outputs
 

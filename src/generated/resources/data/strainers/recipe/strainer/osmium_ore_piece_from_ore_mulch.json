@@ -17,6 +17,6 @@
   "minMeshTier": 4,
   "output": {
     "count": 1,
-    "id": "strainers:osmium_ore_piece"
+    "item": "strainers:osmium_ore_piece"
   }
 }

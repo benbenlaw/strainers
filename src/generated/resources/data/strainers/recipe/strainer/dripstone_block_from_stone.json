@@ -8,6 +8,6 @@
   "minMeshTier": 2,
   "output": {
     "count": 1,
-    "id": "minecraft:dripstone_block"
+    "item": "minecraft:dripstone_block"
   }
 }

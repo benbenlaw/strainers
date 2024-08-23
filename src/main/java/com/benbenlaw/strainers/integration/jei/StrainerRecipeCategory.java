@@ -84,7 +84,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                             iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 1"));
                         }
                     });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients((recipe.output().ingredient()))
 
                     .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
                         @Override
@@ -102,7 +102,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                             iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 2"));
                         }
                     });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
                     .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
                         @Override
                         public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
@@ -119,7 +119,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                             iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 3"));
                         }
                     });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
                     .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
                         @Override
                         public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
@@ -136,7 +136,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                             iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 4"));
                         }
                     });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
                     .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
                         @Override
                         public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
@@ -153,7 +153,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                             iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 5"));
                         }
                     });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
                     .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
                         @Override
                         public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
@@ -170,7 +170,7 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
                             iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 6"));
                         }
                     });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addItemStack(recipe.getOutput())
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
                     .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
                         @Override
                         public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {

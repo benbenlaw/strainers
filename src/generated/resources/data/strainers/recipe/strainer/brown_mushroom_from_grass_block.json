@@ -8,6 +8,6 @@
   "minMeshTier": 3,
   "output": {
     "count": 1,
-    "id": "minecraft:brown_mushroom"
+    "item": "minecraft:brown_mushroom"
   }
 }

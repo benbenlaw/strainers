@@ -8,6 +8,6 @@
   "minMeshTier": 2,
   "output": {
     "count": 1,
-    "id": "minecraft:sugar_cane"
+    "item": "minecraft:sugar_cane"
   }
 }

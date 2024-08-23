@@ -398,7 +398,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
                 if (hasMeshItem(entity, recipe)
                         && hasInputItem(entity, recipe)
-                        && canStartRecipe(inventory, recipe.output())) {
+                        && canStartRecipe(inventory, recipe.output().getItems()[0])) {
                     return true;
                 }
             }
@@ -448,11 +448,15 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             if (isFluidMatching || isBlockMatching || isAirBlockRecipe) {
                 if (hasMeshItem(entity, recipe)
                         && hasInputItem(entity, recipe)
-                        && canStartRecipe(inventory, recipe.output())) {
+                        && canStartRecipe(inventory, recipe.output().getItems()[0])) {
 
                     // Handle multiple potential outputs based on chance
-                    if (!recipe.getOutput().isEmpty() && Math.random() < recipe.getOutputChance() + outputChanceIncrease) {
-                        ItemStack outputStack = new ItemStack(recipe.getOutput().getItem(), recipe.getOutput().getCount());
+                    if (!recipe.output().ingredient().hasNoItems() && Math.random() < recipe.getOutputChance() + outputChanceIncrease) {
+
+                        Item outputItem = recipe.output().getItems()[0].getItem();
+                        int outputCount = recipe.output().count();
+
+                        ItemStack outputStack = new ItemStack(outputItem, outputCount);
                         boolean inserted = false;
 
                         // Try to insert into existing stacks first

@@ -8,6 +8,6 @@
   "minMeshTier": 1,
   "output": {
     "count": 1,
-    "id": "strainers:stone_pebble"
+    "item": "strainers:stone_pebble"
   }
 }
