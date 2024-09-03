@@ -1,9 +1,13 @@
 Changelog BBL Strainers
 
-//TODO unify recipes types
-//TODO make tanks fluid handlers to pick up fluids
 
 Join the discord here for mod and modpack updates and support https://discord.gg/benbenlaw
+
+2.6.0
+
+Updated to Opolis Utilities 4.8.0
+Improved JEI categories to support EMI and tweaked how mesh and output upgrades are shown
+Added Auto updating, now on modrinth and curseforge
 
 2.5.0
 

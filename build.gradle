@@ -1,9 +1,13 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     id 'java-library'
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.142'
+    id 'net.darkhax.curseforgegradle' version '1.1.24'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 version = "${minecraft_version}-${mod_version}"
@@ -62,15 +66,17 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     //Opolis Utilities
-    compileOnly "curse.maven:opolis-utilities-649644:5608587"
-    runtimeOnly "curse.maven:opolis-utilities-649644:5608587"
+    compileOnly "curse.maven:opolis-utilities-649644:5686874"
+    runtimeOnly "curse.maven:opolis-utilities-649644:5686874"
 
     //JEI
     compileOnly "curse.maven:jei-238222:5606861"
     runtimeOnly "curse.maven:jei-238222:5606861"
-    //Mekanism
 
-   // runtimeOnly "curse.maven:mekanism-268560:5433143"
+    //EMI
+
+    compileOnly "curse.maven:emi-580555:5619579"
+    runtimeOnly "curse.maven:emi-580555:5619579"
 
 }
 
@@ -124,5 +130,41 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group "modpublishing"
+
+    apiToken = System.getenv("curseforge_token").toString()
+
+    def projectId = 882351
+    def mainFile = upload(projectId, jar)
+
+    mainFile.changelog = changelog
+    mainFile.addOptional("jei") // JEI
+    mainFile.addRequirement("opolis-utilities")
+    mainFile.releaseType = "release"
+    mainFile.gameVersions.addAll("1.21", "1.21.1")
+}
+
+tasks.getByName("modrinth").setGroup("modpublishing")
+
+modrinth {
+    token = System.getenv("modrinth_token").toString()
+    projectId = "uwQqLJQs"
+    versionType = "release"
+    versionName = "strainers-" + "$minecraft_version" + "-" + "$mod_version"
+    uploadFile = jar // With Loom, this MUST be set to `remapJar` instead of `jar`!
+
+    gameVersions.addAll("1.21", "1.21.1")
+
+    loaders = ["neoforge"]
+    changelog = project.changelog
+    dependencies {
+        optional.project "jei"
+        required.project "opolis-utilities"
+
     }
 }

@@ -5,6 +5,7 @@ import com.benbenlaw.opolisutilities.integration.jei.JEIOpolisUtilitiesPlugin;
 import com.benbenlaw.opolisutilities.integration.jei.OpolisIRecipeSlotTooltipCallback;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
+import com.benbenlaw.strainers.item.ModItems;
 import com.benbenlaw.strainers.recipe.MeshUpgradesRecipe;
 import com.benbenlaw.strainers.recipe.OutputUpgradesRecipe;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,19 +14,24 @@ import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,20 +39,29 @@ import java.util.List;
 public class OutputUpgradesRecipeCategory implements IRecipeCategory<OutputUpgradesRecipe> {
     public final static ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "output_upgrade");
     public final static ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(OpolisUtilities.MOD_ID, "textures/gui/jei_dynamic.png");
+            ResourceLocation.fromNamespaceAndPath(Strainers.MOD_ID, "textures/gui/jei_upgrades.png");
 
     public static final RecipeType<OutputUpgradesRecipe> RECIPE_TYPE = RecipeType.create(Strainers.MOD_ID, "output_upgrade",
             OutputUpgradesRecipe.class);
 
     private IDrawable background;
     private final IDrawable icon;
+
+    public @Nullable ResourceLocation getRegistryName(OutputUpgradesRecipe recipe) {
+        assert Minecraft.getInstance().level != null;
+        return Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(OutputUpgradesRecipe.Type.INSTANCE).stream()
+                .filter(recipeHolder -> recipeHolder.value().equals(recipe))
+                .map(RecipeHolder::id)
+                .findFirst()
+                .orElse(null);
+    }
     private final IGuiHelper helper;
     private int tabs_used = 0;
 
     public OutputUpgradesRecipeCategory(IGuiHelper helper) {
         this.helper = helper;
-        this.background = helper.createDrawable(TEXTURE, 0, 0, 175, 114);
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.WOODEN_STRAINER.get()));
+        this.background = helper.createDrawable(TEXTURE, 0, 0, 102, 19);
+        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.DIAMOND));
     }
 
     @Override
@@ -76,52 +91,20 @@ public class OutputUpgradesRecipeCategory implements IRecipeCategory<OutputUpgra
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, OutputUpgradesRecipe recipe, IFocusGroup focusGroup) {
-        tabs_used++;
+        builder.addSlot(RecipeIngredientRole.CATALYST, 4, 2 ).addIngredients(recipe.input());
+    }
 
-        List<OutputUpgradesRecipe> recipes = new ArrayList<>(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(OutputUpgradesRecipe.Type.INSTANCE)).stream().map(RecipeHolder::value).toList();
+    @Override
+    public void draw(OutputUpgradesRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
-        List<OutputUpgradesRecipe> mutableRecipes = new ArrayList<>(recipes);
+        @NotNull final Minecraft minecraft = Minecraft.getInstance();
 
-        mutableRecipes.sort(Comparator.comparingDouble(OutputUpgradesRecipe::outputChanceIncrease));
+        double outputAddition = recipe.outputChanceIncrease();
+        double outputAdditionPercentage = outputAddition * 100;
 
-        // Background Size
-        int numRows = (int) Math.ceil((double) mutableRecipes.size() / 9);
-        int numCols = Math.min(9, mutableRecipes.size()); // Maximum of 9 columns
-        int backgroundWidth = 4 + numCols * 19;
-        int backgroundHeight = 2 + numRows * 19;
+        guiGraphics.drawString(minecraft.font.self(), Component.literal(outputAdditionPercentage + "% Added to"), 24, 2, Color.GRAY.getRGB(), false);
+        guiGraphics.drawString(minecraft.font.self(), Component.literal("Default Chance"), 24, 12, Color.GRAY.getRGB(), false);
 
-        background = helper.createDrawable(TEXTURE, 0, 0, backgroundWidth, backgroundHeight);
-
-        for (int i = 0; i < mutableRecipes.size(); i++) {
-            final int slotX = 4 + (i % 9 * 19);
-            final int slotY = 2 + i / 9 * 19;
-
-            double outputChanceIncrease = (mutableRecipes.get(i).outputChanceIncrease());
-
-            builder.addSlot(RecipeIngredientRole.INPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input())
-
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltipBuilder) {
-                            tooltipBuilder.add(Component.literal(outputChanceIncrease + " added to recipe output chance"));
-
-                        }
-                    });
-
-
-            builder.addSlot(RecipeIngredientRole.OUTPUT, slotX, slotY).addIngredients(mutableRecipes.get(i).input())
-
-
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltipBuilder) {
-                            tooltipBuilder.add(Component.literal(outputChanceIncrease + " added to recipe output chance"));
-
-                        }
-                    })
-                    .setBackground(JEIOpolisUtilitiesPlugin.slotDrawable, slotX - (i % 9 * 19) - 5, slotY - (2 + i / 9 * 19) - 1);
-
-        }
     }
 }
 

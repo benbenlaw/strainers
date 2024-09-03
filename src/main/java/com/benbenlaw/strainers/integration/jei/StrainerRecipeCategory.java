@@ -1,6 +1,7 @@
 package com.benbenlaw.strainers.integration.jei;
 
 import com.benbenlaw.opolisutilities.integration.jei.OpolisIRecipeSlotTooltipCallback;
+import com.benbenlaw.opolisutilities.recipe.SpeedUpgradesRecipe;
 import com.benbenlaw.strainers.Strainers;
 import com.benbenlaw.strainers.block.ModBlocks;
 import com.benbenlaw.strainers.recipe.StrainerRecipe;
@@ -25,11 +26,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -70,130 +73,53 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
         return this.icon;
     }
 
+    public @Nullable ResourceLocation getRegistryName(StrainerRecipe recipe) {
+        assert Minecraft.getInstance().level != null;
+        return Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(StrainerRecipe.Type.INSTANCE).stream()
+                .filter(recipeHolder -> recipeHolder.value().equals(recipe))
+                .map(RecipeHolder::id)
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, StrainerRecipe recipe, IFocusGroup focusGroup) {
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 23).addIngredients(recipe.getIngredients().get(0));
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 23).addIngredients(recipe.getIngredients().getFirst());
 
         if (recipe.getMinMeshTier() == 1) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_1_MESHES))
-
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 1"));
-                        }
-                    });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients((recipe.output().ingredient()))
-
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_1_MESHES));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients((recipe.output().ingredient()));
         }
         if (recipe.getMinMeshTier() == 2) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_2_MESHES))
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 2"));
-                        }
-                    });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_2_MESHES));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient());
         }
         if (recipe.getMinMeshTier() == 3) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_3_MESHES))
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 3"));
-                        }
-                    });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_3_MESHES));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient());
         }
         if (recipe.getMinMeshTier() == 4) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_4_MESHES))
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 4"));
-                        }
-                    });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_4_MESHES));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient());
         }
         if (recipe.getMinMeshTier() == 5) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_5_MESHES))
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 5"));
-                        }
-                    });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_5_MESHES));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient());
         }
         if (recipe.getMinMeshTier() == 6) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_6_MESHES))
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Minimum Mesh Tier 6"));
-                        }
-                    });
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient())
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"));
-                            iTooltipBuilder.add(Component.literal("Press §eSHIFT§r for more Information"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.INPUT, 25, 23).addIngredients(Ingredient.of(ModTags.Items.TIER_6_MESHES));
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 161, 23).addIngredients(recipe.output().ingredient());
         }
 
         Block blockInRecipe = recipe.getBlockAbove();
 
         if(!blockInRecipe.asItem().equals(Items.AIR)) {
-            builder.addSlot(RecipeIngredientRole.CATALYST, 4, 3).addItemStack(blockInRecipe.asItem().getDefaultInstance())
-                    .addTooltipCallback(new OpolisIRecipeSlotTooltipCallback() {
-                        @Override
-                        public void onRichTooltip(IRecipeSlotView iRecipeSlotView, ITooltipBuilder iTooltipBuilder) {
-                            iTooltipBuilder.add(Component.literal("Place above the strainer"));
-                        }
-                    });
+            builder.addSlot(RecipeIngredientRole.CATALYST, 4, 3).addItemStack(blockInRecipe.asItem().getDefaultInstance());
         }
 
         Fluid fluid = recipe.getFluidAbove();
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 3).addFluidStack(fluid
+        builder.addSlot(RecipeIngredientRole.CATALYST, 4, 3).addFluidStack(fluid
                 , 1000).setFluidRenderer(1000, true, 16,16);
 
     }
@@ -203,15 +129,16 @@ public class StrainerRecipeCategory implements IRecipeCategory<StrainerRecipe> {
 
         @Nonnull final Minecraft minecraft = Minecraft.getInstance();
 
-        if (!recipe.getBlockAbove().isEmpty(Blocks.AIR.defaultBlockState())) {
-            guiGraphics.drawString(minecraft.font.self(), Component.translatable("jei.strainer.place_block"), 25, 6, Color.WHITE.getRGB());
-        }
+        int meshTier = recipe.getMinMeshTier();
 
-        if (!recipe.getFluidAbove().isSame(recipe.getFluidAbove())) {
-            guiGraphics.drawString(minecraft.font.self(), Component.translatable("jei.strainer.place_fluid"), 25, 6, Color.WHITE.getRGB());
-        }
+        guiGraphics.drawString(minecraft.font.self(), Component.literal("T" + meshTier + "+"), 24, 8, Color.GRAY.getRGB(), false);
+        guiGraphics.drawString(minecraft.font.self(), Component.literal("Default Chance: " +  ((int) (recipe.getOutputChance() * 100)) + "%"), 75, 5, Color.GRAY.getRGB(), false);
 
         int duration = 220;
-        guiGraphics.drawString(minecraft.font.self(), Component.literal(duration + " ticks"), 77, 26, Color.WHITE.getRGB());
+        String durationText = duration + " ticks";
+        int textWidth = minecraft.font.width(durationText);
+        int xPosition = 105 - (textWidth / 2);
+
+        guiGraphics.drawString(minecraft.font.self(), Component.literal(durationText), xPosition, 26, Color.GRAY.getRGB(), false);
     }
 }

@@ -284,21 +284,6 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
             BlockState pState = level.getBlockState(pPos);
             WoodenStrainerBlockEntity pBlockEntity = this;
 
-
-            /*
-            if (this.itemHandler.getStackInSlot(0).isEmpty()) {
-                upgradeItem = ItemStack.EMPTY;
-                durationMultiplier = 1.0;
-                outputChance = 0.0;
-                outputRuns = 0;
-                inputMultiplier = 1.0;
-                meshMultiplier = 1.0;
-                meshExtraDamage = 0;
-                inputItemExtraAmount = 0;
-            }
-
-             */
-
             if (hasRecipe(pBlockEntity)) {
                 pBlockEntity.progress++;
                 sync();
