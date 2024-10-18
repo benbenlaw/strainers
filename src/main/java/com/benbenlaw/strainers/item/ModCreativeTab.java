@@ -50,6 +50,7 @@ public class ModCreativeTab {
                 output.accept(ModItems.TIN_MESH);
                 output.accept(ModItems.AMETHYST_MESH);
                 output.accept(ModItems.QUARTZ_MESH);
+                output.accept(ModItems.NETHERITE_MESH);
 
                 output.accept(ModItems.ALUMINUM_ORE_PIECE);
                 output.accept(ModItems.COPPER_ORE_PIECE);
