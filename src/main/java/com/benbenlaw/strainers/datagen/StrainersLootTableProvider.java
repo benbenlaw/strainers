@@ -19,7 +19,7 @@ public class StrainersLootTableProvider extends VanillaBlockLoot {
     @Override
     protected void generate() {
 
-        this.dropOther(ModBlocks.STRAINER_TANK.get(), Items.AIR);
+        this.dropSelf(ModBlocks.STRAINER_TANK.get());
         this.dropSelf(ModBlocks.WOODEN_STRAINER.get());
         this.dropSelf(ModBlocks.ORE_MULCH.get());
         this.dropSelf(ModBlocks.MULCH.get());

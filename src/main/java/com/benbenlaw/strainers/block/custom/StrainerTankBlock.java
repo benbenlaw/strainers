@@ -5,6 +5,7 @@ import com.benbenlaw.opolisutilities.block.entity.custom.FluidGeneratorBlockEnti
 import com.benbenlaw.opolisutilities.item.ModDataComponents;
 import com.benbenlaw.strainers.block.entity.ModBlockEntities;
 import com.benbenlaw.strainers.block.entity.StrainerTankBlockEntity;
+import com.benbenlaw.strainers.event.ModEvents;
 import com.benbenlaw.strainers.item.StrainersDataComponents;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -41,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class StrainerTankBlock extends BaseEntityBlock {
@@ -49,6 +52,8 @@ public class StrainerTankBlock extends BaseEntityBlock {
     public StrainerTankBlock(Properties properties) {
         super(properties);
     }
+
+    public FluidState fluidState = Fluids.EMPTY.defaultFluidState();
 
     @Override
     protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
@@ -78,13 +83,32 @@ public class StrainerTankBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState currentState, boolean allow) {
+        super.onPlace(blockState, level, blockPos, currentState, allow);
+
+        StrainerTankBlockEntity tankEntity = (StrainerTankBlockEntity) level.getBlockEntity(blockPos);
+        assert tankEntity != null;
+
+        if (!tankEntity.getFluidStack().isEmpty()) {
+            return;
+        }
+
+        if (currentState.getFluidState().isSource()) {
+            tankEntity.setFluid(new FluidStack(currentState.getFluidState().getType(), 1000));
+        }
+    }
+
+    @Override
     public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity entity, ItemStack itemStack) {
         super.setPlacedBy(level, blockPos, blockState, entity, itemStack);
 
-        if (itemStack.has(StrainersDataComponents.FLUID_TYPE)) {
+        // Fetch the block entity
+        StrainerTankBlockEntity tankEntity = (StrainerTankBlockEntity) level.getBlockEntity(blockPos);
+        assert tankEntity != null;
 
+        // Check if the itemStack has fluid data or use the current fluid state
+        if (itemStack.has(StrainersDataComponents.FLUID_TYPE)) {
             SimpleFluidContent fluidContent = itemStack.get(StrainersDataComponents.FLUID_TYPE);
-            StrainerTankBlockEntity tankEntity = (StrainerTankBlockEntity) level.getBlockEntity(blockPos);
             assert fluidContent != null;
             Fluid fluid = fluidContent.getFluid();
             tankEntity.setFluid(new FluidStack(fluid, 1000));
@@ -92,21 +116,6 @@ public class StrainerTankBlock extends BaseEntityBlock {
     }
 
 
-
-    @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity entity, ItemStack stack) {
-        //if (entity instanceof StrainerTankBlockEntity tankEntity) {
-//
-        //    if (tankEntity.getFluidStack().getFluid() != Fluids.EMPTY && tankEntity.getFluidStack().getAmount() > 0 ){
-        //        ItemStack itemStackWithFluid = new ItemStack(this);
-        //        itemStackWithFluid.set(StrainersDataComponents.FLUID_TYPE, tankEntity.getFluidStack().getFluid().getFluidType().toString());
-        //        popResource(level, pos, itemStackWithFluid);
-        //    } else {
-        //        popResource(level, pos, this.asItem().getDefaultInstance());
-        //    }
-        //}
-        super.playerDestroy(level, player, pos, state, entity, stack);
-    }
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.@NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
