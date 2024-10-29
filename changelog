@@ -5,6 +5,12 @@ Join the discord here for mod and modpack updates and support https://discord.gg
 
 //********** UPDATE VERSION IN GRADLE PROPERTIES WHEN CHANGING THIS **********//
 
+2.8.1
+
+Tank can now be placed ontop of a fluid in world and store the fluid again
+Tank fluids now render on the bottom of the tank
+Tank loot table added back
+
 2.8.0
 
 Now depends on In World Recipes mod
