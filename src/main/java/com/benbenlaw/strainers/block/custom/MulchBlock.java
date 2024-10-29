@@ -16,24 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class MulchBlock extends Block {
-
-
     public MulchBlock(Properties properties) {
         super(properties);
     }
-
-
-    @Override
-    protected @NotNull ItemInteractionResult useItemOn(ItemStack state, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
-
-        if (!level.isClientSide()) {
-            if (player.getItemInHand(hand).is(ItemTags.HOES)) {
-                level.setBlockAndUpdate(blockPos, Blocks.WATER.defaultBlockState());
-                player.getItemInHand(hand).hurtAndBreak(1, player, Objects.requireNonNull(player.getItemInHand(hand).getEquipmentSlot()));
-            }
-        }
-
-        return super.useItemOn(state, blockState, level, blockPos, player, hand, blockHitResult);
-    }
-
 }

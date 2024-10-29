@@ -7,6 +7,11 @@ Join the discord here for mod and modpack updates and support https://discord.gg
 
 2.8.0
 
+Now depends on In World Recipes mod
+Remove hard coded item uses to create the eroding and purifying water, now uses in world recipes,
+    this means the recipes to create the water can be changed, these now show in JEI
+Removed specific mulch and salt item overrides for creating fluid blocks
+
 2.7.0
 
 Updated to Opolis Utilities 4.11.0

@@ -24,28 +24,6 @@ public class ErodingSaltMulchItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
-
-        if (!context.getLevel().isClientSide()) {
-
-            Level level = context.getLevel();
-            Player player = context.getPlayer();
-            BlockPos pos = context.getClickedPos();
-            BlockState state = level.getBlockState(pos);
-            assert player != null;
-            InteractionHand hand = player.getUsedItemHand();
-
-            if (player.getItemInHand(hand).is(this) && state.is(ModBlocks.MULCH.get())) {
-                level.setBlockAndUpdate(pos, StrainersFluids.ERODING_WATER.getBlock().defaultBlockState());
-                player.getItemInHand(hand).shrink(1);
-                return InteractionResult.SUCCESS;
-            }
-        }
-
-        return super.useOn(context);
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
             components.add(Component.translatable("jei.strainers.eroding_water"));
