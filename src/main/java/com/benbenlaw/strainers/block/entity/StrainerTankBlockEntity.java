@@ -1,23 +1,29 @@
 package com.benbenlaw.strainers.block.entity;
 
+import com.benbenlaw.strainers.item.StrainersDataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
@@ -135,6 +141,34 @@ public class StrainerTankBlockEntity extends BlockEntity {
     public void syncContents(ServerPlayer player) {
         player.connection.send(Objects.requireNonNull(getUpdatePacket()));
     }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput components) {
+        super.applyImplicitComponents(components);
+
+        SimpleFluidContent fluidContent = components.get(StrainersDataComponents.FLUID_TYPE);
+        if (fluidContent != null) {
+            FLUID_TANK.setFluid(new FluidStack(fluidContent.getFluid(),
+                    FLUID_TANK.getFluid().getAmount()
+            ));
+            sync();
+        }
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+
+        if (!FLUID_TANK.isEmpty()) {
+            components.set(
+                    StrainersDataComponents.FLUID_TYPE,
+                    SimpleFluidContent.copyOf(FLUID_TANK.getFluid())
+
+                    );
+        }
+    }
+
+
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {

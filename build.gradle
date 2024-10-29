@@ -66,8 +66,8 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     //Opolis Utilities
-    compileOnly "curse.maven:opolis-utilities-649644:5728507"
-    runtimeOnly "curse.maven:opolis-utilities-649644:5728507"
+    compileOnly "curse.maven:opolis-utilities-649644:5802735"
+    runtimeOnly "curse.maven:opolis-utilities-649644:5802735"
 
     //JEI
     compileOnly "curse.maven:jei-238222:5606861"
@@ -77,6 +77,12 @@ dependencies {
 
     compileOnly "curse.maven:emi-580555:5619579"
     runtimeOnly "curse.maven:emi-580555:5619579"
+
+    //Ender IO
+
+    compileOnly "curse.maven:enderio-64578:5771156"
+    runtimeOnly "curse.maven:enderio-64578:5771156"
+
 
 }
 

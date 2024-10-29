@@ -32,9 +32,11 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,26 +82,29 @@ public class StrainerTankBlock extends BaseEntityBlock {
         super.setPlacedBy(level, blockPos, blockState, entity, itemStack);
 
         if (itemStack.has(StrainersDataComponents.FLUID_TYPE)) {
-            String fluidAsString = itemStack.get(StrainersDataComponents.FLUID_TYPE);
-            Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.tryParse(fluidAsString));
+
+            SimpleFluidContent fluidContent = itemStack.get(StrainersDataComponents.FLUID_TYPE);
             StrainerTankBlockEntity tankEntity = (StrainerTankBlockEntity) level.getBlockEntity(blockPos);
+            assert fluidContent != null;
+            Fluid fluid = fluidContent.getFluid();
             tankEntity.setFluid(new FluidStack(fluid, 1000));
         }
-        }
+    }
+
 
 
     @Override
     public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity entity, ItemStack stack) {
-        if (entity instanceof StrainerTankBlockEntity tankEntity) {
-
-            if (tankEntity.getFluidStack().getFluid() != Fluids.EMPTY && tankEntity.getFluidStack().getAmount() > 0 ){
-                ItemStack itemStackWithFluid = new ItemStack(this);
-                itemStackWithFluid.set(StrainersDataComponents.FLUID_TYPE, tankEntity.getFluidStack().getFluid().getFluidType().toString());
-                popResource(level, pos, itemStackWithFluid);
-            } else {
-                popResource(level, pos, this.asItem().getDefaultInstance());
-            }
-        }
+        //if (entity instanceof StrainerTankBlockEntity tankEntity) {
+//
+        //    if (tankEntity.getFluidStack().getFluid() != Fluids.EMPTY && tankEntity.getFluidStack().getAmount() > 0 ){
+        //        ItemStack itemStackWithFluid = new ItemStack(this);
+        //        itemStackWithFluid.set(StrainersDataComponents.FLUID_TYPE, tankEntity.getFluidStack().getFluid().getFluidType().toString());
+        //        popResource(level, pos, itemStackWithFluid);
+        //    } else {
+        //        popResource(level, pos, this.asItem().getDefaultInstance());
+        //    }
+        //}
         super.playerDestroy(level, player, pos, state, entity, stack);
     }
 
@@ -107,10 +112,11 @@ public class StrainerTankBlock extends BaseEntityBlock {
     public void appendHoverText(ItemStack itemStack, Item.@NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
 
         if (itemStack.has(StrainersDataComponents.FLUID_TYPE)) {
-            String fluidAsString = itemStack.get(StrainersDataComponents.FLUID_TYPE);
-            assert fluidAsString != null;
+            SimpleFluidContent fluidContent = itemStack.get(StrainersDataComponents.FLUID_TYPE);
+            assert fluidContent != null;
+            String fluidAsString = fluidContent.getFluid().getFluidType().getDescriptionId().toString();
             FluidType fluid = BuiltInRegistries.FLUID.get(ResourceLocation.tryParse(fluidAsString)).getFluidType();
-            components.add(Component.literal("Contains: ").append(Component.translatable(fluid.getDescriptionId())) .withStyle(ChatFormatting.GREEN));
+            components.add(Component.literal("Contains: ").append(Component.translatable(fluidAsString)).withStyle(ChatFormatting.GREEN));
         }
 
         super.appendHoverText(itemStack, context, components, flag);

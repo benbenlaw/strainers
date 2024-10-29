@@ -1,5 +1,6 @@
 package com.benbenlaw.strainers.screen.custom;
 
+import com.benbenlaw.opolisutilities.item.ModItems;
 import com.benbenlaw.opolisutilities.screen.slot.utils.*;
 import com.benbenlaw.opolisutilities.screen.utils.ModSlotTextures;
 import com.benbenlaw.strainers.block.ModBlocks;
@@ -155,6 +156,10 @@ public class WoodenStrainerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@NotNull Player player) {
+
+        if (player.getItemInHand(player.getUsedItemHand()).is(ModItems.PORTABLE_GUI))
+            return true;
+
         return stillValid(ContainerLevelAccess.create(player.level(), blockPos),
                 player, ModBlocks.WOODEN_STRAINER.get());
     }

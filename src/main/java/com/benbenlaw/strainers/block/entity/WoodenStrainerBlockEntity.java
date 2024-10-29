@@ -109,12 +109,22 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
 
     private final IItemHandler strainerItemHandler = new InputOutputItemHandler(
             itemHandler,
-            (i, stack) -> isInputSlot(i),
+            this::isInputSlot,
             this::isOutputSlot
     );
 
-    private boolean isInputSlot(int slot) {
-        return slot == INPUT_SLOT || slot == MESH_SLOT;
+    private boolean isInputSlot(int slot, ItemStack itemStack) {
+
+        if (slot == MESH_SLOT) {
+            return itemStack.is(ModTags.Items.MESHES);
+        }
+
+        else if (slot == INPUT_SLOT) {
+            return !itemStack.is(ModTags.Items.MESHES);
+        }
+
+
+        return false;
     }
 
     private boolean isOutputSlot(int slot) {
