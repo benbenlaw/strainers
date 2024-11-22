@@ -517,7 +517,7 @@ public class WoodenStrainerBlockEntity extends BlockEntity implements MenuProvid
         ItemStack meshItem = entity.itemHandler.getStackInSlot(MESH_SLOT);
         if (meshItem.isDamageableItem()) {
             if (Math.random() <= meshDamageChance) {
-                meshItem.hurtAndBreak(1, createFakePlayer((ServerLevel) this.level), fakePlayer.getEquipmentSlotForItem(meshItem));
+                meshItem.hurtAndBreak(1, fakePlayer, fakePlayer.getEquipmentSlotForItem(meshItem));
                 if (meshItem.getCount() <= 0) {
                     entity.itemHandler.setStackInSlot(MESH_SLOT, ItemStack.EMPTY);
                 }

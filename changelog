@@ -2,12 +2,17 @@ Changelog BBL Strainers
 
 
 Join the discord here for mod and modpack updates and support https://discord.gg/benbenlaw
-
 //********** UPDATE VERSION IN GRADLE PROPERTIES WHEN CHANGING THIS **********//
+
+2.8.4
+Fixed issue when mesh breaking in the strainer would cause a fakeplayer to be added every time
+
+2.8.3
+Fixed issue when mesh breaking in the strainer would cause a fakeplayer to be added every time
 
 2.8.2
 
-Fixed Tank loot table not applying the components to the item
+Fixed Tank loot table not applying the components to the item (data gen issue)
 
 2.8.1
 
